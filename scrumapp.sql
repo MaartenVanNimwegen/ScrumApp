@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 14 feb 2023 om 10:26
+-- Gegenereerd op: 20 feb 2023 om 14:26
 -- Serverversie: 10.4.22-MariaDB
 -- PHP-versie: 8.1.1
 
@@ -127,7 +127,7 @@ CREATE TABLE `taken` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `naam` varchar(50) NOT NULL,
-  `username` varchar(75) NOT NULL,
+  `email` varchar(75) NOT NULL,
   `password` varchar(250) DEFAULT NULL,
   `isActivated` int(1) NOT NULL DEFAULT 0,
   `role` int(1) NOT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE `users` (
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `naam`, `username`, `password`, `isActivated`, `role`, `activationCode`) VALUES
+INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `activationCode`) VALUES
 (1, '', '', NULL, 0, 0, '');
 
 --
