@@ -5,6 +5,11 @@
         <link rel="stylesheet" type="text/css" href="/Styles/Style.css">
     </head>
     <body>
+        <?php
+        session_start();
+        if (isset($_SESSION['email'])){
+            echo "Je bent al ingelogd";
+        } else { ?>
         <form action="" method="post">
             <h2 class="h2">LOGIN</h2>
 
@@ -14,57 +19,52 @@
             ?>
 
             <label>Gebruikersnaam</label>
-            <input type="text" name="email" placeholder="Email" autofocus> <br>
+            <input type="text" name="email" placeholder="Email" require autofocus> <br>
             <label>Wachtwoord</label>
-            <input type="password" name="password" placeholder="Wachtwoord"> <br>
+            <input type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-            <button type="submit">Login</button>
+            <button name='submit' type="submit">Login</button>
+        <?php } ?>
     </body>
 </html>
 
 <?php
-include('user.php');
+if (isset($_POST['submit'])) 
+{
+    include('dbconn.php');
+    include('user.php');
 
-if(isset($_POST['email']) && isset($_POST['password'])) {
+    $email = $_POST['email'];
+    $pass = $_POST['password'];
+    $pass = md5($pass);
 
-    function validate($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
-}
-
-$email = validate($_POST['email']);
-$pass = validate($_POST['password']);
-
-if(empty($email)) {
-    header ("Location: ?error=Email is vereist");
-    exit();
-}
-else if(empty($pass)) {
-    header ("Location: ?error=wachtwoord is vereist");
-    exit();
-}
-
-$sql = "SELECT * FROM users WHERE `email`='$email' AND `password`='$pass'"; 
-
-$result = mysqli_query($conn, $sql);
-
-if(mysqli_num_rows($result) === 1) {
-    $row = mysqli_fetch_assoc($result);
-    if($row['name'] === $email) {
-        echo "succesvol ingelogd";
-        session_start();
-        $_SESSION['id'] = $row['id'];
-        $_SESSION['name'] = $row['name'];
-        $_SESSION['email'] = $row['email'];
-        header("Location: index.php");
+    if(empty($email)) {
+        header ("Location: ?error=Email is vereist");
+        exit();
+    } else if(empty($pass)) {
+        header ("Location: ?error=wachtwoord is vereist");
         exit();
     }
-}
-    else{
-        header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
-        exit();
+
+    $sql = "SELECT * FROM users WHERE `email`='$email' AND `password`='$pass'"; 
+
+    $result = mysqli_query($conn, $sql);
+
+    if(mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        if($row['email'] === $email) {
+            echo "succesvol ingelogd";
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['naam'] = $row['naam'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['role'] = $row['role'];
+            header("Location: index.php");
+            exit();
+        }
     }
+        else{
+            header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
+            exit();
+        }
+}
 ?>
