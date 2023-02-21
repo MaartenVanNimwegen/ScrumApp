@@ -42,3 +42,18 @@ function AddScrumgroep()
 {
 
 }
+
+function accountToevoegen($conn)
+{
+    if(isset($_POST['submit'])) {
+
+        $naam = $_POST['naam'];
+        $email = $_POST['e-mail'];
+        $role = $_POST['role'];
+        $guid = uniqid();
+        
+        var_dump($naam, $email, $role, $guid);
+        $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', 0, '$guid');";
+        $result = mysqli_query($conn, $query);
+         }
+}
