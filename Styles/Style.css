@@ -4,3 +4,7 @@
     grid-auto-rows: 500px;
     gap: 50px 1em;
 }
+
+.ScrumDashboardGroepjes {
+    border-radius: 20px;
+}
