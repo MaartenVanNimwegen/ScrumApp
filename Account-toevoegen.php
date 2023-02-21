@@ -29,7 +29,7 @@
 </html>
 <?php
 include "dbconn.php";
-include "functions";
+include "functions.php";
 accountToevoegen($conn)
  ?>
  
