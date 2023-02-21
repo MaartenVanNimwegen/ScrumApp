@@ -24,4 +24,8 @@ class user {
         $query = "UPDATE users SET `password` = $password, `isActivated` = 1 WHERE id = $user->id";
         return mysqli_query($conn, $query);
     }
+
+    public function SendUserActivateEmail() {
+
+    }
 }
