@@ -26,7 +26,8 @@ class user {
         if($user->isActivated == 1 && $user->password != null){
             return;
         }
-        $query = "UPDATE users SET `password` = '$password', `isActivated` = 1 WHERE id = $user->id";
+        $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $query = "UPDATE users SET `password` = '$encryptedPassword', `isActivated` = 1 WHERE id = $user->id";
         mysqli_query($conn, $query);
     }
 

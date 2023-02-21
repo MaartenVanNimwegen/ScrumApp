@@ -16,23 +16,20 @@
             margin-bottom: 16px;
             }
 
-            /* Style the submit button */
             input[type=submit] {
-            background-color: #04AA6D;
+            background-color: gray;
             color: white;
             }
 
-            /* Style the container for inputs */
             .container {
-            background-color: #f1f1f1;
+            background-color: lightgray;
             padding: 20px;
             width: 20em;
             }
 
-            /* The message box is shown when the user clicks on the password field */
             #message {
             display:none;
-            background: #f1f1f1;
+            background: lightgray;
             color: #000;
             position: relative;
             padding: 20px;
@@ -45,7 +42,6 @@
             font-size: 18px;
             }
 
-            /* Add a green text color and a checkmark when the requirements are right */
             .valid {
             color: green;
             }
@@ -56,7 +52,6 @@
             content: "✔";
             }
 
-            /* Add a red text color and an "x" when the requirements are wrong */
             .invalid {
             color: red;
             }
@@ -80,11 +75,11 @@
     </div>
 
     <div id="message">
-    <h3>Password must contain the following:</h3>
-    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-    <p id="number" class="invalid">A <b>number</b></p>
-    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+    <h3>Het wachtwoord moet aan de volgende eisen voldoen:</h3>
+    <p id="letter" class="invalid">Een <b>kleine</b> letter</p>
+    <p id="capital" class="invalid">Een <b>hoofdletter</b> letter</p>
+    <p id="number" class="invalid">Een <b>getal</b></p>
+    <p id="length" class="invalid">Minimaal <b>8</b> karakters</p>
     </div>
 				
     <script>
@@ -94,19 +89,15 @@
     var number = document.getElementById("number");
     var length = document.getElementById("length");
 
-    // When the user clicks on the password field, show the message box
     myInput.onfocus = function() {
     document.getElementById("message").style.display = "block";
     }
 
-    // When the user clicks outside of the password field, hide the message box
     myInput.onblur = function() {
     document.getElementById("message").style.display = "none";
     }
 
-    // When the user starts to type something inside the password field
     myInput.onkeyup = function() {
-    // Validate lowercase letters
     var lowerCaseLetters = /[a-z]/g;
     if(myInput.value.match(lowerCaseLetters)) {  
         letter.classList.remove("invalid");
@@ -116,7 +107,6 @@
         letter.classList.add("invalid");
     }
     
-    // Validate capital letters
     var upperCaseLetters = /[A-Z]/g;
     if(myInput.value.match(upperCaseLetters)) {  
         capital.classList.remove("invalid");
@@ -126,7 +116,6 @@
         capital.classList.add("invalid");
     }
 
-    // Validate numbers
     var numbers = /[0-9]/g;
     if(myInput.value.match(numbers)) {  
         number.classList.remove("invalid");
@@ -136,7 +125,6 @@
         number.classList.add("invalid");
     }
     
-    // Validate length
     if(myInput.value.length >= 8) {
         length.classList.remove("invalid");
         length.classList.add("valid");
@@ -158,7 +146,7 @@ if(isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
     $password = $_POST['password'];
     $herhaalPassword = $_POST['herhaalPassword'];
 
-    if($password == $herhaalPassword && strlen($password) >= 8) {
+    if($password == $herhaalPassword) {
         $defiPassword = $password;
         $activationCode = $_GET["activationCode"];
         $userclass = new user();
