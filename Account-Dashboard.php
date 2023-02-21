@@ -13,13 +13,16 @@
           
             <input type="txt" name="naam" class="nieuwe_user" placeholder="Naam" minlength="3" maxlength="15" required>
 
-            <input type="txt" name="e-mail"class="nieuwe_user" placeholder="e-mail"minlength="4" maxlength="15"  required>
+            <input type="txt" name="e-mail"class="nieuwe_user" placeholder="e-mail" minlength="4" maxlength="15"  required>
+			<select name="role">
+				<option value="">Kies een role</option>
+   				<option value="0">Student</option>
+  			  	<option value="1">Docent</option>
+			</select>
 
-            <input type="password" name="wachtwoord" class="nieuwe_user" placeholder="Wachtwoord" minlength="4" maxlength="15" required>
 
             <button type="submit" name="submit" class="voeg_toe">Voeg Toe</button>
         </form>
-
     </div>	
 </body>
 </html>
@@ -29,11 +32,14 @@ include "dbconn.php";
 if(isset($_POST['submit'])) {
   $naam = $_POST['naam'];
   $email = $_POST['e-mail'];
-  $wachtwoord = $_POST['wachtwoord'];
-  
+  $guid = uniqid();
+  strval($email);
+  strval($guid);
+  strval($naam);
+  $role = $_POST['role'];
   //prepare en bind
-  $insertSQL = "INSERT INTO users (`naam`, `e-mail`, `wachtwoord`) VALUES (?, ?, ?)";
+  $insertSQL = "INSERT INTO users (`naam`, `e-mail`, `role`, `activationCode`) VALUES (?, ?, ?, ?)";
   $stmt = $conn->prepare($insertSQL);
-  $stmt->bind_param("sss", $naam, $email, $wachtwoord,);
+$stmt->bind_param("ssis", $naam , $email, $role, $guid);
   $stmt->execute();
 }
