@@ -152,5 +152,6 @@ if(isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
         $userclass = new user();
         $user = $userclass->GetUserByActivationCode($activationCode, $conn);
         $userclass->ActivateAccount($user, $defiPassword, $conn);
+        header("Location: ../login.php");
     }
 }
