@@ -10,6 +10,12 @@ class user {
     public $role;
     public $activationCode;
 
+    public function GetUserById($userId, $conn) {
+        $query = "SELECT * FROM users WHERE `id`='$userId'";
+        $result = mysqli_query($conn, $query);
+        return mysqli_fetch_object($result, 'user');
+    }
+
     public function GetUserByActivationCode($activationCode, $conn) {
         $query = "SELECT * FROM users WHERE `activationCode`='$activationCode'";
         $result = mysqli_query($conn, $query);
