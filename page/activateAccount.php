@@ -142,16 +142,18 @@
 include('../Classes/user.php');
 include('../dbconn.php');
 
+$activationCode = $_GET["activationCode"];
+$userService = new userServices($conn);
+$isActivated = $userService->IsActivated($activationCode, $conn);
+print_r($isActivated);
 if(isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
     $password = $_POST['password'];
     $herhaalPassword = $_POST['herhaalPassword'];
-
+    
     if($password == $herhaalPassword) {
         $defiPassword = $password;
-        $activationCode = $_GET["activationCode"];
-        $userclass = new user();
-        $user = $userclass->GetUserByActivationCode($activationCode, $conn);
-        $userclass->ActivateAccount($user, $defiPassword, $conn);
+        $userService->ActivateAccount($user, $defiPassword, $conn);
+        $user = $userService->GetUserByActivationCode($activationCode, $conn);
         header("Location: ../login.php");
     }
 }
