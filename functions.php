@@ -35,10 +35,10 @@ function ScrumgroepenTonen($conn)
 
 function DeleteScrumgroep() 
 {
-
+ 
 }
 
 function AddScrumgroep()
 {
-    
+
 }

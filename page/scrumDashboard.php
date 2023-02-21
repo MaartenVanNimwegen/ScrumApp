@@ -1,19 +1,17 @@
 <?php
 include '../functions.php';
-include('dbconn.php');
+include('../dbconn.php');
 ?>
 <script>
-    function myFunction() {
-        var x;
-        var r = confirm("Press OK or Cancel button");
-        if (r == true) {
-         x = "You pressed OK!";
-     }
-        else {
-         x = "You pressed Cancel!";
-     }
-     document.getElementById("demo").innerHTML = x;
-}
+    function AddScrumgroepPopup() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+    }
+
+    function CloseAddScrumgroepPopup() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+    }
 </script>
 
 <!DOCTYPE html>
@@ -26,8 +24,14 @@ include('dbconn.php');
     <title>Document</title>
 </head>
 <body>
+<div class="popup" onclick="AddScrumgroepPopup()">Scrumgroep toevoegen</div>
+
+<div class="container" id="myPopup">
+    <div class="popuptext">Scrumgroep</div>
+    <div class="" onclick="AddScrumgroepPopup()">Close</div>
+</div>
+
     <div class="ScrumDashboardLayout">
-    <button onclick="AddScrumgroepPopup()">Scrumgroep toevoegen</button>
         <?php
         if (isset($productID)) {
             DeleteScrumgroep($conn);
