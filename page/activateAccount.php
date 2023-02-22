@@ -19,7 +19,7 @@ if (isset($_GET["activationCode"])) {
             $defiPassword = $password;
             $user = $userService->GetUserByActivationCode($activationCode, $conn);
             $userService->ActivateAccount($user, $defiPassword, $conn);
-            header("Location: ../login.php");
+            header("Location: ../page/login.php");
             exit;
         }
     }
