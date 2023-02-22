@@ -16,7 +16,7 @@
         if (isset($_SESSION['email'])){
             echo "Je bent al ingelogd";
         } else { ?>
-    <div class="conta">
+    <div class="container align-content-center">
         <div class='row'>
             <div class="col-12">
             <form method="post">
