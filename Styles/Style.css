@@ -70,6 +70,7 @@ input[type="submit"] {
 #message {
   margin-top: 10px;
   width: 30em;
+  display: block;
 }
 
 #message p {
