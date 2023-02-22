@@ -58,25 +58,31 @@ function createUserObject($userQuery)
     
 }
 
-function DeleteScrumgroep() 
+function deleteScrumgroep() 
 {
  
 }
 
-function AddScrumgroep()
+function addScrumgroep()
 {
 
 }
 
-function SelectScrummaster($conn)
+function selectScrummaster($conn)
 {
-    $stmt = $conn->prepare("SELECT * FROM ");
-    $stmt->execute();
-    $sql = $stmt->get_result();
+    
+}
 
-    foreach ($sql as $row) {
-        echo "
-            <option name='categorie' value=' $row[CategorieID]' selected> $row[Categorie] </option>
-        ";
-    }
+function accountToevoegen($conn)
+{
+    if(isset($_POST['submit'])) {
+
+        $naam = $_POST['naam'];
+        $email = $_POST['e-mail'];
+        $role = $_POST['role'];
+        $guid = uniqid();
+        
+        $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', 0, '$guid');";
+        $result = mysqli_query($conn, $query);
+         }
 }

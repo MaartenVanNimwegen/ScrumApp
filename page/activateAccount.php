@@ -1,168 +1,104 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activeer je account</title>
-    <style>
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            }
-
-            /* Style the submit button */
-            input[type=submit] {
-            background-color: #04AA6D;
-            color: white;
-            }
-
-            /* Style the container for inputs */
-            .container {
-            background-color: #f1f1f1;
-            padding: 20px;
-            width: 20em;
-            }
-
-            /* The message box is shown when the user clicks on the password field */
-            #message {
-            display:none;
-            background: #f1f1f1;
-            color: #000;
-            position: relative;
-            padding: 20px;
-            margin-top: 10px;
-            width: 20em;
-            }
-
-            #message p {
-            padding: 10px 35px;
-            font-size: 18px;
-            }
-
-            /* Add a green text color and a checkmark when the requirements are right */
-            .valid {
-            color: green;
-            }
-
-            .valid:before {
-            position: relative;
-            left: -35px;
-            content: "✔";
-            }
-
-            /* Add a red text color and an "x" when the requirements are wrong */
-            .invalid {
-            color: red;
-            }
-
-            .invalid:before {
-            position: relative;
-            left: -35px;
-            content: "✖";
-            }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <form action="" method="post">
-          <label for="password">Wachtwoord</label>
-          <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-          <label for="herhaalPassword">Herhaal wachtwoord</label>
-          <input type="password" id="herhaalPassword" name="herhaalPassword" required>
-          <input type="submit" value="Submit">
-        </form>
-    </div>
-
-    <div id="message">
-    <h3>Password must contain the following:</h3>
-    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-    <p id="number" class="invalid">A <b>number</b></p>
-    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-    </div>
-				
-    <script>
-    var myInput = document.getElementById("password");
-    var letter = document.getElementById("letter");
-    var capital = document.getElementById("capital");
-    var number = document.getElementById("number");
-    var length = document.getElementById("length");
-
-    // When the user clicks on the password field, show the message box
-    myInput.onfocus = function() {
-    document.getElementById("message").style.display = "block";
-    }
-
-    // When the user clicks outside of the password field, hide the message box
-    myInput.onblur = function() {
-    document.getElementById("message").style.display = "none";
-    }
-
-    // When the user starts to type something inside the password field
-    myInput.onkeyup = function() {
-    // Validate lowercase letters
-    var lowerCaseLetters = /[a-z]/g;
-    if(myInput.value.match(lowerCaseLetters)) {  
-        letter.classList.remove("invalid");
-        letter.classList.add("valid");
-    } else {
-        letter.classList.remove("valid");
-        letter.classList.add("invalid");
-    }
-    
-    // Validate capital letters
-    var upperCaseLetters = /[A-Z]/g;
-    if(myInput.value.match(upperCaseLetters)) {  
-        capital.classList.remove("invalid");
-        capital.classList.add("valid");
-    } else {
-        capital.classList.remove("valid");
-        capital.classList.add("invalid");
-    }
-
-    // Validate numbers
-    var numbers = /[0-9]/g;
-    if(myInput.value.match(numbers)) {  
-        number.classList.remove("invalid");
-        number.classList.add("valid");
-    } else {
-        number.classList.remove("valid");
-        number.classList.add("invalid");
-    }
-    
-    // Validate length
-    if(myInput.value.length >= 8) {
-        length.classList.remove("invalid");
-        length.classList.add("valid");
-    } else {
-        length.classList.remove("valid");
-        length.classList.add("invalid");
-    }
-    }
-    </script>
-</body>
-</html>
-
 <?php
+require('../Classes/user.php');
+require('../Classes/Services.php');
+require('dbconn.php');
 
-include('../Classes/user.php');
-include('../dbconn.php');
+if (isset($_GET["activationCode"])) {
+    $activationCode = $_GET["activationCode"];
+    $userService = new userServices($conn);
+    $isActivated = $userService->IsActivated($activationCode, $conn);
+    if ($isActivated) {
+        header("Location: ../login.php");
+        exit;
+    }
+    if (isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
+        $password = $_POST['password'];
+        $herhaalPassword = $_POST['herhaalPassword'];
 
-if(isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
-    $password = $_POST['password'];
-    $herhaalPassword = $_POST['herhaalPassword'];
-
-    if($password == $herhaalPassword && strlen($password) >= 8) {
-        $defiPassword = $password;
-        $activationCode = $_GET["activationCode"];
-        $userclass = new user();
-        $user = $userclass->GetUserByActivationCode($activationCode, $conn);
-        $userclass->ActivateAccount($user, $defiPassword, $conn);
+        if ($password == $herhaalPassword) {
+            $defiPassword = $password;
+            $user = $userService->GetUserByActivationCode($activationCode, $conn);
+            $userService->ActivateAccount($user, $defiPassword, $conn);
+            header("Location: ../login.php");
+            exit;
+        }
     }
 }
+?>
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://kit.fontawesome.com/42b6daea05.js" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../Styles/Style.css">
+        <title>Activeer je account</title>
+    </head>
+    <body>
+        <div class="container">
+            <form action="" method="post">
+            <label for="password">Wachtwoord</label>
+            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            <label for="herhaalPassword">Herhaal wachtwoord</label>
+            <input type="password" id="herhaalPassword" name="herhaalPassword" required>
+            <input type="submit" value="Submit">
+            </form>
+            <div id="message">
+                <h3>Het wachtwoord moet aan de volgende eisen voldoen:</h3>
+                <p id="letter" class="invalid">Een <b>kleine</b> letter</p>
+                <p id="capital" class="invalid">Een <b>hoofdletter</b> letter</p>
+                <p id="number" class="invalid">Een <b>getal</b></p>
+                <p id="length" class="invalid">Minimaal <b>8</b> karakters</p>
+            </div>
+        </div>
+
+                    
+        <script>
+        var myInput = document.getElementById("password");
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+
+        myInput.onkeyup = function() {
+        var lowerCaseLetters = /[a-z]/g;
+        if(myInput.value.match(lowerCaseLetters)) {  
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+        
+        var upperCaseLetters = /[A-Z]/g;
+        if(myInput.value.match(upperCaseLetters)) {  
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        var numbers = /[0-9]/g;
+        if(myInput.value.match(numbers)) {  
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+        
+        if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+        }
+        </script>
+    </body>
+</html>
