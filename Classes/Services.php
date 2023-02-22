@@ -9,8 +9,11 @@ class Services {
 }
 
 class UserServices extends Services{
-    
-
+    private $connection;
+    public function __construct( $conn ) {
+        $this->connection = $conn;
+        parent::__construct( $conn );
+    }
     public function GetUserById($userId) {
         $query = "SELECT * FROM users WHERE `id`=?";
         $stmt = mysqli_prepare($this->connection, $query);
