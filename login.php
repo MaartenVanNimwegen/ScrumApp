@@ -1,31 +1,45 @@
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LOGIN</title>
-        <link rel="stylesheet" type="text/css" href="/Styles/Style.css">
-    </head>
-    <body>
-        <?php
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" type="text/css" href="/Styles/Style.css">
+</head>
+
+<body>
+    <?php
         session_start();
         if (isset($_SESSION['email'])){
             echo "Je bent al ingelogd";
         } else { ?>
-        <form action="" method="post">
-            <h2 class="h2">LOGIN</h2>
+    <div class="conta">
+        <div class='row'>
+            <div class="col-12">
+            <form method="post">
+                <h2 class="h2">LOGIN</h2>
 
-            <?php if(isset($_GET['error'])) { ?>
+                <?php if(isset($_GET['error'])) { ?>
                 <p class="error"> <?php echo $_GET['error']; ?> </p>
                 <?php } 
             ?>
 
-            <label>Gebruikersnaam</label>
-            <input type="text" name="email" placeholder="Email" require autofocus> <br>
-            <label>Wachtwoord</label>
-            <input type="password" name="password" placeholder="Wachtwoord" require> <br>
+                <label>Gebruikersnaam</label>
+                <input type="text" name="email" placeholder="Email" require autofocus> <br>
+                <label>Wachtwoord</label>
+                <input type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-            <button name='submit' type="submit">Login</button>
-        <?php } ?>
-    </body>
+                <button name='submit' type="submit">Login</button>
+                <?php } ?>
+            </form>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
 
 <?php
