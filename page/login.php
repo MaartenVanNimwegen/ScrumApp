@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN</title>
     <link rel="stylesheet" type="text/css" href="../Styles/Style.css">
 </head>
@@ -17,22 +16,22 @@
             echo "Je bent al ingelogd";
         } else { ?>
     <!-- <div class="d-flex justify-content-center"> -->
-     <div class="container">
-                <form method="post">
-                    <h2 style="color: white;" class="h2">LOGIN</h2>
+    <div class="container">
+        <form method="post">
+            <h2 class="h2">LOGIN</h2>
 
-                    <?php if(isset($_GET['error'])) { ?>
-                    <p style="color: white;" class="error"> <?php echo $_GET['error']; ?> </p>
-                    <?php } 
+            <?php if(isset($_GET['error'])) { ?>
+            <p class="error"> <?php echo $_GET['error']; ?> </p>
+            <?php } 
             ?>
-                    <input class="form-text" type="text" name="email" placeholder="Email" require autofocus> <br>
-                    <input class="form-text" type="password" name="password" placeholder="Wachtwoord" require> <br>
+            <input type="text" name="email" placeholder="Email" require autofocus> <br>
+            <input type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-                    <button name='submit' type="submit">Login</button>
+            <button name='submit' type="submit">Login</button>
 
-                    <?php } ?>
-                </form>
-                </div>
+            <?php } ?>
+        </form>
+    </div>
     <!-- </div> -->
 </body>
 
@@ -46,7 +45,6 @@ if (isset($_POST['submit']))
     $email = $_POST['email'];
     $pass = $_POST['password'];
     $pass = md5($pass);
-    $echt = '$2y$10$Z6pOsGCteiy8PR75f1Dy8ecEY4MssSAs8FG50MCC6w6s9j04bE4QO';
 
     if(empty($email)) {
         header ("Location: ?error=Email is vereist");
@@ -73,11 +71,8 @@ if (isset($_POST['submit']))
         }
     }
         else{
-            print_r($pass);
-            echo "<br>";
-            print_r($echt);
-            // header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
-            // exit();
+             header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
+             exit();
         }
 }
 ?>
