@@ -46,11 +46,11 @@
 if (isset($_POST['submit'])) 
 {
     include('dbconn.php');
-    include('user.php');
 
     $email = $_POST['email'];
     $pass = $_POST['password'];
     $pass = md5($pass);
+    $echt = '$2y$10$Z6pOsGCteiy8PR75f1Dy8ecEY4MssSAs8FG50MCC6w6s9j04bE4QO';
 
     if(empty($email)) {
         header ("Location: ?error=Email is vereist");
@@ -77,8 +77,11 @@ if (isset($_POST['submit']))
         }
     }
         else{
-            header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
-            exit();
+            print_r($pass);
+            echo "<br>";
+            print_r($echt);
+            // header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
+            // exit();
         }
 }
 ?>
