@@ -7,7 +7,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN</title>
-    <link rel="stylesheet" type="text/css" href="/Styles/Style.css">
+    <link rel="stylesheet" type="text/css" href="../Styles/Style.css">
 </head>
 
 <body>
@@ -16,27 +16,23 @@
         if (isset($_SESSION['email'])){
             echo "Je bent al ingelogd";
         } else { ?>
-    <div class="container align-content-center">
-        <div class='row'>
-            <div class="col-12">
-            <form method="post">
-                <h2 class="h2">LOGIN</h2>
+    <div class="d-flex justify-content-center">
+     <div class="loginform">
+                <form method="post">
+                    <h2 style="color: white;" class="h2">LOGIN</h2>
 
-                <?php if(isset($_GET['error'])) { ?>
-                <p class="error"> <?php echo $_GET['error']; ?> </p>
-                <?php } 
+                    <?php if(isset($_GET['error'])) { ?>
+                    <p style="color: white;" class="error"> <?php echo $_GET['error']; ?> </p>
+                    <?php } 
             ?>
+                    <input class="form-text" type="text" name="email" placeholder="Email" require autofocus> <br>
+                    <input class="form-text" type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-                <label>Gebruikersnaam</label>
-                <input type="text" name="email" placeholder="Email" require autofocus> <br>
-                <label>Wachtwoord</label>
-                <input type="password" name="password" placeholder="Wachtwoord" require> <br>
+                    <button name='submit' type="submit">Login</button>
 
-                <button name='submit' type="submit">Login</button>
-                <?php } ?>
-            </form>
-            </div>
-        </div>
+                    <?php } ?>
+                </form>
+                </div>
     </div>
 </body>
 
