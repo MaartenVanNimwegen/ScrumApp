@@ -1,6 +1,6 @@
 <?php
 require('../Classes/user.php');
-require('../Classes/Services.php');
+require('../Handlers/Services.php');
 require('dbconn.php');
 
 if (isset($_GET["activationCode"])) {
