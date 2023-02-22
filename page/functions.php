@@ -1,46 +1,76 @@
 <?php
+include 'Classes/scrumGroepClass.php';
 
-function ScrumgroepenTonen($conn)
+function getScrumgroups($conn) 
 {
+        $stmt = $conn->prepare("SELECT * FROM scrumgroepen");
+        $stmt->execute();
+        $sql = $stmt->get_result();
+        $sql = $sql->fetch_all();
+        $stmt->close();
+        return $sql;
+}
 
-    $stmt = $conn->prepare("SELECT * FROM scrumgroepen /* WHERE ID = ? */");
-    /*$stmt->bind_param('i', );*/
+function createScrumgroupObject($scrumgroupQuery, $conn)
+{            
+        foreach ($scrumgroupQuery as $row)
+        {
+            $scrumgroup = new ScrumGroup($row['0']);
+            $scrumgroup->name = $row['1'];
+            $scrumgroup->project = $row['2'];
+            $scrumgroup->scrummaster = $row['3'];
+            $scrumgroup->startDate = $row['4'];
+            $scrumgroup->endDate = $row['5'];
+            $scrumgroup->archived = $row['6'];
+            $userQuery = getUsersInScrumgroup($scrumgroup, $conn);
+            createUserObject($userQuery);
+            showScrumgroups($scrumgroup);
+        }
+}
+
+function showScrumgroups($scrumgroup)
+{
+        echo '
+        <div class="Scrumgroep">
+            <div class="ScrumgroepNaam">' . $scrumgroup->name . '</div>
+            <div class="ScrumgroepProject">' . $scrumgroup->project . '</div>
+            <div class="ScrumgroepScrummaster">' . $scrumgroup->scrummaster . '</div>
+            <div class="ScrumgroepStartDate">' . $scrumgroup->startDate . '</div>
+            <div class="ScrumgroepEndDate">' . $scrumgroup->endDate . '</div>
+            <div class="ScrumgroepArchived">' . $scrumgroup->archived . '</div>
+        </div>
+        ';
+}
+
+function getUsersInScrumgroup($scrumgroup, $conn)
+{
+    $stmt = $conn->prepare("SELECT * FROM koppelusergroep INNER JOIN users ON koppelusergroep.userId = users.id WHERE koppelusergroep.groepid = ?");
+    $stmt->bind_param('i', $scrumgroup->id);
     $stmt->execute();
     $sql = $stmt->get_result();
     $sql = $sql->fetch_all();
     $stmt->close();
-
-    foreach ($sql as $row)
-    {
-        echo "
-        <div class='ScrumDashboardGroepjes'>
-            <div class=''>$row[1]</div>
-            <div class=''>$row[2]</div>
-            <div class=''>$row[3]</div>
-            <div class=''>
-                <div class=''></div>
-                
-                <form class='' method='post' action='scrumDashboard.php?Groep=$row[0]'>
-                <input type='submit' value=' $row[1] Wijzigen' name='Lampwijzigen'class='Lampenoverzichtbutton'>
-                </form>
-                <form class='' method='post' action='scrumDashboard.php?deleteID=$row[0]'>
-                <input type='submit' value=' $row[1] Verwijderen'  name='Lampverwijderen'class='Lampenoverzichtbutton'>
-                </form>
-                <div class=''></div>
-            </div>
-        </div>
-        ";
-    }
+    return $sql;
 }
 
-function DeleteScrumgroep() 
+function createUserObject($userQuery)
+{
+    
+}
+
+function deleteScrumgroep() 
 {
  
 }
 
-function AddScrumgroep()
+function addScrumgroep()
 {
 
+}
+
+function selectScrummaster($conn)
+{
+    
 }
 
 function accountToevoegen($conn)

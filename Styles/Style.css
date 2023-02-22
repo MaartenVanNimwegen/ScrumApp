@@ -15,7 +15,33 @@
   cursor: pointer;
 }
 .popup {
-  cursor: pointer;
+    cursor: pointer;
+  }
+  
+  .popup .popuptext {
+    position: absolute;
+    display: block;
+    margin: auto;
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    z-index: -1;
+    
+  }
+  
+  .popup .show {
+    visibility: visible;
+  }
+  
+.container{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    display: none;
 }
 
 
