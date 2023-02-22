@@ -1,11 +1,12 @@
 <?php
 
 class user {
+    
     public $id;
-    public $name;
-    public $username;
+    public $naam;
+    public $email;
     public $password;
     public $isActivated;
     public $role;
-    public $activationCode;
+    public $activationCode;    
 }
