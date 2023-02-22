@@ -50,7 +50,7 @@ if (isset($_POST['submit']))
         header ("Location: ?error=Email is vereist");
         exit();
     } else if(empty($pass)) {
-        header ("Location: ?error=wachtwoord is vereist");
+        header ("Location: ?error=Wachtwoord is vereist");
         exit();
     }
 
@@ -71,7 +71,7 @@ if (isset($_POST['submit']))
         }
     }
         else{
-             header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
+             header("Location: ?error=Incorrect gebruikersnaam of wachtwoord");
              exit();
         }
 }
