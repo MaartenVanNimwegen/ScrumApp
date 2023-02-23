@@ -7,7 +7,7 @@ if (isset($_GET["activationCode"])) {
     $userService = new userServices($conn);
     
     if ($userService->IsActivated($activationCode)) {
-        header("Location: ../login.php");
+        header("Location: ../page/login.php");
         exit;
     }
 
