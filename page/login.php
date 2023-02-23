@@ -15,7 +15,6 @@
         if (isset($_SESSION['email'])){
             echo "Je bent al ingelogd";
         } else { ?>
-    <!-- <div class="d-flex justify-content-center"> -->
     <div class="container">
         <form method="post">
             <h2 class="h2">LOGIN</h2>
@@ -27,12 +26,12 @@
             <input type="text" name="email" placeholder="Email" require autofocus> <br>
             <input type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-            <button name='submit' type="submit">Login</button>
+            <!-- <button name='submit' type="submit">Login</button> -->
+            <input name="submit" type="submit" value="Login">
 
             <?php } ?>
         </form>
     </div>
-    <!-- </div> -->
 </body>
 
 </html>
