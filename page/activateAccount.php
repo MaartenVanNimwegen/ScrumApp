@@ -5,9 +5,8 @@ require('dbconn.php');
 if (isset($_GET["activationCode"])) {
     $activationCode = $_GET["activationCode"];
     $userService = new userServices($conn);
-    $isActivated = $userService->IsActivated($activationCode);
     
-    if ($isActivated) {
+    if ($userService->IsActivated($activationCode)) {
         header("Location: ../login.php");
         exit;
     }
