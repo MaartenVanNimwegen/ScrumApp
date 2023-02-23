@@ -1,4 +1,5 @@
 <?php
+session_destroy();
 require('../Classes/user.php');
 require('../Handlers/Services.php');
 require('dbconn.php');
