@@ -25,12 +25,36 @@
                 <label for="tegenaan">Waar liep je tegenaan?</label><br>
                 <textarea class="w-100" name="tegenaan" id="tegenaan" rows="3"></textarea><br>
 
-                <label for="tips">Tip voor <?$naam?></label><br>
-                <input type="text">
-                <!-- <?php foreach($users as $naam){echo"";}?> -->
+                <div class="parent">
+                    <div class="p-2">
+                        <label for="tips">Tip voor <?$naam?></label><br>
+                        <input type="text">
+                    </div>
+                    <div class="p-2">
+                        <label for="tips">Tip voor <?$naam?></label><br>
+                        <input type="text">
+                    </div>
+                    <div class="p-2">
+                        <label for="tips">Tip voor <?$naam?></label><br>
+                        <input type="text">
+                    </div>
+                    
+                    <!-- <?php foreach($users as $naam){echo"";}?> -->
+                    
+                    <div class="p-2">
+                        <label for="tops">Top voor <?$naam?></label><br>
+                        <input  type="text">
+                    </div>
+                    <div class="p-2">
+                        <label for="tops">Top voor <?$naam?></label><br>
+                        <input type="text">
+                    </div>
+                    <div class="p-2">
+                        <label for="tops">Top voor <?$naam?></label><br>
+                        <input type="text">
+                    </div>
+                </div>
 
-                <label for="tops">Tops</label><br>
-                <textarea name="tops" id="tops" cols="50" rows="3"></textarea><br>
             </div>
             
             <br>

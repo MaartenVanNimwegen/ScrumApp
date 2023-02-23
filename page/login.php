@@ -66,7 +66,7 @@ if (isset($_POST['submit']))
             $_SESSION['naam'] = $row['naam'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['role'] = $row['role'];
-            header("Location: index.php");
+            header("Location: ../index.php");
             exit();
         }
     }
