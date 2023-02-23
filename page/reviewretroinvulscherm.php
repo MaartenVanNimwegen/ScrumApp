@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../Styles/Style.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     <title>Review Retro invullen</title>
 </head>
 
@@ -47,7 +49,7 @@
                         <input type="text">
                     </div>
 
-                    <?php foreach($users as $naam){echo"";}?> 
+                    <!-- <?php foreach($users as $naam){echo"";}?> -->
 
                     <div class="p-2">
                         <label for="tops">Top voor
@@ -88,8 +90,38 @@
                 <label for="todoitems">Welke items gaan jullie de komende sprint werken?</label><br>
                 <textarea class="w-100" name="todoitems" id="todoitems" cols="50" rows="3"></textarea><br>
             </div>
+
+
+            <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js">
+            </script>
+
+            <div class="slider">
+                <div>
+                    <h3>1</h3>
+                </div>
+                <div>
+                    <h3>2</h3>
+                </div>
+                <div>
+                    <h3>3</h3>
+                </div>
+                <div>
+                    <h3>4</h3>
+                </div>
+                <div>
+                    <h3>5</h3>
+                </div>
+                <div>
+                    <h3>6</h3>
+                </div>
+            </div>
         </form>
     </div>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="slick/slick.min.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>
