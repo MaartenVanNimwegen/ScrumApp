@@ -15,39 +15,37 @@
   cursor: pointer;
 }
 .popup {
-    cursor: pointer;
-  }
-  
-  .popup .popuptext {
-    position: absolute;
-    display: block;
-    margin: auto;
-    visibility: hidden;
-    width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    z-index: -1;
-    justify-content: center;
-    align-items: center;
-    
-  }
-  
-  .popup .show {
-    visibility: visible;
-  }
-  
-.containerScrumDashboard {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    display: none;
+  cursor: pointer;
 }
 
+.popup .popuptext {
+  position: absolute;
+  display: block;
+  margin: auto;
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  z-index: -1;
+  justify-content: center;
+  align-items: center;
+}
 
-.loginform{
+.popup .show {
+  visibility: visible;
+}
+
+.containerScrumDashboard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+}
+
+.loginform {
   background: #555;
   padding: 5px;
 }
@@ -127,9 +125,14 @@ input[type="submit"] {
 }
 
 .parent {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-grid-template-rows: repeat(2, 1fr);
-grid-column-gap: 0px;
-grid-row-gap: 0px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.team {
+  height: 30px;
+  width: auto;
 }
