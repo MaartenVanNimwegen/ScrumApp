@@ -8,5 +8,5 @@ class user {
     public $password;
     public $isActivated;
     public $role;
-    public $activationCode;    
+    public $activationCode;
 }
