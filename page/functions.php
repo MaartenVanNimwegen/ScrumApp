@@ -1,45 +1,15 @@
 <?php
-include 'Classes/scrumGroepClass.php';
+include '../Classes/scrumGroepClass.php';
+include '../Classes/user.php';
 
 function getScrumgroups($conn) 
 {
-        $stmt = $conn->prepare("SELECT * FROM scrumgroepen");
-        $stmt->execute();
-        $sql = $stmt->get_result();
-        $sql = $sql->fetch_all();
-        $stmt->close();
-        return $sql;
-}
-
-function createScrumgroupObject($scrumgroupQuery, $conn)
-{            
-        foreach ($scrumgroupQuery as $row)
-        {
-            $scrumgroup = new ScrumGroup($row['0']);
-            $scrumgroup->name = $row['1'];
-            $scrumgroup->project = $row['2'];
-            $scrumgroup->scrummaster = $row['3'];
-            $scrumgroup->startDate = $row['4'];
-            $scrumgroup->endDate = $row['5'];
-            $scrumgroup->archived = $row['6'];
-            $userQuery = getUsersInScrumgroup($scrumgroup, $conn);
-            createUserObject($userQuery);
-            showScrumgroups($scrumgroup);
-        }
-}
-
-function showScrumgroups($scrumgroup)
-{
-        echo '
-        <div class="Scrumgroep">
-            <div class="ScrumgroepNaam">' . $scrumgroup->name . '</div>
-            <div class="ScrumgroepProject">' . $scrumgroup->project . '</div>
-            <div class="ScrumgroepScrummaster">' . $scrumgroup->scrummaster . '</div>
-            <div class="ScrumgroepStartDate">' . $scrumgroup->startDate . '</div>
-            <div class="ScrumgroepEndDate">' . $scrumgroup->endDate . '</div>
-            <div class="ScrumgroepArchived">' . $scrumgroup->archived . '</div>
-        </div>
-        ';
+    $stmt = $conn->prepare("SELECT * FROM scrumgroepen");
+    $stmt->execute();
+    $sql = $stmt->get_result();
+    $sql = $sql->fetch_all();
+    $stmt->close();
+    return $sql;
 }
 
 function getUsersInScrumgroup($scrumgroup, $conn)
@@ -53,9 +23,60 @@ function getUsersInScrumgroup($scrumgroup, $conn)
     return $sql;
 }
 
-function createUserObject($userQuery)
-{
+function createScrumgroupObject($scrumgroupQuery, $conn)
+{            
+    foreach ($scrumgroupQuery as $row)
+    {
+            $scrumgroup = new ScrumGroup($row['0']);
+            $scrumgroup->name = $row['1'];
+            $scrumgroup->project = $row['2'];
+            $scrumgroup->scrummaster = $row['3'];
+            $scrumgroup->startDate = $row['4'];
+            $scrumgroup->endDate = $row['5'];
+            $scrumgroup->archived = $row['6'];
+            $userQuery = getUsersInScrumgroup($scrumgroup, $conn);
+            $scrumgroup->teamleden = createUserObject($userQuery, $scrumgroup);
+            showScrumgroups($scrumgroup);
+        }
+    }
     
+function createUserObject($userQuery, $scrumgroup)
+{
+
+    foreach ($userQuery as $row)
+    {
+        $user = new user();
+        $user->id = $row['2'];
+        $user->naam = $row['3'];
+        $user->email = $row['4'];
+        $user->password = $row['5'];
+        $user->isActivated = $row['6'];
+        $user->role = $row['7'];
+        $user->activationCode = $row['8'];
+        
+        $scrumgroup->teamleden[] = $user;
+        
+    }
+    return $scrumgroup->teamleden;
+}
+    
+function showScrumgroups($scrumgroup)
+{
+    echo '
+        <div class="Scrumgroup">
+            <div class="ScrumgroupName">' . $scrumgroup->name . '</div>
+            <div class="ScrumgroupProject">' . $scrumgroup->project . '</div>
+            <div class="ScrumgroupScrummaster">' . $scrumgroup->scrummaster . '</div>
+            <div class="ScrumgroupStartDate">' . $scrumgroup->startDate . '</div>
+            <div class="ScrumgroupEndDate">' . $scrumgroup->endDate . '</div>
+            <div class="ScrumgroupArchived">' . $scrumgroup->archived . '</div>
+            <div class="ScrumgroupTeam">
+            ';
+            foreach ($scrumgroup->teamleden as $i => $value) 
+            {
+                echo '<div class"">' . $scrumgroup->teamleden[$i]->naam . '</div>';
+            }
+    echo "</div></div>";
 }
 
 function deleteScrumgroep() 

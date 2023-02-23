@@ -1,6 +1,5 @@
 <?php
 
-// voorbeeld om een object aan te maken op basis van een class met hierbij de constructor id.
 
 class ScrumGroup {
     public $id;
@@ -13,7 +12,6 @@ class ScrumGroup {
     public $teamleden = [];
 
     function __construct($id) {
-        //print "In BaseClass constructor\n";
         $this->id = $id;
     }
 
