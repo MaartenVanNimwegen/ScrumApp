@@ -1,12 +1,13 @@
 <?php
+session_destroy();
 require('../Classes/user.php');
-require('../Classes/Services.php');
-require('../dbconn.php');
+require('../Handlers/Services.php');
+require('dbconn.php');
 
 if (isset($_GET["activationCode"])) {
     $activationCode = $_GET["activationCode"];
     $userService = new userServices($conn);
-    $isActivated = $userService->IsActivated($activationCode, $conn);
+    $isActivated = $userService->IsActivated($activationCode);
     if ($isActivated) {
         header("Location: ../login.php");
         exit;
@@ -17,12 +18,15 @@ if (isset($_GET["activationCode"])) {
 
         if ($password == $herhaalPassword) {
             $defiPassword = $password;
-            $user = $userService->GetUserByActivationCode($activationCode, $conn);
-            $userService->ActivateAccount($user, $defiPassword, $conn);
-            header("Location: ../login.php");
+            $user = $userService->GetUserByActivationCode($activationCode);
+            $userService->ActivateAccount($user, $defiPassword);
+            header("Location: ../page/login.php");
             exit;
         }
     }
+}
+else{
+    header("Location: ../page/login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -34,64 +38,8 @@ if (isset($_GET["activationCode"])) {
         <script src="https://kit.fontawesome.com/42b6daea05.js" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../Styles/Style.css">
         <title>Activeer je account</title>
-        <style>
-            input {
-                width: 100%;
-                padding: 12px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-                margin-top: 6px;
-                margin-bottom: 16px;
-                }
-
-                input[type=submit] {
-                background-color: gray;
-                color: white;
-                }
-
-                .container {
-                background-color: lightgray;
-                padding: 20px;
-                width: 20em;
-                }
-
-                #message {
-                display:none;
-                background: lightgray;
-                color: #000;
-                position: relative;
-                padding: 20px;
-                margin-top: 10px;
-                width: 20em;
-                }
-
-                #message p {
-                padding: 10px 35px;
-                font-size: 18px;
-                }
-
-                .valid {
-                color: green;
-                }
-
-                .valid:before {
-                position: relative;
-                left: -35px;
-                content: "✔";
-                }
-
-                .invalid {
-                color: red;
-                }
-
-                .invalid:before {
-                position: relative;
-                left: -35px;
-                content: "✖";
-                }
-        </style>
     </head>
     <body>
         <div class="container">
@@ -102,15 +50,15 @@ if (isset($_GET["activationCode"])) {
             <input type="password" id="herhaalPassword" name="herhaalPassword" required>
             <input type="submit" value="Submit">
             </form>
+            <div id="message">
+                <h3>Het wachtwoord moet aan de volgende eisen voldoen:</h3>
+                <p id="letter" class="invalid">Een <b>kleine</b> letter</p>
+                <p id="capital" class="invalid">Een <b>hoofdletter</b> letter</p>
+                <p id="number" class="invalid">Een <b>getal</b></p>
+                <p id="length" class="invalid">Minimaal <b>8</b> karakters</p>
+            </div>
         </div>
 
-        <div id="message">
-        <h3>Het wachtwoord moet aan de volgende eisen voldoen:</h3>
-        <p id="letter" class="invalid">Een <b>kleine</b> letter</p>
-        <p id="capital" class="invalid">Een <b>hoofdletter</b> letter</p>
-        <p id="number" class="invalid">Een <b>getal</b></p>
-        <p id="length" class="invalid">Minimaal <b>8</b> karakters</p>
-        </div>
                     
         <script>
         var myInput = document.getElementById("password");
@@ -118,14 +66,6 @@ if (isset($_GET["activationCode"])) {
         var capital = document.getElementById("capital");
         var number = document.getElementById("number");
         var length = document.getElementById("length");
-
-        myInput.onfocus = function() {
-        document.getElementById("message").style.display = "block";
-        }
-
-        myInput.onblur = function() {
-        document.getElementById("message").style.display = "none";
-        }
 
         myInput.onkeyup = function() {
         var lowerCaseLetters = /[a-z]/g;

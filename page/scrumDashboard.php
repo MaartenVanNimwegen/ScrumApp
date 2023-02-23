@@ -1,7 +1,8 @@
 <?php
-include '../functions.php';
-include('../dbconn.php');
+include 'functions.php';
+include('dbconn.php');
 ?>
+
 <script>
     function AddScrumgroepPopup() {
         var popup = document.getElementById("myPopup");
@@ -26,18 +27,29 @@ include('../dbconn.php');
 <body>
 <div class="popup" onclick="AddScrumgroepPopup()">Scrumgroep toevoegen</div>
 
-<div class="container" id="myPopup">
-    <div class="popuptext">Scrumgroep</div>
-    <div class="" onclick="AddScrumgroepPopup()">Close</div>
+<div class="containerScrumDashboard" id="myPopup">
+<div class="ScrumgroepWijzigPopup">
+<form action="../Handlers/ScrumgroepToevoeg.php" method="post" enctype="multipart/form-data">
+            <div><input type="text" name="Scrumnaam" class="WijzigScrumgroepNaam" placeholder="Scrumgroepnaam" required> </div>
+            <div><input type="text" name="ScrumProject" class="WijzigScrumgroepProject" placeholder="Project" required> </div>
+            <div><input type="text" name="ScrumgroepLeden" class="WijzigScrumgroepLeden" placeholder="" min="0" max="100" required> </div>
+            <div><select class="WijzigScrumgroepScrummaster" name="ScrumgroepScrummaster" id="Scrummaster" required>
+            <?php
+               // SelectScrummaster($conn);
+            ?>
+            </select></div>
+            <div><input type="submit" name="submit" class="WijzigScrumgroepSubmit"></div>
+            <div class="WijzigScrumgroepClose" onclick="AddScrumgroepPopup()">Close</div>
+        </div>
+    </div>
+</form>
 </div>
-
+</div>
     <div class="ScrumDashboardLayout">
         <?php
-        if (isset($productID)) {
-            DeleteScrumgroep($conn);
-        }
-            ScrumgroepenTonen($conn)
+        $scrumgroupQuery = getScrumgroups($conn);
+        createScrumgroupObject($scrumgroupQuery, $conn);
         ?>
     </div>
 </body>
-</html>
+</html> 

@@ -37,7 +37,7 @@ class UserServices extends Services{
             return;
         }
         $encryptedPassword = md5($password);
-        $query = "UPDATE users SET `password` = ?, `isActivated` = 1 WHERE id = ?";
+        $query = "UPDATE users SET `password` = ?, `isActivated` = 1, `activatedOn` = now() WHERE id = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'si', $encryptedPassword, $user->id);
         mysqli_stmt_execute($stmt);
@@ -53,7 +53,21 @@ class UserServices extends Services{
         return $gefetchsteResult['isActivated'];
     }
 
-    public function SendUserActivateEmail($email, $activationCode) {
-        // send activation email to the user's email address with the activation code
-    }
+    // send activation email to the user's email address with the activation code
+    // public function SendUserActivateEmail($email, $name, $activationCode) {
+    //     if(str_contains($email, "@") &&)
+    //     $subject="Voltooi registratie";
+    //     $body = "Geachte $name,
+        
+    //     Er is door een docent een account voor u aangemaakt, dit account moet nog worden geactiveerd. 
+    //     U kunt dit doen door op de onderstaande link te klikken en een wachtwoord aan te maken.
+
+    //     $activationCode 
+        
+    //     Met vriendelijke groet,
+    //     ScrumApp systeem";
+        
+    //     mail(implode(',',$email), $subject, $body);
+                     
+    // }
 }

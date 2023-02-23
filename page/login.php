@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>
-    <link rel="stylesheet" type="text/css" href="/Styles/Style.css">
+    <title>Inloggen</title>
+    <link rel="stylesheet" type="text/css" href="../Styles/Style.css">
 </head>
 
 <body>
@@ -16,28 +15,25 @@
         if (isset($_SESSION['email'])){
             echo "Je bent al ingelogd";
         } else { ?>
-    <div class="container align-content-center">
-        <div class='row'>
-            <div class="col-12">
-            <form method="post">
-                <h2 class="h2">LOGIN</h2>
+    <!-- <div class="d-flex justify-content-center"> -->
+    <div class="container">
+        <form method="post">
+            <h2 class="h2">LOGIN</h2>
 
-                <?php if(isset($_GET['error'])) { ?>
-                <p class="error"> <?php echo $_GET['error']; ?> </p>
-                <?php } 
+            <?php if(isset($_GET['error'])) { ?>
+            <p class="error"> <?php echo $_GET['error']; ?> </p>
+            <?php } 
             ?>
+            <input type="text" name="email" placeholder="Email" require autofocus> <br>
+            <input type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-                <label>Gebruikersnaam</label>
-                <input type="text" name="email" placeholder="Email" require autofocus> <br>
-                <label>Wachtwoord</label>
-                <input type="password" name="password" placeholder="Wachtwoord" require> <br>
+            <!-- <button name='submit' type="submit">Login</button> -->
+            <input name="submit" type="submit" value="Login">
 
-                <button name='submit' type="submit">Login</button>
-                <?php } ?>
-            </form>
-            </div>
-        </div>
+            <?php } ?>
+        </form>
     </div>
+    <!-- </div> -->
 </body>
 
 </html>
@@ -50,13 +46,12 @@ if (isset($_POST['submit']))
     $email = $_POST['email'];
     $pass = $_POST['password'];
     $pass = md5($pass);
-    $echt = '$2y$10$Z6pOsGCteiy8PR75f1Dy8ecEY4MssSAs8FG50MCC6w6s9j04bE4QO';
 
     if(empty($email)) {
         header ("Location: ?error=Email is vereist");
         exit();
     } else if(empty($pass)) {
-        header ("Location: ?error=wachtwoord is vereist");
+        header ("Location: ?error=Wachtwoord is vereist");
         exit();
     }
 
@@ -72,16 +67,13 @@ if (isset($_POST['submit']))
             $_SESSION['naam'] = $row['naam'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['role'] = $row['role'];
-            header("Location: index.php");
+            header("Location: ../index.php");
             exit();
         }
     }
         else{
-            print_r($pass);
-            echo "<br>";
-            print_r($echt);
-            // header("Location: ?error=Incorrect Gebruikersnaam of wachtwoord");
-            // exit();
+             header("Location: ?error=Incorrect gebruikersnaam of wachtwoord");
+             exit();
         }
 }
 ?>

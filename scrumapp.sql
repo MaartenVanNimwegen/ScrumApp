@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 20 feb 2023 om 14:26
+-- Gegenereerd op: 23 feb 2023 om 12:58
 -- Serverversie: 10.4.22-MariaDB
 -- PHP-versie: 8.1.1
 
@@ -131,15 +131,16 @@ CREATE TABLE `users` (
   `password` varchar(250) DEFAULT NULL,
   `isActivated` int(1) NOT NULL DEFAULT 0,
   `role` int(1) NOT NULL,
-  `activationCode` varchar(50) NOT NULL
+  `activationCode` varchar(50) NOT NULL,
+  `activatedOn` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `activationCode`) VALUES
-(1, '', '', NULL, 0, 0, '');
+INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `activationCode`, `activatedOn`) VALUES
+(1, 'Maarten', 'maartenvannimwegen@hotmail.com', NULL, 0, 0, '64882f27-43fb-417a-9c3a-a450312fd016', NULL);
 
 --
 -- Indexen voor geëxporteerde tabellen
