@@ -15,7 +15,6 @@
         if (isset($_SESSION['email'])){
             echo "Je bent al ingelogd";
         } else { ?>
-    <!-- <div class="d-flex justify-content-center"> -->
     <div class="container">
         <form method="post">
             <h2 class="h2">LOGIN</h2>
@@ -33,7 +32,6 @@
             <?php } ?>
         </form>
     </div>
-    <!-- </div> -->
 </body>
 
 </html>
