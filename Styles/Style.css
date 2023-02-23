@@ -124,50 +124,42 @@ input[type="submit"] {
   content: "✖";
 }
 
-.parent {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-}
-
-.SearchWrapper{
+.SearchWrapper {
   max-width: 450px;
   margin: 150px auto;
 }
-.SearchWrapper .search-input{
-    width: 100%;
-    border-radius: 5px;
-    position: relative;
-    background-color: #e9e8e8;
+.SearchWrapper .search-input {
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  background-color: #e9e8e8;
 }
-.search-input input{
-    height: 55px;
-    width: 100%;
-    outline: none;
-    border: none;
+.search-input input {
+  height: 55px;
+  width: 100%;
+  outline: none;
+  border: none;
   border-radius: 5px;
   padding: 0 60px 0 20px;
   font-size: 18px;
   background: rgb(219, 219, 219);
 }
-.search-input.active input{
+.search-input.active input {
   border-radius: 5px 5px 0 0;
 }
-.search-input .autocom-box{
+.search-input .autocom-box {
   padding: 0;
   opacity: 0;
   pointer-events: none;
   max-height: 280px;
   overflow-y: auto;
 }
-.search-input.active .autocom-box{
+.search-input.active .autocom-box {
   padding: 10px 8px;
   opacity: 1;
   pointer-events: auto;
 }
-.autocom-box li{
+.autocom-box li {
   list-style: none;
   padding: 8px 12px;
   display: none;
@@ -175,9 +167,51 @@ input[type="submit"] {
   cursor: default;
   border-radius: 3px;
 }
-.search-input.active .autocom-box li{
+.search-input.active .autocom-box li {
   display: block;
 }
-.autocom-box li:hover{
+.autocom-box li:hover {
   background: #efefef;
+}
+.carousel-item {
+  height: 100vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  background-size: cover;
+  position: relative;
+}
+.carousel-item .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.carousel-item .carousel-caption {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  z-index: 1;
+  text-align: center;
+}
+.carousel-item textarea {
+  margin-top: 50px;
+  width: 100%;
+  height: 200px;
+  font-size: 16px;
+  padding: 10px;
+}
+.carousel-item p {
+  font-size: 24px;
+  margin-top: 30px;
+}
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
