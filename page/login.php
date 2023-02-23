@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>LOGIN</title>
+    <title>Inloggen</title>
     <link rel="stylesheet" type="text/css" href="../Styles/Style.css">
 </head>
 
@@ -67,7 +67,7 @@ if (isset($_POST['submit']))
             $_SESSION['naam'] = $row['naam'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['role'] = $row['role'];
-            header("Location: index.php");
+            header("Location: ../index.php");
             exit();
         }
     }

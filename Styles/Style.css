@@ -15,7 +15,35 @@
   cursor: pointer;
 }
 .popup {
-  cursor: pointer;
+    cursor: pointer;
+  }
+  
+  .popup .popuptext {
+    position: absolute;
+    display: block;
+    margin: auto;
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    z-index: -1;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .popup .show {
+    visibility: visible;
+  }
+  
+.containerScrumDashboard {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    display: none;
 }
 
 
@@ -96,4 +124,12 @@ input[type="submit"] {
   position: relative;
   left: -35px;
   content: "✖";
+}
+
+.parent {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(2, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
 }

@@ -37,7 +37,7 @@ class UserServices extends Services{
             return;
         }
         $encryptedPassword = md5($password);
-        $query = "UPDATE users SET `password` = ?, `isActivated` = 1 WHERE id = ?";
+        $query = "UPDATE users SET `password` = ?, `isActivated` = 1, `activatedOn` = now() WHERE id = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'si', $encryptedPassword, $user->id);
         mysqli_stmt_execute($stmt);

@@ -1,12 +1,12 @@
 <?php
 require('../Classes/user.php');
-require('../Classes/Services.php');
+require('../Handlers/Services.php');
 require('dbconn.php');
 
 if (isset($_GET["activationCode"])) {
     $activationCode = $_GET["activationCode"];
     $userService = new userServices($conn);
-    $isActivated = $userService->IsActivated($activationCode, $conn);
+    $isActivated = $userService->IsActivated($activationCode);
     if ($isActivated) {
         header("Location: ../login.php");
         exit;
@@ -17,12 +17,15 @@ if (isset($_GET["activationCode"])) {
 
         if ($password == $herhaalPassword) {
             $defiPassword = $password;
-            $user = $userService->GetUserByActivationCode($activationCode, $conn);
-            $userService->ActivateAccount($user, $defiPassword, $conn);
-            header("Location: ../login.php");
+            $user = $userService->GetUserByActivationCode($activationCode);
+            $userService->ActivateAccount($user, $defiPassword);
+            header("Location: ../page/login.php");
             exit;
         }
     }
+}
+else{
+    header("Location: ../page/login.php");
 }
 ?>
 <!DOCTYPE html>
