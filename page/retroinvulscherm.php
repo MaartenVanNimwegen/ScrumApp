@@ -49,22 +49,22 @@
 					<div class="carousel-caption parent">
 						<?php 
 						session_start();
-						print_r($_SESSION);
 						require('../Classes/user.php');
 						require('../Handlers/Services.php');
 						require('dbconn.php');
 						$userService = new userServices($conn);
 						$names = $userService->GetAllNames($_SESSION['id']);
 						print_r($names);
+						$removedName = $userService->RemoveOwnName($_SESSION['id'], $names);
+						print_r($removedName);
 						foreach($names as $naam) {
-							
+							echo "<div class='p-2'>
+							<label for='tips'>Tip voor <?".$naam."?> </label><br>
+							<input type='text'>
+						</div>";
 						}
 						?>
-						<div class="p-2">
-							<label for="tips">Tip voor <?$naam?> </label><br>
-							<input type="text">
-							<input class="submit w-25" type="submit" name="submit" id="submit">
-						</div>
+						<input class='submit w-25' type='submit' name='submit' id='submit'>
 					</div>
 					</div>
 				</div>
