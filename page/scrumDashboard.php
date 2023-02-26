@@ -34,17 +34,21 @@ include('dbconn.php');
 <form action="../Handlers/ScrumgroepToevoeg.php" method="post" enctype="multipart/form-data">
             <div><input type="text" name="Scrumnaam" class="AddScrumgroupName" placeholder="Scrumgroepnaam" required> </div>
             <div><input type="text" name="ScrumProject" class="AddScrumgroupProject" placeholder="Project" required> </div>
-            <div id=ScrumgrooupAddUsers>
-                <div class="SearchWrapper">
-                    <div class="search-input">
+                <div class="SearchWrapper" id=ScrumgroupAddUsers>
+                    <div class="search-input" id=ScrumgroupAddUser>
                         <a href="" target="_blank" hidden></a>
-                        <!-- <input type="text" placeholder="Type to search.."> -->
                         <input type="text" name="ScrumgroepUsers[]" class="AddScrumgroupUsers" placeholder="Leerlingnaam" required><br> 
-                    <div class="autocom-box">
+                        <div class="autocom-box">
+                        </div>
                     </div>
-                  </div>
+                    <div class="search-input" id=ScrumgroupAddUser>
+                        <a href="" target="_blank" hidden></a>
+                        <input type="text" name="ScrumgroepUsers[]" class="AddScrumgroupUsers" placeholder="Leerlingnaam" required><br> 
+                        <div class="autocom-box">
+                        </div>  
+                    </div>
                 </div>
-            </div>
+            
             <div class="controls">
       <a href="#" id="add_more_fields"><i class="fa fa-plus"></i>Voeg student toe</a>
       <a href="#" id="remove_fields"><i class="fa fa-plus"></i>Verwijder student</a>
@@ -65,7 +69,6 @@ include('dbconn.php');
         createScrumgroupObject($scrumgroupQuery, $conn);
         ?>
     </div>
-
 
   
 </html>
