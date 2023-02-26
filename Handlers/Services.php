@@ -33,14 +33,14 @@ class UserServices extends Services{
     }
     
     public function ActivateAccount($user, $password) {
-        if($user->isActivated == 1 && $user->password != null) {
-            return;
+        if($user->isActivated == 0 && $user->password == null) {
+            $encryptedPassword = md5($password);
+            $query = "UPDATE users SET `password` = ?, `isActivated` = 1, `activatedOn` = now() WHERE id = ?";
+            $stmt = mysqli_prepare($this->connection, $query);
+            mysqli_stmt_bind_param($stmt, 'si', $encryptedPassword, $user->id);
+            mysqli_stmt_execute($stmt);
         }
-        $encryptedPassword = md5($password);
-        $query = "UPDATE users SET `password` = ?, `isActivated` = 1, `activatedOn` = now() WHERE id = ?";
-        $stmt = mysqli_prepare($this->connection, $query);
-        mysqli_stmt_bind_param($stmt, 'si', $encryptedPassword, $user->id);
-        mysqli_stmt_execute($stmt);
+        else {return;}
     }
 
     public function IsActivated($activationCode) {
@@ -52,22 +52,56 @@ class UserServices extends Services{
         $gefetchsteResult = mysqli_fetch_array($result);
         return $gefetchsteResult['isActivated'];
     }
+    
+    public function GetAllNames($userId) {
+        $groupId = $this->GetGroupId($userId);
+        $query = "SELECT naam FROM users INNER JOIN koppelusergroep ON users.id = koppelusergroep.userId WHERE koppelusergroep.groepid = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groupId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $names = array();
+        while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+            $names[] = $row[0];
+        }
 
-    // send activation email to the user's email address with the activation code
-    // public function SendUserActivateEmail($email, $name, $activationCode) {
-    //     if(str_contains($email, "@") &&)
-    //     $subject="Voltooi registratie";
-    //     $body = "Geachte $name,
-        
-    //     Er is door een docent een account voor u aangemaakt, dit account moet nog worden geactiveerd. 
-    //     U kunt dit doen door op de onderstaande link te klikken en een wachtwoord aan te maken.
+        return $names;
+        $otherNames = $this->RemoveOwnName($userId, $names);
+        return $otherNames;
+    }
 
-    //     $activationCode 
+    public function RemoveOwnName($userId, $names) {
+        $user = $this->GetUserById($userId);
+        $eigenNaam = $user->naam;
+        if (array_search($eigenNaam, $names) != false) {
+            unset($names[$eigenNaam]);
+        }
+        return $names;
+    }
+    
+    public function GetGroupId($userId) {
+        $query = "SELECT groepid FROM koppelusergroep WHERE userId = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $userId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        return $result;
+    }
+
+    //send activation email to the user's email address with the activation code
+    public function SendUserActivateEmail($email, $name, $activationCode) {
+        $subject="Voltooi registratie";
+        $body = "Geachte $name,
         
-    //     Met vriendelijke groet,
-    //     ScrumApp systeem";
+        Er is door een docent een account voor u aangemaakt, dit account moet nog worden geactiveerd. 
+        U kunt dit doen door op de onderstaande link te klikken en een wachtwoord aan te maken.
+
+        $activationCode 
         
-    //     mail(implode(',',$email), $subject, $body);
+        Met vriendelijke groet,
+        ScrumApp systeem";
+        
+        mail(implode(',',$email), $subject, $body);
                      
-    // }
+    }
 }

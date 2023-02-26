@@ -1,29 +1,32 @@
 <?php
-session_destroy();
 require('../Classes/user.php');
 require('../Handlers/Services.php');
 require('dbconn.php');
-
 if (isset($_GET["activationCode"])) {
     $activationCode = $_GET["activationCode"];
     $userService = new userServices($conn);
-    $isActivated = $userService->IsActivated($activationCode);
-    if ($isActivated) {
-        header("Location: ../login.php");
+    
+    if ($userService->IsActivated($activationCode)) {
+        header("Location: ../page/login.php");
         exit;
     }
-    if (isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
-        $password = $_POST['password'];
-        $herhaalPassword = $_POST['herhaalPassword'];
 
-        if ($password == $herhaalPassword) {
-            $defiPassword = $password;
-            $user = $userService->GetUserByActivationCode($activationCode);
-            $userService->ActivateAccount($user, $defiPassword);
-            header("Location: ../page/login.php");
-            exit;
+    if (isset($_POST['submit'])) {
+        session_destroy();
+        if (isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
+            $password = $_POST['password'];
+            $herhaalPassword = $_POST['herhaalPassword'];
+    
+            if ($password == $herhaalPassword) {
+                $defiPassword = $password;
+                $user = $userService->GetUserByActivationCode($activationCode);
+                $userService->ActivateAccount($user, $defiPassword);
+                header("Location: ../page/login.php");
+                exit;
+            }
         }
     }
+
 }
 else{
     header("Location: ../page/login.php");
@@ -50,7 +53,7 @@ else{
             <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
             <label for="herhaalPassword">Herhaal wachtwoord</label>
             <input type="password" id="herhaalPassword" name="herhaalPassword" required>
-            <input type="submit" value="Submit">
+            <input name="submit" type="submit" value="Activeer account">
         </form>
         <div id="message">
             <h3>Het wachtwoord moet aan de volgende eisen voldoen:</h3>
