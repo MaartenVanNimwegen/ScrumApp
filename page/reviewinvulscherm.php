@@ -1,17 +1,23 @@
 <?php
+require('../Classes/user.php');
+$userService = new userServices($conn);
+
+$userId = $_SESSION['id'];
+$groepId = $userService->GetGroupId($userId);
+$scrummasterId = $userService->GetScrummasterId($groepId);
+
+if($_SESSION['id'] != $scrummasterId) {
+	header("Location: ../index.php");
+}
+
 if (isset($_POST['submit'])) {
 	session_start();
-	require('../Classes/user.php');
 	require('../Handlers/Services.php');
 	require('dbconn.php');
-    $userService = new userServices($conn);
 
-	$userId = $_SESSION['id'];
-	$groepId = $userService->GetGroupId($userId);
-    $scrummasterId = $userService->GetScrummasterId($groepId);
 	$names = $userService->GetAllNames($_SESSION['id']);
 	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
-
+	
 	$backlogitems = $_POST['backlogitems'];
 	$demonstreren = $_POST['demonstreren'];
 	$samenwerking = $_POST['samenwerking'];
