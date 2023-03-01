@@ -1,3 +1,29 @@
+<?php
+if (isset($_POST['submit'])) {
+	session_start();
+	require('../Classes/user.php');
+	require('../Handlers/Services.php');
+	require('dbconn.php');
+    $userService = new userServices($conn);
+	$userId = $_SESSION['id'];
+	$groepId = $userService->GetGroupId($userId);
+    $scrummasterId = $userService->GetScrummasterId($groepId);
+	$names = $userService->GetAllNames($_SESSION['id']);
+	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
+	$bijdrage = $_POST['bijdrage'];
+	$meerwaarden = $_POST['meerwaarden'];
+	$tegenaan = $_POST['tegenaan'];
+	$tips = array();
+	$tops = array();
+	foreach($removedOwnName as $naam) {
+		$tip = $_POST['tip'.$naam];
+		$top = $_POST['top'.$naam];
+		$tips[] = $tip;
+		$tops[] = $top;
+	}
+	$userService->SaveRetro($userId, $groepId, $scrummasterId, null, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,8 +39,7 @@
 </head>
 
 <body>
-	<form action="">
-
+	<form action="" method="post">
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			<ol class="carousel-indicators">
 				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -23,28 +48,28 @@
 				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 			</ol>
 			<div class="carousel-inner">
-				<div class="carousel-item">
+				<div class="carousel-item active">
 					<div class="overlay"></div>
 					<div class="carousel-caption">
 						<label for="bijdrage">Wat was mijn bijdrage de afgelopen week?</label><br>
-						<textarea></textarea>
+						<textarea id="bijdrage" name="bijdrage" required></textarea>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="overlay"></div>
 					<div class="carousel-caption">
 						<label for="meerwaarden">Wat was jou meerwaarden?</label><br>
-						<textarea></textarea>
+						<textarea id="meerwaarden" name="meerwaarden" required></textarea>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="overlay"></div>
 					<div class="carousel-caption">
 						<label for="tegenaan">Waar liep je tegenaan?</label><br>
-						<textarea></textarea>
+						<textarea id="tegenaan" name="tegenaan" required></textarea>
 					</div>
 				</div>
-				<div class="carousel-item active">
+				<div class="carousel-item">
 					<div class="overlay"></div>
 					<div class="carousel-caption parent">
 						<?php 
@@ -54,14 +79,18 @@
 						require('dbconn.php');
 						$userService = new userServices($conn);
 						$names = $userService->GetAllNames($_SESSION['id']);
-						print_r($names);
-						$removedName = $userService->RemoveOwnName($_SESSION['id'], $names);
-						print_r($removedName);
-						foreach($names as $naam) {
+						$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
+						foreach($removedOwnName as $naam) {
 							echo "<div class='p-2'>
-							<label for='tips'>Tip voor <?".$naam."?> </label><br>
-							<input type='text'>
-						</div>";
+								<label for='tips'>Tip voor $naam</label><br>
+								<input name='tip$naam' type='text' required>
+							</div>";
+						}
+						foreach($removedOwnName as $naam) {
+							echo "<div class='p-2'>
+								<label for='tops'>Top voor $naam</label><br>
+								<input name='top$naam' type='text' required>
+							</div>";
 						}
 						?>
 						<input class='submit w-25' type='submit' name='submit' id='submit'>

@@ -66,15 +66,11 @@ class UserServices extends Services{
         }
 
         return $names;
-        $otherNames = $this->RemoveOwnName($userId, $names);
-        return $otherNames;
     }
 
-    public function RemoveOwnName($userId, $names) {
-        $user = $this->GetUserById($userId);
-        $eigenNaam = $user->naam;
-        if (array_search($eigenNaam, $names) != false) {
-            unset($names[$eigenNaam]);
+    public function RemoveOwnName($eigenNaam, $names) {
+        if (($key = array_search($eigenNaam, $names)) !== false) {
+            unset($names[$key]);
         }
         return $names;
     }
@@ -85,8 +81,49 @@ class UserServices extends Services{
         mysqli_stmt_bind_param($stmt, 'i', $userId);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
-        return $result;
+        $row = mysqli_fetch_assoc($result);
+        return $row['groepid'];
     }
+
+    public function GetScrummasterId($groepId) {
+        $query = "SELECT scrummaster FROM scrumgroepen WHERE id = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        return $row['scrummaster'];
+    }
+
+    public function SaveRetro($userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops) {
+        $tips = $this->FormatTips($tips);
+        $tops = $this->FormatTops($tops);
+        // $query = "INSERT INTO `retros`(`userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?, now(),?,?,?,?,?,?)";
+        // $stmt = mysqli_prepare($this->connection, $query);
+        // mysqli_stmt_bind_param($stmt, 'iiiissssss', $userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+        // mysqli_stmt_execute($stmt);
+        // $affectedRows = mysqli_stmt_affected_rows($stmt);
+        // return $affectedRows;
+    }
+
+    public function FormatTips($tips) {
+        $tipsstring = "";
+        foreach($tips as $tip) {
+            $tipsstring = $tipsstring .  $tip;
+        }
+        print_r($tipsstring);
+        return $tipsstring;
+    }
+
+    public function FormatTops($tops) {
+        $topsstring = "";
+        foreach($tops as $top) {
+            $topsstring = $topsstring . $top;
+        }
+        print_r($topsstring);
+        return $topsstring;
+    }
+
 
     //send activation email to the user's email address with the activation code
     public function SendUserActivateEmail($email, $name, $activationCode) {
