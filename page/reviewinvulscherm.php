@@ -1,5 +1,8 @@
 <?php
+session_start();
 require('../Classes/user.php');
+require('../Handlers/Services.php');
+require('dbconn.php');
 $userService = new userServices($conn);
 
 $userId = $_SESSION['id'];
@@ -11,9 +14,6 @@ if($_SESSION['id'] != $scrummasterId) {
 }
 
 if (isset($_POST['submit'])) {
-	session_start();
-	require('../Handlers/Services.php');
-	require('dbconn.php');
 
 	$names = $userService->GetAllNames($_SESSION['id']);
 	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
