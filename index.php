@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(empty($_SESSION['id'])) {
+    header("Location: page/login.php");
+}
 echo 'session: ';
 print_r($_SESSION);
 
@@ -14,5 +17,8 @@ print_r($_SESSION);
 </head>
 <body>
     <a href="page/retroinvulscherm.php">retro</a>
+    <form action="logout.php" method="post">
+        <button type="submit">Uitloggen</button>
+    </form>
 </body>
 </html>
