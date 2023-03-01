@@ -6,6 +6,10 @@ if (isset($_GET["activationCode"])) {
     $activationCode = $_GET["activationCode"];
     $userService = new userServices($conn);
     
+    if($userService->CheckIfActivatioCodeExists($activationCode) == 0) {
+        header("Location: ../index.php");
+    }
+
     if ($userService->IsActivated($activationCode)) {
         header("Location: ../page/login.php");
         exit;

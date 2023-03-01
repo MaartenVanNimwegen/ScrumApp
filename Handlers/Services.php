@@ -42,6 +42,19 @@ class UserServices extends Services{
         }
         else {return;}
     }
+    
+    public function CheckIfActivatioCodeExists($activationCode) {
+        $query = "SELECT * FROM users WHERE activationCode = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 's', $activationCode);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        if(empty($row)) {
+            return 0;
+        }
+        else {return 1;}
+    }
 
     public function IsActivated($activationCode) {
         $query = "SELECT `isActivated` FROM users WHERE `activationCode` = ?";
