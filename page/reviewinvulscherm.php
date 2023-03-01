@@ -1,3 +1,26 @@
+<?php
+if (isset($_POST['submit'])) {
+	session_start();
+	require('../Classes/user.php');
+	require('../Handlers/Services.php');
+	require('dbconn.php');
+    $userService = new userServices($conn);
+
+	$userId = $_SESSION['id'];
+	$groepId = $userService->GetGroupId($userId);
+    $scrummasterId = $userService->GetScrummasterId($groepId);
+	$names = $userService->GetAllNames($_SESSION['id']);
+	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
+
+	$backlogitems = $_POST['backlogitems'];
+	$demonstreren = $_POST['demonstreren'];
+	$samenwerking = $_POST['samenwerking'];
+	$todoitems = $_POST['todoitems'];
+	
+	$userService->SaveReview($userId, $groepId, $scrummasterId, null, $backlogitems, $demonstreren, $samenwerking, $todoitems);
+	header("Location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,53 +36,56 @@
 </head>
 
 <body>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-		</ol>
-		<div class="carousel-inner">
-			<div class="carousel-item active">
-				<div class="overlay"></div>
-				<div class="carousel-caption">
-                    <label for="bijdrage">Aan welke backlogitems hebben jullie de afgelopen week gewerkt?</label><br>
-                    <textarea></textarea>
+	<form action="" method="post">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="overlay"></div>
+					<div class="carousel-caption">
+						<label for="backlogitems">Aan welke backlogitems hebben jullie de afgelopen week gewerkt?</label><br>
+						<textarea id="backlogitems" name="backlogitems" required></textarea>
+					</div>
 				</div>
-			</div>
-			<div class="carousel-item">
-				<div class="overlay"></div>
-				<div class="carousel-caption">
-                    <label for="meerwaarden">Wat gaan jullie demonstreren?</label><br>
-                    <textarea></textarea>
+				<div class="carousel-item">
+					<div class="overlay"></div>
+					<div class="carousel-caption">
+						<label for="demonstreren">Wat gaan jullie demonstreren?</label><br>
+						<textarea id="demonstreren" name="demonstreren" required></textarea>
+					</div>
 				</div>
-			</div>
-			<div class="carousel-item">
-				<div class="overlay"></div>
-				<div class="carousel-caption">
-                    <label for="tegenaan">Hoe is de samenwerking verlopen?</label><br>
-                    <textarea></textarea>
+				<div class="carousel-item">
+					<div class="overlay"></div>
+					<div class="carousel-caption">
+						<label for="samenwerking">Hoe is de samenwerking verlopen?</label><br>
+						<textarea id="samenwerking" name="samenwerking" required></textarea>
+					</div>
 				</div>
-			</div>
-            <div class="carousel-item">
-				<div class="overlay"></div>
-				<div class="carousel-caption">
-                    <label for="tegenaan">Aan welke items gaan jullie de komende sptint werken?</label><br>
-                    <textarea></textarea>
-                </div>
+				<div class="carousel-item">
+					<div class="overlay"></div>
+					<div class="carousel-caption">
+						<label for="todoitems">Aan welke items gaan jullie de komende sptint werken?</label><br>
+						<textarea id="todoitems" name="todoitems" required></textarea>
+						<input class='submit w-25' type='submit' name='submit' id='submit'>
+					</div>
 				</div>
+					
 			</div>
+			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
 		</div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
-	</div>
+	</form>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
