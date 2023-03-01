@@ -10,10 +10,14 @@ class Services {
 
 class UserServices extends Services{
     private $connection;
+    
+    // Constructor for UserServices
     public function __construct( $conn ) {
         $this->connection = $conn;
         parent::__construct( $conn );
     }
+
+    // This function returns an user instance of the user with the given id
     public function GetUserById($userId) {
         $query = "SELECT * FROM users WHERE `id`=?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -23,6 +27,7 @@ class UserServices extends Services{
         return mysqli_fetch_object($result, 'user');
     }
 
+    // This function returns an user instance of the user with the given activationCode
     public function GetUserByActivationCode($activationCode) {
         $query = "SELECT * FROM users WHERE `activationCode`=?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -32,6 +37,7 @@ class UserServices extends Services{
         return mysqli_fetch_object($result, 'user');
     }
     
+    // This function activates the account of the given user. It sets the password to the given password and sets the isActivated boolean to true (1)
     public function ActivateAccount($user, $password) {
         if($user->isActivated == 0 && $user->password == null) {
             $encryptedPassword = md5($password);
@@ -43,6 +49,7 @@ class UserServices extends Services{
         else {return;}
     }
     
+    // This function returns 0 if there are no accounts with the given activationCode and returns 1 if there is an account with the given activationCode
     public function CheckIfActivatioCodeExists($activationCode) {
         $query = "SELECT * FROM users WHERE activationCode = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -56,6 +63,7 @@ class UserServices extends Services{
         else {return 1;}
     }
 
+    // This function returns true if the account with the given activationCode is activated and returns false if the account with the given activationCode is not activated
     public function IsActivated($activationCode) {
         $query = "SELECT `isActivated` FROM users WHERE `activationCode` = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -66,6 +74,7 @@ class UserServices extends Services{
         return $gefetchsteResult['isActivated'];
     }
     
+    // This function returns an array with all the names of the members that are in the same group as the given user
     public function GetAllNames($userId) {
         $groupId = $this->GetGroupId($userId);
         $query = "SELECT naam FROM users INNER JOIN koppelusergroep ON users.id = koppelusergroep.userId WHERE koppelusergroep.groepid = ?";
@@ -81,6 +90,7 @@ class UserServices extends Services{
         return $names;
     }
 
+    // This function removes the given name from the given names array
     public function RemoveOwnName($eigenNaam, $names) {
         if (($key = array_search($eigenNaam, $names)) !== false) {
             unset($names[$key]);
@@ -88,6 +98,7 @@ class UserServices extends Services{
         return $names;
     }
     
+    // This function returns the groepId of the group where the given user is in
     public function GetGroupId($userId) {
         $query = "SELECT groepid FROM koppelusergroep WHERE userId = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -98,6 +109,7 @@ class UserServices extends Services{
         return $row['groepid'];
     }
 
+    // This function returns the scrummasterId of the group where the given user is in
     public function GetScrummasterId($groepId) {
         $query = "SELECT scrummaster FROM scrumgroepen WHERE id = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -108,9 +120,10 @@ class UserServices extends Services{
         return $row['scrummaster'];
     }
 
+    // This function saves all the given data from a Retrospective
     public function SaveRetro($userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops) {
-        $tips = $this->FormatTips($tips);
-        $tops = $this->FormatTops($tops);
+        $tips = $this->FormatTipsAndTops($tips);
+        $tops = $this->FormatTipsAndTops($tops);
         $query = "INSERT INTO retros (`userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?, now(),?,?,?,?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'iiissssss', $userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
@@ -119,6 +132,7 @@ class UserServices extends Services{
         return $affectedRows;
     }
 
+    // This function saves all the given data from a Review
     public function SaveReview($userId, $groepId, $scrummasterId, $productownerId, $backlogitems, $demonstreren, $samenwerking, $todoitems) {
         $query = "INSERT INTO reviews (`userId`, `groepId`, `scrummasterId`, `productownerId`, `datum`, `backlogitems`, `demonstreren`, `samenwerking`, `todoitems`) VALUES (?,?,?,?, now(),?,?,?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -128,18 +142,13 @@ class UserServices extends Services{
         return $affectedRows;
     }
 
-    public function FormatTips($tips) {
-        $formattedTips = implode("| ", $tips);
-        return $formattedTips;
+    // This function makes one string of the given array and splits the pieces by |.
+    public function FormatTipsAndTops($array) {
+        $stringOfArray = implode("| ", $array);
+        return $stringOfArray;
     }
 
-    public function FormatTops($tops) {
-        $formattedTops = implode("| ", $tops);
-        return $formattedTops;
-    }
-
-
-    //send activation email to the user's email address with the activation code
+    // This function sends an activation email to the given emailaddress with the given activationCode
     public function SendUserActivateEmail($email, $name, $activationCode) {
         $subject="Voltooi registratie";
         $body = "Geachte $name,
