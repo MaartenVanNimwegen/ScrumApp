@@ -98,30 +98,22 @@ class UserServices extends Services{
     public function SaveRetro($userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops) {
         $tips = $this->FormatTips($tips);
         $tops = $this->FormatTops($tops);
-        // $query = "INSERT INTO `retros`(`userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?, now(),?,?,?,?,?,?)";
-        // $stmt = mysqli_prepare($this->connection, $query);
-        // mysqli_stmt_bind_param($stmt, 'iiiissssss', $userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
-        // mysqli_stmt_execute($stmt);
-        // $affectedRows = mysqli_stmt_affected_rows($stmt);
-        // return $affectedRows;
+        $query = "INSERT INTO retros (`userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?, now(),?,?,?,?,?)";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'iiissssss', $userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+        mysqli_stmt_execute($stmt);
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+        return $affectedRows;
     }
 
     public function FormatTips($tips) {
-        $tipsstring = "";
-        foreach($tips as $tip) {
-            $tipsstring = $tipsstring .  $tip;
-        }
-        print_r($tipsstring);
-        return $tipsstring;
+        $formattedTips = implode("| ", $tips);
+        return $formattedTips;
     }
 
     public function FormatTops($tops) {
-        $topsstring = "";
-        foreach($tops as $top) {
-            $topsstring = $topsstring . $top;
-        }
-        print_r($topsstring);
-        return $topsstring;
+        $formattedTops = implode("| ", $tops);
+        return $formattedTops;
     }
 
 

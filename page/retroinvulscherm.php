@@ -22,6 +22,7 @@ if (isset($_POST['submit'])) {
 		$tops[] = $top;
 	}
 	$userService->SaveRetro($userId, $groepId, $scrummasterId, null, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+	header("Location: ../index.php");
 }
 ?>
 <!DOCTYPE html>
