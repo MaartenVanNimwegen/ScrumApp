@@ -1,15 +1,23 @@
 <?php
+// If the form is submitted the values are getted from the form
 if (isset($_POST['submit'])) {
 	session_start();
+	
+	// All requirements
 	require('../Classes/user.php');
 	require('../Handlers/Services.php');
 	require('dbconn.php');
+
+	// UserService
     $userService = new userServices($conn);
+
 	$userId = $_SESSION['id'];
 	$groepId = $userService->GetGroupId($userId);
     $scrummasterId = $userService->GetScrummasterId($groepId);
 	$names = $userService->GetAllNames($_SESSION['id']);
 	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
+	
+	// Get all values from form
 	$bijdrage = $_POST['bijdrage'];
 	$meerwaarden = $_POST['meerwaarden'];
 	$tegenaan = $_POST['tegenaan'];
@@ -21,9 +29,11 @@ if (isset($_POST['submit'])) {
 		$tips[] = $tip;
 		$tops[] = $top;
 	}
+
+	// Save retro with the given values
 	$userService->SaveRetro($userId, $groepId, $scrummasterId, null, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
-	print_r($scrummasterId);
-	print_r($userId);
+	
+	// This desides where to redirect to. If the user is scrummaster he will be redirected to the reviewinvulscherm else to index
 	if($scrummasterId == $userId) {
 		header("Location: reviewinvulscherm.php");
 	}
