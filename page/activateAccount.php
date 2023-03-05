@@ -1,20 +1,22 @@
 <?php
+// All requirements
 require('../Classes/user.php');
 require('../Handlers/Services.php');
 require('dbconn.php');
+
+// Check if activationCode is set, when there is no activationCode the user is redirected to the login page
 if (isset($_GET["activationCode"])) {
     $activationCode = $_GET["activationCode"];
     $userService = new userServices($conn);
     
-    if($userService->CheckIfActivatioCodeExists($activationCode) == 0) {
-        header("Location: ../index.php");
-    }
 
-    if ($userService->IsActivated($activationCode)) {
-        header("Location: ../page/login.php");
+    // Check if there is an account with the given code or the accout with the given activationCode is already activated. If so the user is redirected to the login page
+    if($userService->CheckIfActivatioCodeExists($activationCode) == 0 || $userService->IsActivated($activationCode)) {
+        header("Location: ../index.php");
         exit;
     }
 
+    // If the form is submitted there is checked if the given passwords are the same and then the activateAccount function is called.
     if (isset($_POST['submit'])) {
         session_destroy();
         if (isset($_POST['password']) && isset($_POST['herhaalPassword'])) {
