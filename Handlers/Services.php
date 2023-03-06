@@ -151,19 +151,21 @@ class UserServices extends Services{
 
     // This function sends an activation email to the given emailaddress with the given activationCode
     public function SendUserActivateEmail($email, $name, $activationCode) {
+        $root = "localhost/page/activateAccount?activationCode=";
+        $link = $root . $activationCode;
         $subject="Voltooi registratie";
         $body = "Geachte $name,
         
         Er is door een docent een account voor u aangemaakt, dit account moet nog worden geactiveerd. 
         U kunt dit doen door op de onderstaande link te klikken en een wachtwoord aan te maken.
 
-        $activationCode 
+        $link 
         
         Met vriendelijke groet,
         ScrumApp systeem";
         
-        mail(implode(',',$email), $subject, $body);
-                     
+        mail($email, $subject, $body);
+                    
     }
 }
 ?>

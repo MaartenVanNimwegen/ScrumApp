@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
         <tr>
                     <td>' . $row["id"] . '</td>
                     <td><input type="text" name="name[]" value="' . $row["naam"] . '"><input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
-                    <td><input type="text" name="email[]" value="' . $row["email"] . '"></td>
+                    <td>' . $row["email"] . '</td>
                     <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
                     </tr>
                     ';
@@ -54,5 +54,7 @@ if ($result->num_rows > 0) {
 ?>
  <h2><a class="toevoegen" href="Account-toevoegen.php">Account aanmaken</a></h2>
 
+
+ 
 </body>
 </html>

@@ -1,6 +1,7 @@
 <?php
 include '../Classes/scrumGroepClass.php';
 include '../Classes/user.php';
+include '../Handlers/Services.php';
 
 function getScrumgroups($conn) 
 {
@@ -105,7 +106,11 @@ function accountToevoegen($conn)
         
         $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', 0, '$guid');";
         $result = mysqli_query($conn, $query);
-         }
+         
+
+         $userService = new UserServices($conn);
+         $userService->SendUserActivateEmail($email, $naam, $guid);
+        }
 }
 
 function accountVerwijderen($id_to_delete, $conn)
