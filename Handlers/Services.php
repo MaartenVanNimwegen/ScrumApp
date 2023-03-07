@@ -101,13 +101,23 @@ class UserServices extends Services{
     
     // This function returns the groepId of the group where the given user is in
     public function GetGroupId($userId) {
+        // Gets all groeps where the user is in
         $query = "SELECT groepid FROM koppelusergroep WHERE userId = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'i', $userId);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($result);
-        return $row['groepid'];
+        
+        // Makes a new instantie of the groepServices class
+        $groepService = new GroepServices($this->connection);
+
+        // Foreach groep check witch is active
+        foreach ($row as $groep) {
+            if($groepService->IsGroepActive($groep)) {
+                return $groep;
+            }
+        }
     }
 
     // This function returns the scrummasterId of the group where the given user is in
@@ -196,7 +206,7 @@ class GroepServices extends Services {
     }
 
     // Checks if user is in active groep 
-    private function IsGroepActive($groepId) {
+    public function IsGroepActive($groepId) {
         $query = "SELECT endDate FROM scrumgroepen WHERE id = ? AND endDate > NOW()";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'i', $groepId);
@@ -211,6 +221,7 @@ class GroepServices extends Services {
         }
     }
 
+    // Returns the current week of the progress. If in first week returns 0, if in second week returns 1 etc...
     public function CurrentWeek($groepId) {
         $query = "SELECT * FROM scrumgroepen WHERE id = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -228,7 +239,10 @@ class GroepServices extends Services {
         return $elapsed_weeks;
     }
 
-    public function FilledRetro($userId) {
+    // Returns 1 if the user already filled in a retro this week of the project, and 0 if the user has not already filled in a retro this week of the project.
+    public function FilledRetro($groepId) {
+
+        // Gets the start and end date from the users scrumgroep
         $query = "SELECT * FROM scrumgroepen WHERE id = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'i', $groepId);
@@ -237,28 +251,37 @@ class GroepServices extends Services {
         $row = mysqli_fetch_assoc($result);
         // Set the start and end dates of the project
         if(!empty($row)) {
-            $start_date = date('Y-m-d', strtotime($row['startDate']));
-            $end_date = date('Y-m-d', strtotime($row['endDate']));
+            $startDate = date('Y-m-d', strtotime($row['startDate']));
+            $endDate = date('Y-m-d', strtotime($row['endDate']));
     
-            // Get the current date and week number
-            $current_date = date('Y-m-d');
-            $current_week = date('W');
+            // Get the current week number
+            $currentWeek = $this->CurrentWeek($groepId);
+            
+            // Checks if the retro is already filled in
+            $hasFilledIn = $this->CheckRetroWithWeekNumber($groepId, $currentWeek);
     
-            // Check if the current date is within the project dates
-            if ($current_date >= $start_date && $current_date <= $end_date) {
-            // Check if the document for the current week has already been filled in
-            if (!file_exists("documents/week{$current_week}.txt")) {
-                // The document can be filled in for the current week
-                echo "You can fill in the document for week {$current_week}.";
-            } else {
-                // The document has already been filled in for the current week
-                echo "The document for week {$current_week} has already been filled in.";
+            if($hasFilledIn) {
+                return 1;
             }
-            } else {
-            // The current date is outside the project dates
-            echo "The project is not active.";
-            }
+            else {return 0;}
         }
+        else {
+            return new Exception("De gegeven gebruiker zit niet in een scrum groep");
+        }
+    }
+
+    // Returns 1 if there is a retro with the given groepId and CurrentWeek
+    public function CheckRetroWithWeekNumber($groepId, $currentWeek) {
+        $query = "SELECT * FROM retros WHERE groepId = ? AND datum = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'ii', $groepId, $currentWeek);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        if(!empty($row)) {
+            return 1;
+        }
+        else {return 0;}
     }
 }
 ?>

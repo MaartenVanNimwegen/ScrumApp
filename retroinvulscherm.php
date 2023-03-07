@@ -13,11 +13,14 @@ $userId = $_SESSION['id'];
 $groepId = $userService->GetGroupId($userId);
 
 // If in groep and is not the first week and the retro is not already filled in the retro screen is called
-if($groepService->IsInActiveGroep($userId) && $groepService->CurrentWeek($groepId) != 0 && !$groepService->FilledRetro($userId)) {
-	
+if ($groepService->FilledRetro($groepId) == 1) {
+	echo "
+	<script>
+	alert('Er is al een retrospective ingevult!');
+	window.location = 'index.php';
+	</script>
+	";
 }
-
-
 
 // If the form is submitted the values are getted from the form
 if (isset($_POST['submit'])) {
