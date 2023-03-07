@@ -1,6 +1,6 @@
 <?php
 include 'functions.php';
-include('dbconn.php');
+include('../config/dbconn.php');
 ?>
 
 <script>
