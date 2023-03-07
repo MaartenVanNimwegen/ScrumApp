@@ -24,6 +24,7 @@ endif; ?>
 </head>
 
 <body>
+    <div class="content">
     <?php if (isset($_GET['addUserId'])) : ?>
         <div class="SearchWrapper" id=ScrumgroupAddUsers>
             <div class="search-input" id=ScrumgroupAddUser>
@@ -63,8 +64,8 @@ endif; ?>
         createScrumgroupObject($scrumgroupQuery, $conn);
         ?>
     </div>
-
-
+    </div>
+</body>
 </html>
 
 <script>

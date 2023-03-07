@@ -26,7 +26,6 @@
             <input type="text" name="email" placeholder="Email" require autofocus> <br>
             <input type="password" name="password" placeholder="Wachtwoord" require> <br>
 
-            <!-- <button name='submit' type="submit">Login</button> -->
             <input name="submit" type="submit" value="Login">
 
             <?php } ?>
