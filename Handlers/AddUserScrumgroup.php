@@ -1,5 +1,5 @@
 <?php
-include '../page/dbconn.php';
+include '../config/dbconn.php';
 include '../page/functions.php';
 $ScrumgroupId = $_GET['ScrumgroupId'];
 
