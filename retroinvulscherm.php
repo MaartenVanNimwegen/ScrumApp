@@ -98,10 +98,6 @@ if (isset($_POST['submit'])) {
 					<div class="overlay"></div>
 					<div class="carousel-caption parent">
 						<?php 
-						session_start();
-						require('Classes/user.php');
-						require('Handlers/Services.php');
-						require('dbconn.php');
 						$userService = new userServices($conn);
 						$names = $userService->GetAllNames($_SESSION['id']);
 						$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
