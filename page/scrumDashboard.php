@@ -1,5 +1,5 @@
 <?php
-// include('../sidebar.php');
+include('../sidebar.php');
 include 'functions.php';
 // include '../Javascript/scrumDashboard.php'
 include('../config/dbconn.php');
@@ -87,14 +87,11 @@ endif; ?>
     $sql = $sql->fetch_all();
     $stmt->close();
 
-    foreach ($sql as $row) {
-    ?>
+    foreach ($sql as $row) :?>
 
         suggestions.push("<?php echo "$row[1]"; ?>");
 
-    <?php
-    };
-    ?>
+    <?php endforeach ?>
     // add_more_fields.onclick = function() {
     //     var newDiv = document.createElement('div')
     //     newDiv.setAttribute('class', 'search-input');
