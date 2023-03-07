@@ -18,7 +18,6 @@
         print_r($_SESSION);
 
         ?>
-        <a href="retroinvulscherm.php">retro</a>
     </div>
 </body>
 </html>
