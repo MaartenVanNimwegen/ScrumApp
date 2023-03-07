@@ -12,7 +12,7 @@ $groepService = new GroepServices($conn);
 $userId = $_SESSION['id'];
 $groepId = $userService->GetGroupId($userId);
 
-// If in groep and is not the first week and the retro is not already filled in the retro screen is called
+// Checks if retro for that week is already filled in
 if ($groepService->FilledRetro($groepId) == 1) {
 	echo "
 	<script>

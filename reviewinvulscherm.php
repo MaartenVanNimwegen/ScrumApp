@@ -7,6 +7,7 @@ require('config/dbconn.php');
 
 // Service
 $userService = new userServices($conn);
+$groepService = new GroepServices($conn);
 
 $userId = $_SESSION['id'];
 $groepId = $userService->GetGroupId($userId);
@@ -16,17 +17,30 @@ if($_SESSION['id'] != $scrummasterId) {
 	header("Location: index.php");
 }
 
+// Checks if the review for that week is already filled in
+if ($groepService->FilledReview($groepId) == 1) {
+	echo "
+	<script>
+	alert('Er is al een review ingevult!');
+	window.location = 'index.php';
+	</script>
+	";
+}
+
+// If the form is submitted the values are getted from the form
 if (isset($_POST['submit'])) {
 
 	$names = $userService->GetAllNames($_SESSION['id']);
 	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
+	$currentWeek = $groepService->CurrentWeek($groepId);
+
 	
 	$backlogitems = $_POST['backlogitems'];
 	$demonstreren = $_POST['demonstreren'];
 	$samenwerking = $_POST['samenwerking'];
 	$todoitems = $_POST['todoitems'];
 	
-	$userService->SaveReview($userId, $groepId, $scrummasterId, null, $backlogitems, $demonstreren, $samenwerking, $todoitems);
+	$userService->SaveReview($userId, $groepId, $scrummasterId, null, $currentWeek, $backlogitems, $demonstreren, $samenwerking, $todoitems);
 	header("Location: index.php");
 }
 ?>

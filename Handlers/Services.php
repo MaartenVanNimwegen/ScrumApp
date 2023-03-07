@@ -144,10 +144,10 @@ class UserServices extends Services{
     }
 
     // This function saves all the given data from a Review
-    public function SaveReview($userId, $groepId, $scrummasterId, $productownerId, $backlogitems, $demonstreren, $samenwerking, $todoitems) {
-        $query = "INSERT INTO reviews (`userId`, `groepId`, `scrummasterId`, `productownerId`, `datum`, `backlogitems`, `demonstreren`, `samenwerking`, `todoitems`) VALUES (?,?,?,?, now(),?,?,?,?)";
+    public function SaveReview($userId, $groepId, $scrummasterId, $productownerId, $currentWeek, $backlogitems, $demonstreren, $samenwerking, $todoitems) {
+        $query = "INSERT INTO reviews (`userId`, `groepId`, `scrummasterId`, `productownerId`, `datum`, `backlogitems`, `demonstreren`, `samenwerking`, `todoitems`) VALUES (?,?,?,?,?,?,?,?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
-        mysqli_stmt_bind_param($stmt, 'iiisssss', $userId, $groepId, $scrummasterId, $productownerId, $backlogitems, $demonstreren, $samenwerking, $todoitems);
+        mysqli_stmt_bind_param($stmt, 'iiiisssss', $userId, $groepId, $scrummasterId, $productownerId,$currentWeek, $backlogitems, $demonstreren, $samenwerking, $todoitems);
         mysqli_stmt_execute($stmt);
         $affectedRows = mysqli_stmt_affected_rows($stmt);
         return $affectedRows;
@@ -241,7 +241,6 @@ class GroepServices extends Services {
 
     // Returns 1 if the user already filled in a retro this week of the project, and 0 if the user has not already filled in a retro this week of the project.
     public function FilledRetro($groepId) {
-
         // Gets the start and end date from the users scrumgroep
         $query = "SELECT * FROM scrumgroepen WHERE id = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -251,9 +250,6 @@ class GroepServices extends Services {
         $row = mysqli_fetch_assoc($result);
         // Set the start and end dates of the project
         if(!empty($row)) {
-            $startDate = date('Y-m-d', strtotime($row['startDate']));
-            $endDate = date('Y-m-d', strtotime($row['endDate']));
-    
             // Get the current week number
             $currentWeek = $this->CurrentWeek($groepId);
             
@@ -270,9 +266,51 @@ class GroepServices extends Services {
         }
     }
 
+    // Returns 1 if the user already filled in a review this week of the project, and 0 if the user has not already filled in a retro this week of the project.
+    public function FilledReview($groepId) {
+        // Gets the start and end date from the users scrumgroep
+        $query = "SELECT * FROM scrumgroepen WHERE id = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        // Set the start and end dates of the project
+        if(!empty($row)) {    
+            // Get the current week number
+            $currentWeek = $this->CurrentWeek($groepId);
+            
+            // Checks if the retro is already filled in
+            $hasFilledIn = $this->CheckReviewWithWeekNumber($groepId, $currentWeek);
+    
+            if($hasFilledIn) {
+                return 1;
+            }
+            else {return 0;}
+        }
+        else {
+            return new Exception("De gegeven gebruiker zit niet in een scrum groep");
+        }
+    }
+
     // Returns 1 if there is a retro with the given groepId and CurrentWeek
     public function CheckRetroWithWeekNumber($groepId, $currentWeek) {
         $query = "SELECT * FROM retros WHERE groepId = ? AND datum = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'ii', $groepId, $currentWeek);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        if(!empty($row)) {
+            return 1;
+        }
+        else {return 0;}
+    }
+    
+    // Returns 1 if there is a recview with the given groepId and CurrentWeek
+    public function CheckReviewWithWeekNumber($groepId, $currentWeek) {
+        $query = "SELECT * FROM reviews WHERE groepId = ? AND datum = ?";
+        print_r($query);
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'ii', $groepId, $currentWeek);
         mysqli_stmt_execute($stmt);
