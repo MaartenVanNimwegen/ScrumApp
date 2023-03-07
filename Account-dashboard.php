@@ -29,7 +29,7 @@
                 $row = $result->fetch_assoc();
                 $role = $row["role"];
             
-                if ($role != "0") { // replace with correct role
+                if ($role == "0") { // replace with correct role
                     header("Location: ../index.php"); // redirect to access denied page
                     exit();
                 }
