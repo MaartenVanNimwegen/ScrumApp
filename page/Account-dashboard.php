@@ -26,7 +26,7 @@ $result = $conn->query($sql);
 // Check if there are any results
 if ($result->num_rows > 0) {
     // Output table header
-    echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";
+    echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
 ?>
     <?php
     
@@ -42,14 +42,9 @@ if ($result->num_rows > 0) {
                     </tr>
                     ';
     }
-                    ?>
-                
-  <?php
+                    
 
-    echo "</table>";
-} else {
-    echo "0 results";
-}
+ 
 
 ?>
  <h2><a class="toevoegen" href="Account-toevoegen.php">Account aanmaken</a></h2>
