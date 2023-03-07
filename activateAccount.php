@@ -1,8 +1,8 @@
 <?php
 // All requirements
-require('../Classes/user.php');
-require('../Handlers/Services.php');
-require('../config/dbconn.php');
+require('Classes/user.php');
+require('Handlers/Services.php');
+require('config/dbconn.php');
 
 // Check if activationCode is set, when there is no activationCode the user is redirected to the login page
 if (isset($_GET["activationCode"])) {
@@ -12,7 +12,7 @@ if (isset($_GET["activationCode"])) {
 
     // Check if there is an account with the given code or the accout with the given activationCode is already activated. If so the user is redirected to the login page
     if($userService->CheckIfActivatioCodeExists($activationCode) == 0 || $userService->IsActivated($activationCode)) {
-        header("Location: ../index.php");
+        header("Location: index.php");
         exit;
     }
 
@@ -27,7 +27,7 @@ if (isset($_GET["activationCode"])) {
                 $defiPassword = $password;
                 $user = $userService->GetUserByActivationCode($activationCode);
                 $userService->ActivateAccount($user, $defiPassword);
-                header("Location: ../page/login.php");
+                header("Location: login.php");
                 exit;
             }
         }
@@ -35,7 +35,7 @@ if (isset($_GET["activationCode"])) {
 
 }
 else{
-    header("Location: ../page/login.php");
+    header("Location: login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ else{
     <script src="https://kit.fontawesome.com/42b6daea05.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../Styles/Style.css">
+    <link rel="stylesheet" href="Styles/Style.css">
     <title>Activeer je account</title>
 </head>
 

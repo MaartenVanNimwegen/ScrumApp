@@ -1,7 +1,7 @@
 <?php
-include '../Classes/scrumGroepClass.php';
-include '../Classes/user.php';
-include '../Handlers/Services.php';
+include 'Classes/scrumGroepClass.php';
+include 'Classes/user.php';
+include 'Handlers/Services.php';
 
 function getScrumgroups($conn)
 {

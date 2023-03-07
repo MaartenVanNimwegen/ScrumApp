@@ -56,8 +56,8 @@
         // create sidebar menu based on user role
         if ($user_role == 0) {
           ?>
-          <a href="../index.php"><i class="fa fa-home"></i> Home</a>
-          <a href="page/Account-persoonlijk.php"><i class="fa fa-user"></i> Account</a>
+          <a href="index.php"><i class="fa fa-home"></i> Home</a>
+          <a href="Account-persoonlijk.php"><i class="fa fa-user"></i> Account</a>
           <?php
         } else if ($user_role == 1) {
           ?>

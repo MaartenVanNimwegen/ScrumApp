@@ -1,6 +1,6 @@
 <?php
 include '../config/dbconn.php';
-include '../page/functions.php';
+include '../functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $StartDate = strtotime($_POST["StartDate"]);
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $EndDate = date('Y-m-d H:i:s', $EndDate);
 
     AddScrumgroup($conn, $_POST['Scrumnaam'], $_POST['ScrumProject'], $StartDate, $EndDate);
-    header("location: ../page/scrumDashboard.php");
+    header("location: ../scrumDashboard.php");
 
 }
 else
