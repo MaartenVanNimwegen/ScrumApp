@@ -122,12 +122,12 @@ class UserServices extends Services{
     }
 
     // This function saves all the given data from a Retrospective
-    public function SaveRetro($userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops) {
+    public function SaveRetro($userId, $groepId, $scrummasterId, $coachId, $currentWeek, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops) {
         $tips = $this->FormatTipsAndTops($tips);
         $tops = $this->FormatTipsAndTops($tops);
-        $query = "INSERT INTO retros (`userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?, now(),?,?,?,?,?)";
+        $query = "INSERT INTO retros (`userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?,?,?,?,?,?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
-        mysqli_stmt_bind_param($stmt, 'iiissssss', $userId, $groepId, $scrummasterId, $coachId, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+        mysqli_stmt_bind_param($stmt, 'iiiissssss', $userId, $groepId, $scrummasterId, $coachId, $currentWeek, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
         mysqli_stmt_execute($stmt);
         $affectedRows = mysqli_stmt_affected_rows($stmt);
         return $affectedRows;
@@ -229,7 +229,36 @@ class GroepServices extends Services {
     }
 
     public function FilledRetro($userId) {
-
+        $query = "SELECT * FROM scrumgroepen WHERE id = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        // Set the start and end dates of the project
+        if(!empty($row)) {
+            $start_date = date('Y-m-d', strtotime($row['startDate']));
+            $end_date = date('Y-m-d', strtotime($row['endDate']));
+    
+            // Get the current date and week number
+            $current_date = date('Y-m-d');
+            $current_week = date('W');
+    
+            // Check if the current date is within the project dates
+            if ($current_date >= $start_date && $current_date <= $end_date) {
+            // Check if the document for the current week has already been filled in
+            if (!file_exists("documents/week{$current_week}.txt")) {
+                // The document can be filled in for the current week
+                echo "You can fill in the document for week {$current_week}.";
+            } else {
+                // The document has already been filled in for the current week
+                echo "The document for week {$current_week} has already been filled in.";
+            }
+            } else {
+            // The current date is outside the project dates
+            echo "The project is not active.";
+            }
+        }
     }
 }
 ?>
