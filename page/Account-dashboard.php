@@ -8,47 +8,50 @@
 	<title>Document</title>
 </head>
 <body>
-<?php
-include('../sidebar.php');
-include "../config/dbconn.php";
-include "functions.php";
-// Verwijder account functie
- if (isset($_GET['userId'])) {
-    $userId = $_GET['userId'];
-    accountVerwijderen($userId, $conn);
-}
+    <div class="content">
 
-// Build the SQL query
-$sql = "SELECT `id`, `naam`, `email` FROM users";
-
-// Execute the query
-$result = $conn->query($sql);
-
-// Check if there are any results
-if ($result->num_rows > 0) {
-    // Output table header
-    echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
-?>
-    <?php
-    
-    foreach ($result as $row)
-    {
-        $id = $row['id'];
-        echo '
-        <tr>
-                    <td>' . $row["id"] . '</td>
-                    <td>' . $row["naam"] . '<input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
-                    <td>' . $row["email"] . '</td>
-                    <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
-                    </tr>
-                    ';
-    }
-                    
-
- 
-
-?>
- <h2><a class="toevoegen" href="Account-toevoegen.php">Account aanmaken</a></h2>
+            <?php
+            include('../sidebar.php');
+            include "../config/dbconn.php";
+            include "functions.php";
+            // Verwijder account functie
+            if (isset($_GET['userId'])) {
+                $userId = $_GET['userId'];
+                accountVerwijderen($userId, $conn);
+            }
+            
+            // Build the SQL query
+            $sql = "SELECT `id`, `naam`, `email` FROM users";
+            
+            // Execute the query
+            $result = $conn->query($sql);
+            
+            // Check if there are any results
+            if ($result->num_rows > 0) {
+                // Output table header
+                echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
+            ?>
+                <?php
+                
+                foreach ($result as $row)
+                {
+                    $id = $row['id'];
+                    echo '
+                    <tr>
+                                <td>' . $row["id"] . '</td>
+                                <td>' . $row["naam"] . '<input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
+                                <td>' . $row["email"] . '</td>
+                                <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
+                                </tr>
+                                ';
+                }
+                                
+            
+            
+            
+            ?>
+            <h2><a class="toevoegen" href="Account-toevoegen.php">Account aanmaken</a></h2>
+        </div>
 
 
  
