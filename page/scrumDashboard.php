@@ -92,41 +92,7 @@ endif; ?>
         suggestions.push("<?php echo "$row[1]"; ?>");
 
     <?php endforeach ?>
-    // add_more_fields.onclick = function() {
-    //     var newDiv = document.createElement('div')
-    //     newDiv.setAttribute('class', 'search-input');
-    //     newDiv.setAttribute('id', 'ScrumgroupAddUser');
-    //     ScrumgroepUsers.appendChild(newDiv);
-
-    //     var newA = document.createElement('a');
-    //     newA.href = ""
-    //     newA.hidden = true;
-    //     newDiv.appendChild(newA);
-    //     newA.setAttribute('target', '_blank');
-    //     var newUser = document.createElement('input');
-    //     newUser.setAttribute('type', 'text');
-    //     newUser.setAttribute('name', 'ScrumgroepLeden[]');
-    //     newUser.setAttribute('class', 'AddScrumgroupUsers');
-    //     newUser.setAttribute('placeholder', 'LeerlingNaam');
-    //     newUser.required = true;
-    //     newDiv.appendChild(newUser);
-    //     var newAutocomDiv = document.createElement('div');
-    //     newAutocomDiv.setAttribute('class', 'autocom-box');
-    //     newDiv.appendChild(newAutocomDiv);
-    //     searchWrapperForEach(searchWrapperArray);
-    // }
-
-    // remove_fields.onclick = function() {
-    //     var input_tags = ScrumgroepUsers.getElementsByTagName('input');
-    //     if (input_tags.length > 1) {
-    //         ScrumgroepUsers.removeChild(input_tags[(input_tags.length) - 1]);
-    //         var br_tags = ScrumgroepUsers.getElementsByTagName('br');
-    //     }
-    //     if (br_tags.length > 1) {
-    //         ScrumgroepUsers.removeChild(br_tags[(br_tags.length) - 1]);
-    //     }
-    // }
-
+    
 
     function select(element) {
         let selectData = element.textContent;
