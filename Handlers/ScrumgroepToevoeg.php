@@ -1,11 +1,18 @@
 <?php
-// include '../dbconn.php';
-// include '../functions.php';
+include '../config/dbconn.php';
+include '../page/functions.php';
 
-// if ($_SERVER['REQUEST_METHOD'] == 'POST' & $_POST['KortingToevoeg'] <=100 & $_POST['KortingToevoeg'] >= 0) {
-//     Producttoevoegen($conn, $_POST['ProductNaam'], $_POST['Prijs'], $_POST['KortingToevoeg'], $_POST['categorie'], $_POST['Beschrijving'], $_POST['Voorraad'], $_FILES);
-// }
-// else
-// {
-//     echo"Er is iets mis gegaan.";
-// }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $StartDate = strtotime($_POST["StartDate"]);
+  $StartDate = date('Y-m-d H:i:s', $StartDate);
+  $EndDate = strtotime($_POST["EndDate"]);
+  $EndDate = date('Y-m-d H:i:s', $EndDate);
+
+    AddScrumgroup($conn, $_POST['Scrumnaam'], $_POST['ScrumProject'], $StartDate, $EndDate);
+    header("location: ../page/scrumDashboard.php");
+
+}
+else
+{
+    echo"Er is iets mis gegaan.";
+}

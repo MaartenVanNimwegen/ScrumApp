@@ -9,25 +9,28 @@
 	<title>Account Toevoegen</title>
 </head>
 <body>
-<div class="container w-25">
-        <label for="naam">Gebruiker Toevoegen</label>
-        <form method="post" action="#">
-          
-            <input type="txt" id="naam" name="naam" class="nieuwe_user" placeholder="Naam" minlength="3" maxlength="15" required>
-
-            <input type="txt" name="e-mail"class="nieuwe_user" placeholder="e-mail" required>
-			<select name="role">
-   				<option value="0">Student</option>
-  			  	<option value="1">Docent</option>
-			</select>
-
-
-            <input name="submit" type="submit" value="Account aanmaken">
-        </form>
-    </div>	
+	<div class="content">
+		<div class="container w-25">
+				<label for="naam">Gebruiker Toevoegen</label>
+				<form method="post" action="#">
+				  
+					<input type="txt" id="naam" name="naam" class="nieuwe_user" placeholder="Naam" minlength="3" maxlength="15" required>
+		
+					<input type="txt" name="e-mail"class="nieuwe_user" placeholder="e-mail" required>
+					<select name="role">
+						   <option value="0">Student</option>
+							<option value="1">Docent</option>
+					</select>
+		
+		
+					<input name="submit" type="submit" value="Account aanmaken">
+				</form>
+			</div>	        
+    </div>
 </body>
 </html>
 <?php
+include('../sidebar.php');
 include "../config/dbconn.php";
 include "functions.php";
 accountToevoegen($conn)

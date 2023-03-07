@@ -1,3 +1,4 @@
+{/* <script> */}
 var ScrumgroepUsers = document.getElementById('ScrumgroupAddUsers');
 var add_more_fields = document.getElementById('add_more_fields');
 var remove_fields = document.getElementById('remove_fields');
@@ -93,6 +94,20 @@ function searchWrapperForEach(searchWrapperArray) {
 }
 //searchWrapper = searchWrapperArray[0];
 let suggestions = [
+    // <?php 
+    //     $stmt = $conn->prepare("SELECT * FROM users");
+    //     $stmt->execute();
+    //     $sql = $stmt->get_result();
+    //     $sql = $sql->fetch_all();
+    //     $stmt->close();
+
+    //     foreach ($sql as $row)
+    // {
+    //     ?>
+    //     "<?php $row['1'] ?> "
+    //     <?php
+    // }
+    // ?>,
     "Maarten",
     "Martijn",
     "CodingNepal",
@@ -133,3 +148,4 @@ function CloseAddScrumgroepPopup() {
 
 searchWrapperForEach(searchWrapperArray);
 
+// </script>
