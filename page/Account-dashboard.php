@@ -9,6 +9,7 @@
 </head>
 <body>
 <?php
+include('../sidebar.php');
 include "../config/dbconn.php";
 include "functions.php";
 // Verwijder account functie

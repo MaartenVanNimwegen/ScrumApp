@@ -1,4 +1,5 @@
 <?php
+include('../sidebar.php');
 include 'functions.php';
 include('../config/dbconn.php');
 ?>

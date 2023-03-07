@@ -28,6 +28,7 @@
 </body>
 </html>
 <?php
+include('../sidebar.php');
 include "../config/dbconn.php";
 include "functions.php";
 accountToevoegen($conn)

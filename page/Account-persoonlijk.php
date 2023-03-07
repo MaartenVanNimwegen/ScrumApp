@@ -1,11 +1,13 @@
 <?php
+include('../sidebar.php');
+
 session_start();
 if(empty($_SESSION['id'])) {
     header("Location: page/login.php");
 }
 echo "ID:  " . $_SESSION['id'] . "<br>Naam:  " . $_SESSION['naam']  . "<br>Email:  " . $_SESSION['email'];
 ?>
-<a href="page/Account-persoonlijk.php">accountje</a>
+<a href="Account-persoonlijk.php">accountje</a>
 
 
 
