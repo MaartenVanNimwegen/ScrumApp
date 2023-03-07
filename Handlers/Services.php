@@ -179,7 +179,7 @@ class GroepServices extends Services {
         parent::__construct( $conn );
     }
 
-    // Checks whether an user is in an groep. Returns 1 if true and 0 if false
+    // Checks whether a user is in an active groep. Returns 1 if true and 0 if false
     public function IsInActiveGroep($userId) {
         $query = "SELECT groepid FROM koppelusergroep WHERE userId = ?";
         $stmt = mysqli_prepare($this->connection, $query);
@@ -195,7 +195,8 @@ class GroepServices extends Services {
         }
     }
 
-    public function IsGroepActive($groepId) {
+    // Checks if user is in active groep 
+    private function IsGroepActive($groepId) {
         $query = "SELECT endDate FROM scrumgroepen WHERE id = ? AND endDate > NOW()";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'i', $groepId);
@@ -208,6 +209,27 @@ class GroepServices extends Services {
         else {
             return 0;
         }
+    }
+
+    public function CurrentWeek($groepId) {
+        $query = "SELECT * FROM scrumgroepen WHERE id = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+
+        $start_date = date('Y-m-d', strtotime($row['startDate']));
+        $end_date = date('Y-m-d', strtotime($row['endDate']));
+        $current_date = date('Y-m-d');
+
+        $total_weeks = floor((strtotime($end_date) - strtotime($start_date)) / (7 * 24 * 60 * 60));
+        $elapsed_weeks = floor((strtotime($current_date) - strtotime($start_date)) / (7 * 24 * 60 * 60));
+        return $elapsed_weeks;
+    }
+
+    public function FilledRetro($userId) {
+
     }
 }
 ?>
