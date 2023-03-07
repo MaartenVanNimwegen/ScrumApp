@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 23 feb 2023 om 12:58
--- Serverversie: 10.4.22-MariaDB
--- PHP-versie: 8.1.1
+-- Gegenereerd op: 07 mrt 2023 om 13:59
+-- Serverversie: 10.4.27-MariaDB
+-- PHP-versie: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `koppelusergroep` (
   `userId` int(11) NOT NULL,
   `groepid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -43,14 +43,14 @@ CREATE TABLE `retros` (
   `userId` int(11) NOT NULL DEFAULT 0,
   `groepId` int(11) NOT NULL,
   `scrummasterId` int(11) NOT NULL DEFAULT 0,
-  `coatchId` int(11) NOT NULL DEFAULT 0,
-  `datum` datetime DEFAULT NULL,
+  `coatchId` int(11) DEFAULT 0,
+  `datum` int(11) DEFAULT NULL,
   `bijdrage` varchar(500) DEFAULT NULL,
   `meerwaarden` varchar(500) DEFAULT NULL,
   `tegenaan` varchar(500) DEFAULT NULL,
   `tips` varchar(100) DEFAULT NULL,
   `tops` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -63,14 +63,13 @@ CREATE TABLE `reviews` (
   `userId` int(11) NOT NULL,
   `groepId` int(11) NOT NULL,
   `scrummasterId` int(11) NOT NULL,
-  `productownerId` int(11) NOT NULL,
+  `productownerId` int(11) DEFAULT NULL,
   `datum` datetime DEFAULT NULL,
   `backlogitems` varchar(50) DEFAULT NULL,
   `demonstreren` varchar(50) DEFAULT NULL,
-  `uitwerkingen` varchar(50) DEFAULT NULL,
   `samenwerking` varchar(50) DEFAULT NULL,
   `todoitems` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -86,7 +85,7 @@ CREATE TABLE `scrumgroepen` (
   `startDate` datetime NOT NULL,
   `endDate` datetime NOT NULL,
   `archived` int(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -101,7 +100,7 @@ CREATE TABLE `standups` (
   `datum` datetime DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `taken` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -116,7 +115,7 @@ CREATE TABLE `taken` (
   `isCompleted` int(1) NOT NULL DEFAULT 0,
   `groepId` int(11) NOT NULL DEFAULT 0,
   `productownerId` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -133,14 +132,7 @@ CREATE TABLE `users` (
   `role` int(1) NOT NULL,
   `activationCode` varchar(50) NOT NULL,
   `activatedOn` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Gegevens worden geëxporteerd voor tabel `users`
---
-
-INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `activationCode`, `activatedOn`) VALUES
-(1, 'Maarten', 'maartenvannimwegen@hotmail.com', NULL, 0, 0, '64882f27-43fb-417a-9c3a-a450312fd016', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -241,7 +233,7 @@ ALTER TABLE `taken`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
