@@ -19,6 +19,7 @@ print_r($_SESSION);
     <a href="page/retroinvulscherm.php">retro</a>
     <form action="logout.php" method="post">
         <button type="submit">Uitloggen</button>
+        <a href="page/Account-persoonlijk.php">accountje</a>
     </form>
 </body>
 </html>

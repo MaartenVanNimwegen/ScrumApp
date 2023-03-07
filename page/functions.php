@@ -104,7 +104,7 @@ function accountToevoegen($conn)
         $role = $_POST['role'];
         $guid = uniqid();
         
-        $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', 0, '$guid');";
+        $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', $role, '$guid');";
         $result = mysqli_query($conn, $query);
          
 

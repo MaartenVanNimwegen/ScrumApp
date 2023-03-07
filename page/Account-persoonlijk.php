@@ -1,8 +1,11 @@
 <?php
-$session_id = session_id();
- echo "Session ID " . $session_id;
+session_start();
+if(empty($_SESSION['id'])) {
+    header("Location: page/login.php");
+}
+echo "ID:  " . $_SESSION['id'] . "<br>Naam:  " . $_SESSION['naam']  . "<br>Email:  " . $_SESSION['email'];
 ?>
-
+<a href="page/Account-persoonlijk.php">accountje</a>
 
 
 
