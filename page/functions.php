@@ -1,6 +1,7 @@
 <?php
 include '../Classes/scrumGroepClass.php';
 include '../Classes/user.php';
+include '../Handlers/Services.php';
 
 function getScrumgroups($conn)
 {
@@ -147,10 +148,14 @@ function accountToevoegen($conn)
         $email = $_POST['e-mail'];
         $role = $_POST['role'];
         $guid = uniqid();
-
-        $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', 0, '$guid');";
+        
+        $query = "INSERT INTO users (`naam`, `email`, `role`, `activationCode`) VALUES ('$naam', '$email', $role, '$guid');";
         $result = mysqli_query($conn, $query);
-    }
+         
+
+         $userService = new UserServices($conn);
+         $userService->SendUserActivateEmail($email, $naam, $guid);
+        }
 }
 
 function accountVerwijderen($id_to_delete, $conn)

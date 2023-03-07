@@ -39,7 +39,7 @@
 <?php
 if (isset($_POST['submit'])) 
 {
-    include('dbconn.php');
+    include('../config/dbconn.php');
 
     $email = $_POST['email'];
     $pass = $_POST['password'];

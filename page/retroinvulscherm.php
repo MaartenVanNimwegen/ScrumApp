@@ -1,22 +1,30 @@
 <?php
+session_start();
+// All requirements
+require('../Classes/user.php');
+require('../Handlers/Services.php');
+require('../config/dbconn.php');
+
+// Service
+$userService = new userServices($conn);
+$groepService = new GroepServices($conn);
+
+$userId = $_SESSION['id'];
+$groepId = $userService->GetGroupId($userId);
+
+// If in groep and is not the first week and the retro is not already filled in the retro screen is called
+if($groepService->IsInActiveGroep($userId) && $groepService->CurrentWeek($groepId) != 0 && !$groepService->FilledRetro($userId)) {
+	
+}
+
+
+
 // If the form is submitted the values are getted from the form
 if (isset($_POST['submit'])) {
-	session_start();
-	
-	// All requirements
-	require('../Classes/user.php');
-	require('../Handlers/Services.php');
-	require('dbconn.php');
-
-	// UserService
-    $userService = new userServices($conn);
-
-	$userId = $_SESSION['id'];
-	$groepId = $userService->GetGroupId($userId);
-    $scrummasterId = $userService->GetScrummasterId($groepId);
+	$scrummasterId = $userService->GetScrummasterId($groepId);
 	$names = $userService->GetAllNames($_SESSION['id']);
 	$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);
-	
+	$currentWeek = $groepService->CurrentWeek($groepId);
 	// Get all values from form
 	$bijdrage = $_POST['bijdrage'];
 	$meerwaarden = $_POST['meerwaarden'];
@@ -31,7 +39,7 @@ if (isset($_POST['submit'])) {
 	}
 
 	// Save retro with the given values
-	$userService->SaveRetro($userId, $groepId, $scrummasterId, null, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+	$userService->SaveRetro($userId, $groepId, $scrummasterId, null, $currentWeek, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
 	
 	// This desides where to redirect to. If the user is scrummaster he will be redirected to the reviewinvulscherm else to index
 	if($scrummasterId == $userId) {
@@ -43,8 +51,7 @@ if (isset($_POST['submit'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

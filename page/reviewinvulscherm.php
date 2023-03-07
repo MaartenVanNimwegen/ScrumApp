@@ -1,8 +1,11 @@
 <?php
 session_start();
+// All requirements
 require('../Classes/user.php');
 require('../Handlers/Services.php');
-require('dbconn.php');
+require('../config/dbconn.php');
+
+// Service
 $userService = new userServices($conn);
 
 $userId = $_SESSION['id'];

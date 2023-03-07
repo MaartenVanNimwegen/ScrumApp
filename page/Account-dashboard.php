@@ -9,7 +9,8 @@
 </head>
 <body>
 <?php
-include "dbconn.php";
+include('../sidebar.php');
+include "../config/dbconn.php";
 include "functions.php";
 // Verwijder account functie
  if (isset($_GET['userId'])) {
@@ -26,7 +27,7 @@ $result = $conn->query($sql);
 // Check if there are any results
 if ($result->num_rows > 0) {
     // Output table header
-    echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";
+    echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
 ?>
     <?php
     
@@ -36,23 +37,20 @@ if ($result->num_rows > 0) {
         echo '
         <tr>
                     <td>' . $row["id"] . '</td>
-                    <td><input type="text" name="name[]" value="' . $row["naam"] . '"><input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
-                    <td><input type="text" name="email[]" value="' . $row["email"] . '"></td>
+                    <td>' . $row["naam"] . '<input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
+                    <td>' . $row["email"] . '</td>
                     <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
                     </tr>
                     ';
     }
-                    ?>
-                
-  <?php
+                    
 
-    echo "</table>";
-} else {
-    echo "0 results";
-}
+ 
 
 ?>
  <h2><a class="toevoegen" href="Account-toevoegen.php">Account aanmaken</a></h2>
 
+
+ 
 </body>
 </html>

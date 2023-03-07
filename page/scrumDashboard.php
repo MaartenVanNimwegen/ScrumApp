@@ -1,7 +1,8 @@
 <?php
+include('../sidebar.php');
 include 'functions.php';
-include('dbconn.php');
 // include '../Javascript/scrumDashboard.php'
+include('../config/dbconn.php');
 ?>
 <?php if (isset($_GET['deleteScrumgroupId'])) :
 deleteScrumgroep($conn, $_GET['deleteScrumgroupId']);

@@ -2,7 +2,7 @@
 // All requirements
 require('../Classes/user.php');
 require('../Handlers/Services.php');
-require('dbconn.php');
+require('../config/dbconn.php');
 
 // Check if activationCode is set, when there is no activationCode the user is redirected to the login page
 if (isset($_GET["activationCode"])) {
