@@ -5,7 +5,7 @@ if(empty($_SESSION['id'])) {
 }
 echo "ID:  " . $_SESSION['id'] . "<br>Naam:  " . $_SESSION['naam']  . "<br>Email:  " . $_SESSION['email'];
 ?>
-<a href="page/Account-persoonlijk.php">accountje</a>
+<a href="page/Account-persoonlijk.php">wachtwoord verwijderen</a>
 
 
 
