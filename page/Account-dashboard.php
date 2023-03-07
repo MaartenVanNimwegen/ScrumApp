@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php
-include "dbconn.php";
+include "../config/dbconn.php";
 include "functions.php";
 // Verwijder account functie
  if (isset($_GET['userId'])) {

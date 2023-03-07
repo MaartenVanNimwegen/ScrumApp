@@ -28,7 +28,7 @@
 </body>
 </html>
 <?php
-include "dbconn.php";
+include "../config/dbconn.php";
 include "functions.php";
 accountToevoegen($conn)
  ?>

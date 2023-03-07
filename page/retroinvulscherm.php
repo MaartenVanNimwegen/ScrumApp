@@ -1,4 +1,9 @@
 <?php
+// If in groep and is not the first week and the retro is not already filled in the retro screen is called
+if($groepService->IsInGroep($userId) && $groepService->WitchWeek($groepId) != 1 && !$groepService->FilledRetro($userId)) {
+
+}
+
 // If the form is submitted the values are getted from the form
 if (isset($_POST['submit'])) {
 	session_start();
@@ -6,7 +11,7 @@ if (isset($_POST['submit'])) {
 	// All requirements
 	require('../Classes/user.php');
 	require('../Handlers/Services.php');
-	require('dbconn.php');
+	require('../config/dbconn.php');
 
 	// UserService
     $userService = new userServices($conn);
