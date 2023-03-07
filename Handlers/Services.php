@@ -151,7 +151,8 @@ class UserServices extends Services{
 
     // This function sends an activation email to the given emailaddress with the given activationCode
     public function SendUserActivateEmail($email, $name, $activationCode) {
-        $root = "localhost/page/activateAccount?activationCode=";
+        include '../config/config.php';
+        $root = $url;
         $link = $root . $activationCode;
         $subject="Voltooi registratie";
         $body = "Geachte $name,
@@ -166,6 +167,69 @@ class UserServices extends Services{
         
         mail($email, $subject, $body);
                     
+    }
+}
+
+class GroepServices extends Services {
+    private $connection;
+    
+    // Constructor for GroepServices
+    public function __construct( $conn ) {
+        $this->connection = $conn;
+        parent::__construct( $conn );
+    }
+
+    // Checks whether a user is in an active groep. Returns 1 if true and 0 if false
+    public function IsInActiveGroep($userId) {
+        $query = "SELECT groepid FROM koppelusergroep WHERE userId = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $userId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        foreach ($row as $groepid) {
+            $isGroepActive = $this->IsGroepActive($groepid);
+            if ($isGroepActive) {
+                return $isGroepActive;
+            }
+        }
+    }
+
+    // Checks if user is in active groep 
+    private function IsGroepActive($groepId) {
+        $query = "SELECT endDate FROM scrumgroepen WHERE id = ? AND endDate > NOW()";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        if(!empty($row)) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public function CurrentWeek($groepId) {
+        $query = "SELECT * FROM scrumgroepen WHERE id = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+
+        $start_date = date('Y-m-d', strtotime($row['startDate']));
+        $end_date = date('Y-m-d', strtotime($row['endDate']));
+        $current_date = date('Y-m-d');
+
+        $total_weeks = floor((strtotime($end_date) - strtotime($start_date)) / (7 * 24 * 60 * 60));
+        $elapsed_weeks = floor((strtotime($current_date) - strtotime($start_date)) / (7 * 24 * 60 * 60));
+        return $elapsed_weeks;
+    }
+
+    public function FilledRetro($userId) {
+
     }
 }
 ?>
