@@ -79,6 +79,7 @@
         <a href="Standupinvulscherm.php"><i class="fa-sharp fa-solid fa-pencil"></i> Standup</a>
         <a href="retroinvulscherm.php"><i class="fa-solid fa-file-pen"></i> Retro/review</a>
         <a href="Account-persoonlijk.php"><i class="fa fa-user"></i> Account</a>
+        <a href="Taken-dashboard.php"><i class="fa-solid fa-clipboard"></i> Taken</a>
         <?php
         } else if ($user_role == 1) {
           ?>
