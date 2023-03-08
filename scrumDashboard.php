@@ -1,8 +1,9 @@
 <?php
-include('sidebar.php');
+//include('sidebar.php');
 include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
 include('config/dbconn.php');
+
 ?>
 <?php if (isset($_GET['deleteScrumgroupId'])) :
 deleteScrumgroep($conn, $_GET['deleteScrumgroupId']);
@@ -28,7 +29,7 @@ endif; ?>
     <?php if (isset($_GET['addUserId'])) : ?>
         <div class="SearchWrapper" id=ScrumgroupAddUsers>
             <div class="search-input" id=ScrumgroupAddUser>
-                <form action="Handlers/AddUserScrumgroup.php?ScrumgroupId=<?= $_GET['addUserId'] ?>" method="post" enctype="multipart/form-data">
+                <form autocomplete="off" action="Handlers/AddUserScrumgroup.php?ScrumgroupId=<?= $_GET['addUserId'] ?>" method="post" enctype="multipart/form-data">
                     <a href="" target="_blank" hidden></a>
                     <input type="text" name="AddScrumgroupUser" class="AddScrumgroupUser" placeholder="Leerlingnaam" required><br>
                     <div class="autocom-box">
