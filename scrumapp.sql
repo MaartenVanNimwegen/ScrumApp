@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 07 mrt 2023 om 13:59
+-- Gegenereerd op: 07 mrt 2023 om 21:30
 -- Serverversie: 10.4.27-MariaDB
 -- PHP-versie: 8.2.0
 
@@ -32,6 +32,16 @@ CREATE TABLE `koppelusergroep` (
   `groepid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `koppelusergroep`
+--
+
+INSERT INTO `koppelusergroep` (`userId`, `groepid`) VALUES
+(1, 3),
+(3, 3),
+(2, 3),
+(4, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -52,6 +62,13 @@ CREATE TABLE `retros` (
   `tops` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `retros`
+--
+
+INSERT INTO `retros` (`id`, `userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES
+(19, 1, 3, 1, NULL, 4, 'B', 'f', 'f', 'f| f| f', 'f| f| f');
+
 -- --------------------------------------------------------
 
 --
@@ -64,12 +81,19 @@ CREATE TABLE `reviews` (
   `groepId` int(11) NOT NULL,
   `scrummasterId` int(11) NOT NULL,
   `productownerId` int(11) DEFAULT NULL,
-  `datum` datetime DEFAULT NULL,
+  `datum` int(11) DEFAULT NULL,
   `backlogitems` varchar(50) DEFAULT NULL,
   `demonstreren` varchar(50) DEFAULT NULL,
   `samenwerking` varchar(50) DEFAULT NULL,
   `todoitems` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `userId`, `groepId`, `scrummasterId`, `productownerId`, `datum`, `backlogitems`, `demonstreren`, `samenwerking`, `todoitems`) VALUES
+(9, 1, 3, 1, NULL, 4, 'b', 'b', 'b', 'b');
 
 -- --------------------------------------------------------
 
@@ -86,6 +110,13 @@ CREATE TABLE `scrumgroepen` (
   `endDate` datetime NOT NULL,
   `archived` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `scrumgroepen`
+--
+
+INSERT INTO `scrumgroepen` (`id`, `naam`, `projectNaam`, `scrummaster`, `startDate`, `endDate`, `archived`) VALUES
+(3, 'P7.1 T2', 'ScrumApp', 1, '2023-02-06 09:00:00', '2023-03-17 16:30:00', 0);
 
 -- --------------------------------------------------------
 
@@ -133,6 +164,16 @@ CREATE TABLE `users` (
   `activationCode` varchar(50) NOT NULL,
   `activatedOn` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `users`
+--
+
+INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `activationCode`, `activatedOn`) VALUES
+(1, 'Maarten', 'maartenvannimwegen@hotmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f24-43fb-417a-9c3a-a450312fd016', '2023-03-07 10:27:05'),
+(2, 'Remon', 'remondollenkamp@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 1, '64882f25-43fb-417a-9c3a-a450312fd016', '2023-03-06 12:50:02'),
+(3, 'Tim', 'timhammer@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f26-43fb-417a-9c3a-a450312fd016', '2023-03-01 17:05:09'),
+(4, 'Martijn', 'martijngraafsma@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f27-43fb-417a-9c3a-a450312fd016', '2023-03-01 17:05:23');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -203,19 +244,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `retros`
 --
 ALTER TABLE `retros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT voor een tabel `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT voor een tabel `scrumgroepen`
 --
 ALTER TABLE `scrumgroepen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `standups`
@@ -233,7 +274,7 @@ ALTER TABLE `taken`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Beperkingen voor geëxporteerde tabellen

@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+// Permission check
+if($_SESSION['role'] == 1) {
+	header('Location: index.php');
+}
+
 // All requirements
 require('Classes/user.php');
 require('Handlers/Services.php');
@@ -12,12 +18,25 @@ $groepService = new GroepServices($conn);
 $userId = $_SESSION['id'];
 $groepId = $userService->GetGroupId($userId);
 
-// If in groep and is not the first week and the retro is not already filled in the retro screen is called
-if($groepService->IsInActiveGroep($userId) && $groepService->CurrentWeek($groepId) != 0 && !$groepService->FilledRetro($userId)) {
-	
+// Checks if retro for that week is already filled in
+if ($groepService->FilledRetro($groepId) == 1) {
+	if($groepService->FilledReview($groepId)) {
+		echo "
+		<script>
+		alert('Er is ook al een review ingevult!');
+		window.location = 'index.php';
+		</script>
+		";
+	}
+	else {
+		echo "
+		<script>
+		alert('Er is al een retrospective ingevult! Je wordt naar het review invulscherm gebracht.');
+		window.location = 'reviewinvulscherm.php';
+		</script>
+		";
+	}
 }
-
-
 
 // If the form is submitted the values are getted from the form
 if (isset($_POST['submit'])) {
@@ -98,10 +117,6 @@ if (isset($_POST['submit'])) {
 					<div class="overlay"></div>
 					<div class="carousel-caption parent">
 						<?php 
-						session_start();
-						require('Classes/user.php');
-						require('Handlers/Services.php');
-						require('dbconn.php');
 						$userService = new userServices($conn);
 						$names = $userService->GetAllNames($_SESSION['id']);
 						$removedOwnName = $userService->RemoveOwnName($_SESSION['naam'], $names);

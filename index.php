@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,6 @@
         print_r($_SESSION);
 
         ?>
-        <a href="retroinvulscherm.php">retro</a>
     </div>
 </body>
 </html>
