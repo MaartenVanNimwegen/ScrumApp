@@ -23,7 +23,7 @@ if ($groepService->FilledRetro($groepId) == 1) {
 	if($groepService->FilledReview($groepId)) {
 		echo "
 		<script>
-		alert('Er is ook al een review ingevult!');
+		alert('Alle docunenten zijn al ingevult!');
 		window.location = 'index.php';
 		</script>
 		";

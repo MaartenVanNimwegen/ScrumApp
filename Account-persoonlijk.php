@@ -15,9 +15,8 @@
         if(empty($_SESSION['id'])) {
             header("Location: login.php");
         }
-        echo "ID:  " . $_SESSION['id'] . "<br>Naam:  " . $_SESSION['naam']  . "<br>Email:  " . $_SESSION['email'];
+        echo "Naam:  " . $_SESSION['naam']  . "<br>Email:  " . $_SESSION['email'];
         ?>
-        <a href="Account-persoonlijk.php">Verwijder account</a>
     </div>
 </body>
 </html>
