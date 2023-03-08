@@ -1,5 +1,5 @@
 <?php
-//include('sidebar.php');
+include('sidebar.php');
 include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
 include('config/dbconn.php');
