@@ -17,7 +17,6 @@
         }
         echo "ID:  " . $_SESSION['id'] . "<br>Naam:  " . $_SESSION['naam']  . "<br>Email:  " . $_SESSION['email'];
         ?>
-        <a href="Account-persoonlijk.php">Verwijder account</a>
     </div>
 </body>
 </html>

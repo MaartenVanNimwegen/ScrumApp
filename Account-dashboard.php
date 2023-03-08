@@ -9,11 +9,11 @@
 </head>
 <body>
     <div class="content">
-
-            <?php
+        <?php
             include('sidebar.php');
             include "config/dbconn.php";
             include "functions.php";
+
             // Verwijder account functie
             if (isset($_GET['userId'])) {
                 $userId = $_GET['userId'];
@@ -39,29 +39,22 @@
             if ($result->num_rows > 0) {
                 // Output table header
                 echo "<table><tr><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
-            ?>
-                <?php
                 
                 foreach ($result as $row)
                 {
                     $id = $row['id'];
-                    echo '
-                    <tr>
-                                <td>' . $row["naam"] . '<input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
-                                <td>' . $row["email"] . '</td>
-                                <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
-                                </tr>
-                                ';
+                    echo '<tr>
+                        	<td>' . $row["naam"] . '<input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
+                            <td>' . $row["email"] . '</td>
+                            <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
+                        </tr>
+                    ';
                 }
-                                
-            
-            
-            
+                echo "</table><br><br>";
             ?>
-            <h2><a class="toevoegen" href="Account-toevoegen.php">Account aanmaken</a></h2>
-        </div>
-
-
- 
+            <div class="p-10 toevoegknop bt">
+                <a href="#link" class="btn btn-primary" role="button">Account aanmaken</a>
+            </div>
+    </div>
 </body>
 </html>
