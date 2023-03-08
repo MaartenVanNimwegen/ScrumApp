@@ -69,24 +69,32 @@ if (isset($_POST['submit'])) {
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <div class="overlay"></div>
                     <div class="carousel-caption">
-                        <label for="bijdrage">Wat heb ik gedaan?</label><br>
-                        <textarea id="bijdrage" name="bijdrage" required></textarea>
+                        <label for="gedaan">Wat heb ik gedaan?</label><br>
+                        <textarea id="gedaan" name="gedaan" required></textarea>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="overlay"></div>
                     <div class="carousel-caption">
-                        <label for="meerwaarden">Wat ga ik doen?</label><br>
-                        <textarea id="meerwaarden" name="meerwaarden" required></textarea>
+                        <label for="doen">Wat ga ik doen?</label><br>
+                        <textarea id="doen" name="doen" required></textarea>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="overlay"></div>
+                    <div class="carousel-caption">
+                        <label for="tegenaan">Waar loop ik tegenaan?</label><br>
+                        <textarea id="tegenaan" name="tegenaan" required></textarea>
+                        <input class='submit w-25' type='submit' name='submit' id='submit'>
                     </div>
                 </div>
 
-                <input class='submit w-25' type='submit' name='submit' id='submit'>
             </div>
         </div>
 
