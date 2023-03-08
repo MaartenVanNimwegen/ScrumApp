@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+// Permission check
+if($_SESSION['role'] == 1) {
+	header('Location: index.php');
+}
+
 // All requirements
 require('Classes/user.php');
 require('Handlers/Services.php');
@@ -14,12 +20,22 @@ $groepId = $userService->GetGroupId($userId);
 
 // Checks if retro for that week is already filled in
 if ($groepService->FilledRetro($groepId) == 1) {
-	echo "
-	<script>
-	alert('Er is al een retrospective ingevult!');
-	window.location = 'index.php';
-	</script>
-	";
+	if($groepService->FilledReview($groepId)) {
+		echo "
+		<script>
+		alert('Er is ook al een review ingevult!');
+		window.location = 'index.php';
+		</script>
+		";
+	}
+	else {
+		echo "
+		<script>
+		alert('Er is al een retrospective ingevult! Je wordt naar het review invulscherm gebracht.');
+		window.location = 'reviewinvulscherm.php';
+		</script>
+		";
+	}
 }
 
 // If the form is submitted the values are getted from the form

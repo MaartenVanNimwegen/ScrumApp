@@ -161,7 +161,7 @@ class UserServices extends Services{
 
     // This function sends an activation email to the given emailaddress with the given activationCode
     public function SendUserActivateEmail($email, $name, $activationCode) {
-        include '../config/config.php';
+        include 'config/config.php';
         $root = $url;
         $link = $root . $activationCode;
         $subject="Voltooi registratie";
@@ -310,7 +310,6 @@ class GroepServices extends Services {
     // Returns 1 if there is a recview with the given groepId and CurrentWeek
     public function CheckReviewWithWeekNumber($groepId, $currentWeek) {
         $query = "SELECT * FROM reviews WHERE groepId = ? AND datum = ?";
-        print_r($query);
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'ii', $groepId, $currentWeek);
         mysqli_stmt_execute($stmt);

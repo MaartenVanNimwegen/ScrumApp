@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+// Permission check
+if($_SESSION['role'] == 1) {
+	header('Location: index.php');
+}
+
 // All requirements
 require('Classes/user.php');
 require('Handlers/Services.php');

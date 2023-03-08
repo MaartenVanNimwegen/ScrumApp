@@ -21,7 +21,7 @@
             }
             
             // Build the SQL query
-            $sql = "SELECT `id`, `naam`, `email` FROM users";
+            $sql = "SELECT `id`, `naam`, `email`, `role` FROM users";
             
             // Execute the query
             $result = $conn->query($sql);
@@ -29,8 +29,8 @@
                 $row = $result->fetch_assoc();
                 $role = $row["role"];
             
-                if ($role == "0") { // replace with correct role
-                    header("Location: ../index.php"); // redirect to access denied page
+                if ($role == "1") { // replace with correct role
+                    header("Location: index.php"); // redirect to access denied page
                     exit();
                 }
             }
@@ -38,7 +38,7 @@
             // Check if there are any results
             if ($result->num_rows > 0) {
                 // Output table header
-                echo "<table><tr><th>Id</th><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
+                echo "<table><tr><th>Naam</th><th>E-mail</th><th>verwijderen</th></tr>";}
             ?>
                 <?php
                 
@@ -47,7 +47,6 @@
                     $id = $row['id'];
                     echo '
                     <tr>
-                                <td>' . $row["id"] . '</td>
                                 <td>' . $row["naam"] . '<input type="hidden" name="id[]" value="' . $row['id'] . '"></td>
                                 <td>' . $row["email"] . '</td>
                                 <td><a href="?userId='.$id.'"> <i class="fa-solid fa-trash"></i></a>
