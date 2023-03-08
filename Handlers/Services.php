@@ -20,12 +20,13 @@ class UserServices extends Services{
 
     // This function returns an user instance of the user with the given id
     public function GetUserById($userId) {
+        include_once("Classes/user.php");
         $query = "SELECT * FROM users WHERE `id`=?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'i', $userId);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
-        return mysqli_fetch_object($result, 'user');
+        return mysqli_fetch_object($result, 'user');   
     }
 
     // This function returns an user instance of the user with the given activationCode
@@ -319,6 +320,72 @@ class GroepServices extends Services {
             return 1;
         }
         else {return 0;}
+    }
+}
+
+class TaskServices extends Services{
+    private $connection;
+    
+    // Constructor for UserServices
+    public function __construct( $conn ) {
+        $this->connection = $conn;
+        parent::__construct( $conn );
+    }
+
+    public function GetAllTasks($groepId) {
+        $userService = new UserServices($this->connection);
+        $query = "SELECT * FROM taken";
+        $result = $this->connection->query($query);
+        foreach ($result as $row){
+            $title = $row['naam'];
+            $user = $userService->GetUserById($row['userId']);
+            $isCompleted = $row['isCompleted'];
+            $class = "";
+            $showIsCompleted = "";
+            
+            if($isCompleted) {
+                $showIsCompleted = "Afgerond";
+            }
+            elseif (!$isCompleted) {
+                $showIsCompleted = "Bezig";
+            }
+
+            if ($row['isCompleted']) {
+                $class = "fa fa-toggle-on";
+            }
+            elseif(!$row['isCompleted']) {
+                $class = "fa fa-toggle-off";
+            }
+
+            echo "
+            <tr>
+                <td scope='row'>" . $title . "</td>
+                <td scope='row'>". $user->naam . "</td>
+                <td scope='row'> <a href='?changeTaakId=".$row['id']."&status=" . $row['isCompleted'] . "'><i class='". $class ."'></i></a></td>
+                <td scope='row'> <a href='?deleteTaakId=".$row['id']."'><i class='fa-solid fa-trash'></i></a></td>
+            </tr>";
+        }
+    }
+
+    public function DeleteTask($taakId) {
+        $query = "DELETE FROM taken WHERE id = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $taakId);
+        mysqli_stmt_execute($stmt);
+    }
+
+    public function ChangeTask($taakId, $status) {
+        $newStatus = 0;
+        if($status == 1) {
+            $newStatus = 0;
+        }
+        elseif($status == 0) {
+            $newStatus = 1;
+        }
+        $query = "UPDATE taken SET isCompleted = ? WHERE id = ?;";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'ii', $newStatus, $taakId);
+        mysqli_stmt_execute($stmt);
     }
 }
 ?>
