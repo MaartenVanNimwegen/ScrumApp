@@ -1,8 +1,8 @@
 <?php
-include('../sidebar.php');
-include 'functions.php';
+include('sidebar.php');
+include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
-include('../config/dbconn.php');
+include('config/dbconn.php');
 ?>
 <?php if (isset($_GET['deleteScrumgroupId'])) :
 deleteScrumgroep($conn, $_GET['deleteScrumgroupId']);
@@ -19,7 +19,7 @@ endif; ?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/Style.css">
+    <link rel="stylesheet" href="Styles/Style.css">
     <title>Document</title>
 </head>
 
@@ -28,7 +28,7 @@ endif; ?>
     <?php if (isset($_GET['addUserId'])) : ?>
         <div class="SearchWrapper" id=ScrumgroupAddUsers>
             <div class="search-input" id=ScrumgroupAddUser>
-                <form action="../Handlers/AddUserScrumgroup.php?ScrumgroupId=<?= $_GET['addUserId'] ?>" method="post" enctype="multipart/form-data">
+                <form action="Handlers/AddUserScrumgroup.php?ScrumgroupId=<?= $_GET['addUserId'] ?>" method="post" enctype="multipart/form-data">
                     <a href="" target="_blank" hidden></a>
                     <input type="text" name="AddScrumgroupUser" class="AddScrumgroupUser" placeholder="Leerlingnaam" required><br>
                     <div class="autocom-box">
@@ -38,13 +38,13 @@ endif; ?>
             </div>
         </div>
 
-        <script src="../Javascript/functions.js"></script>
+        <script src="Javascript/functions.js"></script>
     <?php endif; ?>
     <div class="popup" onclick="AddScrumgroepPopup()">Scrumgroep toevoegen</div>
 
     <div class="containerScrumDashboard" id="myPopup">
         <div class="ScrumgroepWijzigPopup">
-            <form action="../Handlers/ScrumgroepToevoeg.php" method="post" enctype="multipart/form-data">
+            <form action="Handlers/ScrumgroepToevoeg.php" method="post" enctype="multipart/form-data">
                 <div><input type="text" name="Scrumnaam" class="AddScrumgroupName" placeholder="Scrumgroepnaam" required> </div>
                 <div><input type="text" name="ScrumProject" class="AddScrumgroupProject" placeholder="Project" required> </div>
                 <div><input type="date" name="StartDate"></div>

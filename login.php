@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Inloggen</title>
-    <link rel="stylesheet" type="text/css" href="../Styles/Style.css">
+    <link rel="stylesheet" type="text/css" href="Styles/Style.css">
 </head>
 
 <body>
@@ -38,7 +38,7 @@
 <?php
 if (isset($_POST['submit'])) 
 {
-    include('../config/dbconn.php');
+    include('config/dbconn.php');
 
     $email = $_POST['email'];
     $pass = $_POST['password'];
@@ -64,7 +64,7 @@ if (isset($_POST['submit']))
             $_SESSION['naam'] = $row['naam'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['role'] = $row['role'];
-            header("Location: ../index.php");
+            header("Location: index.php");
             exit();
         }
     }

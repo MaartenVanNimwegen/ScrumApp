@@ -12,13 +12,13 @@
         <?php
         include('sidebar.php');
         if(empty($_SESSION['id'])) {
-            header("Location: page/login.php");
+            header("Location: login.php");
         }
         echo 'session: ';
         print_r($_SESSION);
 
         ?>
-        <a href="page/retroinvulscherm.php">retro</a>
+        <a href="retroinvulscherm.php">retro</a>
     </div>
 </body>
 </html>

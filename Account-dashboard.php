@@ -11,8 +11,8 @@
     <div class="content">
 
             <?php
-            include('../sidebar.php');
-            include "../config/dbconn.php";
+            include('sidebar.php');
+            include "config/dbconn.php";
             include "functions.php";
             // Verwijder account functie
             if (isset($_GET['userId'])) {
@@ -29,7 +29,7 @@
                 $row = $result->fetch_assoc();
                 $role = $row["role"];
             
-                if ($role != "0") { // replace with correct role
+                if ($role == "0") { // replace with correct role
                     header("Location: ../index.php"); // redirect to access denied page
                     exit();
                 }

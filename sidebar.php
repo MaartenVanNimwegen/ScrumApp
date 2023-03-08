@@ -47,6 +47,7 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
+      <a href="index.php"><i class="fa fa-home"></i> Home</a>
       <?php
       session_start();
         // check user role
@@ -56,17 +57,16 @@
         // create sidebar menu based on user role
         if ($user_role == 0) {
           ?>
-          <a href="../index.php"><i class="fa fa-home"></i> Home</a>
-          <a href="page/Account-persoonlijk.php"><i class="fa fa-user"></i> Account</a>
+          <a href="Account-persoonlijk.php"><i class="fa fa-user"></i> Account</a>
           <?php
         } else if ($user_role == 1) {
           ?>
-          <a href="#"><i class="fa fa-users"></i> Accounts</a>
-          <a href="#"><i class="fa fa-users-rectangle"></i> Groepen</a>
+          <a href="Account-dashboard.php"><i class="fa fa-users"></i> Accounts</a>
+          <a href="scrumDashboard.php"><i class="fa fa-users-rectangle"></i> Groepen</a>
           <a href="#"><i class="fa fa-file"></i> Documenten</a>
           <?php
         }
-      ?>
+        ?>
       <a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a>
     </div>
 </body>
