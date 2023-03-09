@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 09 mrt 2023 om 12:36
--- Serverversie: 10.4.27-MariaDB
--- PHP-versie: 8.2.0
+-- Gegenereerd op: 09 mrt 2023 om 15:47
+-- Serverversie: 10.4.20-MariaDB
+-- PHP-versie: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `koppelusergroep` (
   `userId` int(11) NOT NULL,
   `groepid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `koppelusergroep`
@@ -63,7 +63,7 @@ CREATE TABLE `retros` (
   `tegenaan` varchar(500) DEFAULT NULL,
   `tips` varchar(100) DEFAULT NULL,
   `tops` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `retros`
@@ -92,7 +92,7 @@ CREATE TABLE `reviews` (
   `demonstreren` varchar(50) DEFAULT NULL,
   `samenwerking` varchar(50) DEFAULT NULL,
   `todoitems` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `reviews`
@@ -117,7 +117,7 @@ CREATE TABLE `scrumgroepen` (
   `startDate` datetime NOT NULL,
   `endDate` datetime NOT NULL,
   `archived` int(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `scrumgroepen`
@@ -140,7 +140,7 @@ CREATE TABLE `standups` (
   `datum` datetime DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `taken` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -151,23 +151,22 @@ CREATE TABLE `standups` (
 CREATE TABLE `taken` (
   `id` int(11) NOT NULL,
   `naam` varchar(50) NOT NULL,
-  `userId` int(11) NOT NULL DEFAULT 0,
+  `userId` int(11) DEFAULT NULL,
   `isCompleted` int(1) NOT NULL DEFAULT 0,
-  `groepId` int(11) NOT NULL DEFAULT 0,
-  `productownerId` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `groepId` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `taken`
 --
 
-INSERT INTO `taken` (`id`, `naam`, `userId`, `isCompleted`, `groepId`, `productownerId`) VALUES
-(6, 'Side bar maken', 1, 0, 3, 2),
-(7, 'Login pagina maken', 1, 0, 3, 2),
-(8, 'Review pagina maken', 15, 1, 3, 2),
-(9, 'Login pagina maken', 15, 0, 3, 2),
-(10, 'Retro opslaan in database', 3, 1, 3, 2),
-(11, 'Account activeren functie', 3, 1, 3, 2);
+INSERT INTO `taken` (`id`, `naam`, `userId`, `isCompleted`, `groepId`) VALUES
+(6, 'Side bar maken', 1, 0, 3),
+(7, 'Login pagina maken', 1, 0, 3),
+(8, 'Review pagina maken', 15, 1, 3),
+(9, 'Login pagina maken', 15, 1, 3),
+(10, 'Retro opslaan in database', 3, 0, 3),
+(11, 'Account activeren functie', 3, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -184,7 +183,7 @@ CREATE TABLE `users` (
   `role` int(1) NOT NULL,
   `activationCode` varchar(50) NOT NULL,
   `activatedOn` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
@@ -250,7 +249,6 @@ ALTER TABLE `standups`
 --
 ALTER TABLE `taken`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_taken_gebruikers` (`productownerId`) USING BTREE,
   ADD KEY `FK_taken_users` (`userId`),
   ADD KEY `FK_taken_scrumgroepen` (`groepId`) USING BTREE;
 
@@ -292,7 +290,7 @@ ALTER TABLE `standups`
 -- AUTO_INCREMENT voor een tabel `taken`
 --
 ALTER TABLE `taken`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
@@ -346,9 +344,7 @@ ALTER TABLE `standups`
 -- Beperkingen voor tabel `taken`
 --
 ALTER TABLE `taken`
-  ADD CONSTRAINT `FK_taken_scrumgroepen` FOREIGN KEY (`groepId`) REFERENCES `scrumgroepen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_taken_users` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_taken_users_2` FOREIGN KEY (`productownerId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_taken_scrumgroepen` FOREIGN KEY (`groepId`) REFERENCES `scrumgroepen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
