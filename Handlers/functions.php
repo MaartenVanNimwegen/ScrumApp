@@ -73,6 +73,7 @@ function showScrumgroups($scrumgroup)
             <div class"">
                 <div class"">' . $scrumgroup->teamleden[$i]->naam . '</div>
                 <div class""><a href="scrumDashboard.php?deleteUserId=' . $scrumgroup->teamleden[$i]->id . '">Verwijder lid</a></div>
+                <div class""><a href="scrumDashboard.php?ScrummaserUserId=' . $scrumgroup->teamleden[$i]->id . '&ScrumgroupId=' . $scrumgroup->id . '">Maak scrummaster</a></div>
             </div>
         ';
     }
@@ -134,8 +135,11 @@ function addScrumgroup($conn, $scrumgroupName, $scrumgroupProject, $startDate, $
     $stmt->close();
 }
 
-function selectScrummaster($conn)
+function selectScrummaster($conn, $UserID, $scrumgroupID)
 {
+    $stmt = $conn->prepare("UPDATE `scrumgroepen` SET `scrummaster` = ? WHERE id = ?");
+    $stmt->bind_param('si', $UserID, $scrumgroupID);
+    $stmt->execute();
 }
 
 function accountToevoegen($conn)
@@ -161,3 +165,4 @@ function accountVerwijderen($id_to_delete, $conn)
     $sql = "DELETE FROM users WHERE id = $id_to_delete";
     $result = mysqli_query($conn, $sql);
 }
+
