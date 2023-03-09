@@ -240,6 +240,31 @@ class GroepServices extends Services {
         return $elapsed_weeks;
     }
 
+    public function FilledStandup($userId) {
+        $query = "SELECT * FROM standups WHERE datum = ?";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $groepId);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        // Set the start and end dates of the project
+        if(!empty($row)) {
+            // Get the current week number
+            $currentWeek = $this->CurrentWeek($groepId);
+            
+            // Checks if the retro is already filled in
+            $hasFilledIn = $this->CheckRetroWithWeekNumber($groepId, $currentWeek);
+    
+            if($hasFilledIn) {
+                return 1;
+            }
+            else {return 0;}
+        }
+        else {
+            return new Exception("De gegeven gebruiker zit niet in een scrum groep");
+        }
+    }
+
     // Returns 1 if the user already filled in a retro this week of the project, and 0 if the user has not already filled in a retro this week of the project.
     public function FilledRetro($groepId) {
         // Gets the start and end date from the users scrumgroep

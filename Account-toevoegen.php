@@ -32,7 +32,7 @@
 <?php
 include('sidebar.php');
 include "config/dbconn.php";
-include "functions.php";
-accountToevoegen($conn)
+include "Handlers/functions.php";
+accountToevoegen($conn);
  ?>
  
