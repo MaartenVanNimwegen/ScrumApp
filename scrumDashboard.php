@@ -10,6 +10,19 @@ include('config/dbconn.php');
 $groupService = new GroepServices($conn);
 
 ?>
+<?php if (isset($_GET['filter'])) {
+    $filter = $_GET['filter'];
+    if ($filter == 'Active') {
+        $Archived = 0;
+    } elseif ($filter == 'Archived') {
+        $Archived = 1;
+    } else {
+        $Archived = -1;
+    }
+} else {
+    header('Location: scrumDashboard.php?filter=Alle');
+}
+?>
 <?php if (isset($_GET['deleteScrumgroupId'])) :
     $groupService->DeleteScrumgroep($_GET['deleteScrumgroupId']);
 endif; ?>
@@ -35,6 +48,11 @@ endif; ?>
 
 <body>
     <div class="content">
+        <select class="" onchange="location = this.value; value=' <?php $filter ?>'">
+            <?php
+                $groupService->ArchivedScrumgroupFilter($Archived);
+            ?>
+        </select>
         <?php if (isset($_GET['addUserId'])) : ?>
             <div class="SearchWrapper" id=ScrumgroupAddUsers>
                 <div class="search-input" id=ScrumgroupAddUser>
@@ -68,7 +86,7 @@ endif; ?>
         </div>
         <div class="ScrumDashboardLayout">
             <?php
-                $groupService->GetAllScrumgroups();
+            $groupService->GetAllScrumgroups($Archived);
             ?>
         </div>
     </div>

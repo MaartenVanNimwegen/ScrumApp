@@ -261,7 +261,8 @@ class GroepServices extends Services
         return $elapsed_weeks;
     }
 
-    public function FilledStandup($userId) {
+    public function FilledStandup($userId)
+    {
         $query = "SELECT * FROM standups WHERE datum = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'i', $groepId);
@@ -269,19 +270,19 @@ class GroepServices extends Services
         $result = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($result);
         // Set the start and end dates of the project
-        if(!empty($row)) {
+        if (!empty($row)) {
             // Get the current week number
             $currentWeek = $this->CurrentWeek($groepId);
-            
+
             // Checks if the retro is already filled in
             $hasFilledIn = $this->CheckRetroWithWeekNumber($groepId, $currentWeek);
-    
-            if($hasFilledIn) {
+
+            if ($hasFilledIn) {
                 return 1;
+            } else {
+                return 0;
             }
-            else {return 0;}
-        }
-        else {
+        } else {
             return new Exception("De gegeven gebruiker zit niet in een scrum groep");
         }
     }
@@ -374,9 +375,14 @@ class GroepServices extends Services
         }
     }
 
-    public function GetAllScrumgroups()
+    public function GetAllScrumgroups($Archived)
     {
-        $stmt = $this->connection->prepare("SELECT * FROM scrumgroepen");
+        if ($Archived != -1) {
+            $stmt = $this->connection->prepare("SELECT * FROM scrumgroepen WHERE archived = ?");
+            $stmt->bind_param('i', $Archived);
+        } else {
+            $stmt = $this->connection->prepare("SELECT * FROM scrumgroepen");
+        }
         $stmt->execute();
         $sql = $stmt->get_result();
         $sql = $sql->fetch_all();
@@ -520,7 +526,31 @@ class GroepServices extends Services
         $stmt->bind_param('si', $UserID, $scrumgroupID);
         $stmt->execute();
         $stmt->close();
+    }
 
+    public function ArchivedScrumgroupFilter($Archived)
+    {
+        if ($Archived == 0) {
+            echo "
+                    <option value='scrumDashboard.php?filter=Alle'>Alle scrumgroepen</option>
+                    <option value='scrumDashboard.php?filter=Active' selected>Actieve scrumgroepen</option>
+                    <option value='scrumDashboard.php?filter=Archived'>Archiveerde scrumgroepen</option>
+
+                ";
+        } elseif ($Archived == 1) {
+            echo "
+                    <option value='scrumDashboard.php?filter=Alle'>Alle scrumgroepen</option>
+                    <option value='scrumDashboard.php?filter=Active'>Actieve scrumgroepen</option>
+                    <option value='scrumDashboard.php?filter=Archived' selected>Archiveerde scrumgroepen</option>
+                ";
+        } else {
+            echo "
+                    <option value='scrumDashboard.php?filter=Alle' selected>Alle scrumgroepen</option>
+                    <option value='scrumDashboard.php?filter=Active'>Actieve scrumgroepen</option>
+                    <option value='scrumDashboard.php?filter=Archived'>Archiveerde scrumgroepen</option>
+
+                ";
+        }
     }
 }
 
@@ -558,8 +588,8 @@ class TaskServices extends Services
             } elseif (!$row['isCompleted']) {
                 $class = "fa fa-toggle-off";
             }
-             
-            if(!empty(@$user->naam) || @$user->naam != null){
+
+            if (!empty(@$user->naam) || @$user->naam != null) {
                 $naam = $user->naam;
             } else {
                 $naam = "";
@@ -568,9 +598,9 @@ class TaskServices extends Services
             echo "
             <tr>
                 <td scope='row'>" . $title . "</td>
-                <td scope='row'>". $naam . "</td>
-                <td scope='row'> <a href='?changeTaakId=".$row['id']."&status=" . $row['isCompleted'] . "'><i class='". $class ."'></i></a></td>
-                <td scope='row'> <a href='?deleteTaakId=".$row['id']."'><i class='fa-solid fa-trash'></i></a></td>
+                <td scope='row'>" . $naam . "</td>
+                <td scope='row'> <a href='?changeTaakId=" . $row['id'] . "&status=" . $row['isCompleted'] . "'><i class='" . $class . "'></i></a></td>
+                <td scope='row'> <a href='?deleteTaakId=" . $row['id'] . "'><i class='fa-solid fa-trash'></i></a></td>
             </tr>";
         }
     }
@@ -597,10 +627,11 @@ class TaskServices extends Services
         mysqli_stmt_execute($stmt);
     }
 
-    public function AddTask($taskName, $groupId) {
+    public function AddTask($taskName, $groupId)
+    {
         $query = "INSERT INTO `taken` (`naam`, `groepId`) VALUES (?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'si', $taskName, $groupId);
         mysqli_stmt_execute($stmt);
-    }        
+    }
 }
