@@ -1,5 +1,7 @@
 <?php
 include "config/dbconn.php";
+include('sidebar.php');
+
 
 // Retrieve data from Table 1
 $sql1 = "SELECT `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops` FROM retros";
@@ -17,28 +19,49 @@ $result3 = mysqli_query($conn, $sql3);
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles/Style.css">
 	<title>Database Information</title>
 </head>
 <body>
+    <div class="content">
 	<!-- Display data from Table 1 -->
 	<table>
 		<thead>
 			<tr>
                 <th>Datum</th>
-				<th>meerwaarden</th>
-				<th>tegenaan</th>
-				<th>tips</th>
-                <th>tops</th>
+                <th>Bijdrage</th>
+				<th>Meerwaarden</th>
+				<th>Tegenaan</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php while ($row1 = mysqli_fetch_assoc($result1)): ?>
+			<?php while ($row = mysqli_fetch_assoc($result1)): ?>
 			<tr>
-				<td><?php echo $row1['datum']; ?></td>
-				<td><?php echo $row1['col2']; ?></td>
-				<td><?php echo $row1['col3']; ?></td>
-                <td><?php echo $row1['col4']; ?></td>
-                <td><?php echo $row1['col5']; ?></td>
+				<td><?php echo $row['datum']; ?></td>
+				<td><?php echo $row['bijdrage']; ?></td>
+				<td><?php echo $row['meerwaarden']; ?></td>
+                <td><?php echo $row['tegenaan']; ?></td>
+                
+			</tr>
+		</tbody>
+	</table>
+    <!-- Display data from Table 1 -->
+	<table>
+		<thead>
+			<tr>
+				<th>Tips</th>
+                <th>Tops</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><?php echo $row['tips']; ?></td>
+				<td><?php echo $row['tops']; ?></td>
+                
 			</tr>
 			<?php endwhile; ?>
 		</tbody>
@@ -49,20 +72,20 @@ $result3 = mysqli_query($conn, $sql3);
 		<thead>
 			<tr>
                 <th>Datum</th>
-				<th>backlogItems</th>
+				<th>BacklogItems</th>
 				<th>Demonstreren</th>
 				<th>Samenwerking</th>
                 <th>To do items</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php while ($row2 = mysqli_fetch_assoc($result2)): ?>
+			<?php while ($row = mysqli_fetch_assoc($result2)): ?>
 			<tr>
-				<td><?php echo $row2['col1']; ?></td>
-				<td><?php echo $row2['col2']; ?></td>
-				<td><?php echo $row3['col3']; ?></td>
-                <td><?php echo $row3['col3']; ?></td>
-                <td><?php echo $row3['col3']; ?></td>
+				<td><?php echo $row['datum']; ?></td>
+				<td><?php echo $row['backlogitems']; ?></td>
+				<td><?php echo $row['demonstreren']; ?></td>
+                <td><?php echo $row['samenwerking']; ?></td>
+                <td><?php echo $row['todoitems']; ?></td>
             </tr>
             <?php endwhile; ?>
         </tdbody>
@@ -78,12 +101,14 @@ $result3 = mysqli_query($conn, $sql3);
 			</tr>
 		</thead>
 		<tbody>
-			<?php while ($row1 = mysqli_fetch_assoc($result1)): ?>
+			<?php while ($row = mysqli_fetch_assoc($result1)): ?>
 			<tr>
-				<td><?php echo $row1['col1']; ?></td>
-				<td><?php echo $row1['col2']; ?></td>
-				<td><?php echo $row1['col3']; ?></td>
+				<td><?php echo $row['datum']; ?></td>
+				<td><?php echo $row['beschrijving']; ?></td>
+				<td><?php echo $row['taken']; ?></td>
 			</tr>
 			<?php endwhile; ?>
 		</tbody>
 	</table>
+            </body>
+            </div>
