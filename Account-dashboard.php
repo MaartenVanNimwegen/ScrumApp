@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,7 +53,7 @@
                 echo "</table><br><br>";
             ?>
             <div class="p-10 toevoegknop bt">
-                <a href="#link" class="btn btn-primary" role="button">Account aanmaken</a>
+                <a href="Account-toevoegen.php" class="btn btn-primary" role="button">Account aanmaken</a>
             </div>
     </div>
 </body>

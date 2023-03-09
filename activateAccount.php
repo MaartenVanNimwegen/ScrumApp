@@ -11,7 +11,7 @@ if (isset($_GET["activationCode"])) {
     
 
     // Check if there is an account with the given code or the accout with the given activationCode is already activated. If so the user is redirected to the login page
-    if($userService->CheckIfActivatioCodeExists($activationCode) == 0 || $userService->IsActivated($activationCode)) {
+    if($userService->CheckIfActivationCodeExists($activationCode) == 0 || $userService->IsActivated($activationCode)) {
         header("Location: index.php");
         exit;
     }
