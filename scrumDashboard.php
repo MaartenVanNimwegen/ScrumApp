@@ -1,19 +1,25 @@
 <?php
 include('sidebar.php');
-include ('Classes/scrumGroepClass.php');
-include ('Classes/user.php');
-include ('Handlers/Services.php');
+include('Classes/scrumGroepClass.php');
+include('Classes/user.php');
+include('Handlers/Services.php');
 include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
 include('config/dbconn.php');
 
+$groupService = new GroepServices($conn);
+
 ?>
 <?php if (isset($_GET['deleteScrumgroupId'])) :
-deleteScrumgroep($conn, $_GET['deleteScrumgroupId']);
+    $groupService->DeleteScrumgroep($_GET['deleteScrumgroupId']);
 endif; ?>
 
 <?php if (isset($_GET['deleteUserId'])) :
-deleteUserFromScrumgroup($conn, $_GET['deleteUserId']);
+    $groupService->DeleteUserFromScrumgroup($_GET['deleteUserId']);
+endif; ?>
+
+<?php if (isset($_GET['ScrummaserUserId']) && isset($_GET['ScrumgroupId'])) :
+    $groupService->SelectScrummaster($_GET['ScrummaserUserId'], $_GET['ScrumgroupId']);
 endif; ?>
 
 <!DOCTYPE html>
@@ -29,47 +35,47 @@ endif; ?>
 
 <body>
     <div class="content">
-    <?php if (isset($_GET['addUserId'])) : ?>
-        <div class="SearchWrapper" id=ScrumgroupAddUsers>
-            <div class="search-input" id=ScrumgroupAddUser>
-                <form autocomplete="off" action="Handlers/AddUserScrumgroup.php?ScrumgroupId=<?= $_GET['addUserId'] ?>" method="post" enctype="multipart/form-data">
-                    <a href="" target="_blank" hidden></a>
-                    <input type="text" name="AddScrumgroupUser" class="AddScrumgroupUser" placeholder="Leerlingnaam" required><br>
-                    <div class="autocom-box">
-                    </div>
-                    <input type="submit" name="submit" class="AddUserToScrumgroup">
+        <?php if (isset($_GET['addUserId'])) : ?>
+            <div class="SearchWrapper" id=ScrumgroupAddUsers>
+                <div class="search-input" id=ScrumgroupAddUser>
+                    <form autocomplete="off" action="Handlers/AddUserScrumgroup.php?ScrumgroupId=<?= $_GET['addUserId'] ?>" method="post" enctype="multipart/form-data">
+                        <a href="" target="_blank" hidden></a>
+                        <input type="text" name="AddScrumgroupUser" class="AddScrumgroupUser" placeholder="Leerlingnaam" required><br>
+                        <div class="autocom-box">
+                        </div>
+                        <input type="submit" name="submit" class="AddUserToScrumgroup">
+                    </form>
+                </div>
+            </div>
+
+            <script src="Javascript/functions.js"></script>
+        <?php endif; ?>
+        <div class="popup" onclick="AddScrumgroepPopup()">Scrumgroep toevoegen</div>
+
+        <div class="containerScrumDashboard" id="myPopup">
+            <div class="ScrumgroepWijzigPopup">
+                <form action="Handlers/ScrumgroepToevoeg.php" method="post" enctype="multipart/form-data">
+                    <div><input type="text" name="Scrumnaam" class="AddScrumgroupName" placeholder="Scrumgroepnaam" required> </div>
+                    <div><input type="text" name="ScrumProject" class="AddScrumgroupProject" placeholder="Project" required> </div>
+                    <div><input type="date" name="StartDate"></div>
+                    <div><input type="date" name="EndDate"></div>
+
+                    <div><input type="submit" name="submit" class="WijzigScrumgroepSubmit"></div>
                 </form>
+
+                <div class="WijzigScrumgroepClose" onclick="AddScrumgroepPopup()">Close</div>
             </div>
         </div>
-
-        <script src="Javascript/functions.js"></script>
-    <?php endif; ?>
-    <div class="popup" onclick="AddScrumgroepPopup()">Scrumgroep toevoegen</div>
-
-    <div class="containerScrumDashboard" id="myPopup">
-        <div class="ScrumgroepWijzigPopup">
-            <form action="Handlers/ScrumgroepToevoeg.php" method="post" enctype="multipart/form-data">
-                <div><input type="text" name="Scrumnaam" class="AddScrumgroupName" placeholder="Scrumgroepnaam" required> </div>
-                <div><input type="text" name="ScrumProject" class="AddScrumgroupProject" placeholder="Project" required> </div>
-                <div><input type="date" name="StartDate"></div>
-                <div><input type="date" name="EndDate"></div>
-
-                <div><input type="submit" name="submit" class="WijzigScrumgroepSubmit"></div>
-            </form>
-
-            <div class="WijzigScrumgroepClose" onclick="AddScrumgroepPopup()">Close</div>
+        <div class="ScrumDashboardLayout">
+            <?php
+                $groupService->GetAllScrumgroups();
+            ?>
         </div>
     </div>
-    <div class="ScrumDashboardLayout">
-        <?php
-        $scrumgroupQuery = getScrumgroups($conn);
-        createScrumgroupObject($scrumgroupQuery, $conn);
-        ?>
     </div>
-</div>
-</div>
-</div>
+    </div>
 </body>
+
 </html>
 
 <script>
@@ -91,12 +97,12 @@ endif; ?>
     $sql = $sql->fetch_all();
     $stmt->close();
 
-    foreach ($sql as $row) :?>
+    foreach ($sql as $row) : ?>
 
         suggestions.push("<?php echo "$row[1]"; ?>");
 
     <?php endforeach ?>
-    
+
 
     function select(element) {
         let selectData = element.textContent;

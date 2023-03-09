@@ -21,26 +21,35 @@
         $status = $_GET['status'];
         $taskService->ChangeTask($taakId, $status);
     }
+
+    if (isset($_POST['submit'])) {
+        $groupId= $userService->GetGroupId($_SESSION['userId']);
+        $taskName = $_POST['task'];
+        $taskService->AddTask($taskName, $groupId);
+        header('Location: Taken-dashboard.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://kit.fontawesome.com/42b6daea05.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Taken dashboard</title>
 </head>
+
 <body>
     <div class="content">
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">Taal omschrijving</th>
-                <th scope="col">Gebruiker</th>
-                <th scope="col">Afgerond</th>
-                <th scope="col">Verwijderen</th>
+                    <th scope="col">Taal omschrijving</th>
+                    <th scope="col">Gebruiker</th>
+                    <th scope="col">Afgerond</th>
+                    <th scope="col">Verwijderen</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,8 +59,33 @@
             </tbody>
         </table>
         <div class="p-10 bt">
-                <a href="" class="btn btn-primary" role="button">Taak toevoegen</a>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Taak
+                toevoegen</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="">
+                                <textarea name="task" cols="62" rows="3" required></textarea>
+                                <input class="btn btn-primary" name="submit" type="submit" value="Taak toevoegen">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
