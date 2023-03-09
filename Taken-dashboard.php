@@ -22,12 +22,14 @@
         $taskService->ChangeTask($taakId, $status);
     }
 
-    if (isset($_POST['submit'])) {
-        $groupId= $userService->GetGroupId($_SESSION['userId']);
+    if (isset($_POST['submit'])){
         $taskName = $_POST['task'];
+        $groupId = $userService->GetGroupId($_SESSION['id']);
         $taskService->AddTask($taskName, $groupId);
         header('Location: Taken-dashboard.php');
     }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -46,7 +48,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Taal omschrijving</th>
+                    <th scope="col">Taak omschrijving</th>
                     <th scope="col">Gebruiker</th>
                     <th scope="col">Afgerond</th>
                     <th scope="col">Verwijderen</th>

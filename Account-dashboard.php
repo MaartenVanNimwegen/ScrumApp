@@ -53,7 +53,7 @@
                 echo "</table><br><br>";
             ?>
             <div class="p-10 toevoegknop bt">
-                <a href="#link" class="btn btn-primary" role="button">Account aanmaken</a>
+                <a href="Account-toevoegen.php" class="btn btn-primary" role="button">Account aanmaken</a>
             </div>
     </div>
 </body>

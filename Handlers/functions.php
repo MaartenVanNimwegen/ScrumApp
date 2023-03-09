@@ -1,6 +1,7 @@
 <?php
 function accountToevoegen($conn)
 {
+    include('services.php');
     if (isset($_POST['submit'])) {
 
         $naam = $_POST['naam'];
@@ -14,6 +15,8 @@ function accountToevoegen($conn)
 
          $userService = new UserServices($conn);
          $userService->SendUserActivateEmail($email, $naam, $guid);
+        header('Location: Account-dashboard.php');
+
         }
 }
 
