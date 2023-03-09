@@ -16,6 +16,10 @@ endif; ?>
 deleteUserFromScrumgroup($conn, $_GET['deleteUserId']);
 endif; ?>
 
+<?php if (isset($_GET['ScrummaserUserId']) && isset($_GET['ScrumgroupId']) ) :
+selectScrummaster($conn, $_GET['ScrummaserUserId'], $_GET['ScrumgroupId']);
+endif; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
