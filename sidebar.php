@@ -68,7 +68,7 @@
     <div class="sidebar">
         <a href="index.php"><i class="fa fa-home"></i> Home</a>
         <?php
-      session_start();
+        session_start();
         // check user role
         $user_role = $_SESSION['role']; // set default value for testing
         // replace this with code to get the user's role from your database or session
@@ -78,7 +78,6 @@
           ?>
         <a href="Standupinvulscherm.php"><i class="fa-sharp fa-solid fa-pencil"></i> Standup</a>
         <a href="retroinvulscherm.php"><i class="fa-solid fa-file-pen"></i> Retro/review</a>
-        <a href="Account-persoonlijk.php"><i class="fa fa-user"></i> Account</a>
         <a href="Taken-dashboard.php"><i class="fa-solid fa-clipboard"></i> Taken</a>
         <?php
         } else if ($user_role == 1) {

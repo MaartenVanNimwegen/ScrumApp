@@ -2,7 +2,7 @@
 include('sidebar.php');
 include ('Classes/scrumGroepClass.php');
 include ('Classes/user.php');
-include ('Services.php');
+include ('Handlers/Services.php');
 include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
 include('config/dbconn.php');
@@ -14,6 +14,10 @@ endif; ?>
 
 <?php if (isset($_GET['deleteUserId'])) :
 deleteUserFromScrumgroup($conn, $_GET['deleteUserId']);
+endif; ?>
+
+<?php if (isset($_GET['ScrummaserUserId']) && isset($_GET['ScrumgroupId']) ) :
+selectScrummaster($conn, $_GET['ScrummaserUserId'], $_GET['ScrumgroupId']);
 endif; ?>
 
 <!DOCTYPE html>
@@ -60,15 +64,15 @@ endif; ?>
             <div class="WijzigScrumgroepClose" onclick="AddScrumgroepPopup()">Close</div>
         </div>
     </div>
-    </div>
-    </div>
     <div class="ScrumDashboardLayout">
         <?php
         $scrumgroupQuery = getScrumgroups($conn);
         createScrumgroupObject($scrumgroupQuery, $conn);
         ?>
     </div>
-    </div>
+</div>
+</div>
+</div>
 </body>
 </html>
 

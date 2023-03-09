@@ -52,7 +52,7 @@ class UserServices extends Services{
     }
     
     // This function returns 0 if there are no accounts with the given activationCode and returns 1 if there is an account with the given activationCode
-    public function CheckIfActivatioCodeExists($activationCode) {
+    public function CheckIfActivationCodeExists($activationCode) {
         $query = "SELECT * FROM users WHERE activationCode = ?";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 's', $activationCode);
