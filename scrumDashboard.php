@@ -1,5 +1,8 @@
 <?php
-//include('sidebar.php');
+include('sidebar.php');
+include ('Classes/scrumGroepClass.php');
+include ('Classes/user.php');
+include ('Services.php');
 include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
 include('config/dbconn.php');
