@@ -136,6 +136,7 @@ function addScrumgroup($conn, $scrumgroupName, $scrumgroupProject, $startDate, $
 
 function selectScrummaster($conn)
 {
+    
 }
 
 function accountToevoegen($conn)
@@ -161,3 +162,4 @@ function accountVerwijderen($id_to_delete, $conn)
     $sql = "DELETE FROM users WHERE id = $id_to_delete";
     $result = mysqli_query($conn, $sql);
 }
+

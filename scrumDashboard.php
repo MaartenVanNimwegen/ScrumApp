@@ -2,7 +2,7 @@
 include('sidebar.php');
 include ('Classes/scrumGroepClass.php');
 include ('Classes/user.php');
-include ('Services.php');
+include ('Handlers/Services.php');
 include('Handlers/functions.php');
 // include '../Javascript/scrumDashboard.php'
 include('config/dbconn.php');
@@ -60,15 +60,15 @@ endif; ?>
             <div class="WijzigScrumgroepClose" onclick="AddScrumgroepPopup()">Close</div>
         </div>
     </div>
-    </div>
-    </div>
     <div class="ScrumDashboardLayout">
         <?php
         $scrumgroupQuery = getScrumgroups($conn);
         createScrumgroupObject($scrumgroupQuery, $conn);
         ?>
     </div>
-    </div>
+</div>
+</div>
+</div>
 </body>
 </html>
 
