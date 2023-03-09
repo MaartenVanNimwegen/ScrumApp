@@ -12,7 +12,7 @@
         <?php
             include('sidebar.php');
             include "config/dbconn.php";
-            include "functions.php";
+            include "Handlers/functions.php";
 
             // Verwijder account functie
             if (isset($_GET['userId'])) {

@@ -1,6 +1,9 @@
 <?php
 include '../config/dbconn.php';
 include 'functions.php';
+include ('../Classes/scrumGroepClass.php');
+include ('../Classes/user.php');
+include ('Services.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $StartDate = strtotime($_POST["StartDate"]);
