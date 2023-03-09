@@ -387,5 +387,13 @@ class TaskServices extends Services{
         mysqli_stmt_bind_param($stmt, 'ii', $newStatus, $taakId);
         mysqli_stmt_execute($stmt);
     }
+
+    public function AddTask($taskName, $groupId) {
+        $query = "INSERT INTO taken (naam, groepId) VALUES (?,?)";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'si', $taskName, $groupId);
+        mysqli_stmt_execute($stmt);
+        print_r($query);
+    }
 }
 ?>
