@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 07 mrt 2023 om 21:30
+-- Gegenereerd op: 09 mrt 2023 om 12:36
 -- Serverversie: 10.4.27-MariaDB
 -- PHP-versie: 8.2.0
 
@@ -40,7 +40,10 @@ INSERT INTO `koppelusergroep` (`userId`, `groepid`) VALUES
 (1, 3),
 (3, 3),
 (2, 3),
-(4, 3);
+(4, 3),
+(14, 7),
+(15, 7),
+(13, 7);
 
 -- --------------------------------------------------------
 
@@ -67,7 +70,10 @@ CREATE TABLE `retros` (
 --
 
 INSERT INTO `retros` (`id`, `userId`, `groepId`, `scrummasterId`, `coatchId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES
-(19, 1, 3, 1, NULL, 4, 'B', 'f', 'f', 'f| f| f', 'f| f| f');
+(19, 1, 3, 1, NULL, 3, 'B', 'f', 'f', 'f| f| f', 'f| f| f'),
+(20, 1, 3, 1, NULL, 2, 'Goed', 'Veel', 'niks', 'tip voor tim| tip remon| tip martijn ', 'top tim| top remon| top martijn'),
+(21, 1, 3, 1, NULL, 4, 'Bijdrage was goed', 'Meerwaarden ook', 'Helemaal nothing', 'tip voor tim| tip remon| tip martijn ', 'top tim| top remon| top martijn'),
+(22, 1, 3, 1, NULL, 4, NULL, NULL, 'Niks', '| | ', '| | ');
 
 -- --------------------------------------------------------
 
@@ -93,7 +99,9 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `userId`, `groepId`, `scrummasterId`, `productownerId`, `datum`, `backlogitems`, `demonstreren`, `samenwerking`, `todoitems`) VALUES
-(9, 1, 3, 1, NULL, 4, 'b', 'b', 'b', 'b');
+(9, 1, 3, 1, NULL, 3, 'b', 'b', 'b', 'b'),
+(10, 1, 3, 1, NULL, 2, 'Veel', 'Niks', 'goedd', 'ook veel'),
+(11, 1, 3, 1, NULL, 4, 'f', 'f', 'f', 'f');
 
 -- --------------------------------------------------------
 
@@ -116,7 +124,8 @@ CREATE TABLE `scrumgroepen` (
 --
 
 INSERT INTO `scrumgroepen` (`id`, `naam`, `projectNaam`, `scrummaster`, `startDate`, `endDate`, `archived`) VALUES
-(3, 'P7.1 T2', 'ScrumApp', 1, '2023-02-06 09:00:00', '2023-03-17 16:30:00', 0);
+(3, 'P7.1 T2', 'ScrumApp', 1, '2023-02-06 09:00:00', '2023-03-17 16:30:00', 0),
+(7, 'P7.1 T1', 'ScrumApp', 14, '2023-02-06 09:00:00', '2023-03-17 16:30:00', 0);
 
 -- --------------------------------------------------------
 
@@ -148,6 +157,18 @@ CREATE TABLE `taken` (
   `productownerId` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `taken`
+--
+
+INSERT INTO `taken` (`id`, `naam`, `userId`, `isCompleted`, `groepId`, `productownerId`) VALUES
+(6, 'Side bar maken', 1, 0, 3, 2),
+(7, 'Login pagina maken', 1, 0, 3, 2),
+(8, 'Review pagina maken', 15, 1, 3, 2),
+(9, 'Login pagina maken', 15, 0, 3, 2),
+(10, 'Retro opslaan in database', 3, 1, 3, 2),
+(11, 'Account activeren functie', 3, 1, 3, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -170,10 +191,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `activationCode`, `activatedOn`) VALUES
-(1, 'Maarten', 'maartenvannimwegen@hotmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f24-43fb-417a-9c3a-a450312fd016', '2023-03-07 10:27:05'),
-(2, 'Remon', 'remondollenkamp@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 1, '64882f25-43fb-417a-9c3a-a450312fd016', '2023-03-06 12:50:02'),
+(1, 'Maarten', 'maartenvannimwegen@hotmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f24-43fb-417a-9c3a-a450312fd016', '2023-03-08 17:35:14'),
+(2, 'Richard Kingma', 'rkingma@rocfriesepoort.nl', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 1, '64882f25-43fb-417a-9c3a-a450312fd016', '2023-03-06 12:50:02'),
 (3, 'Tim', 'timhammer@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f26-43fb-417a-9c3a-a450312fd016', '2023-03-01 17:05:09'),
-(4, 'Martijn', 'martijngraafsma@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f27-43fb-417a-9c3a-a450312fd016', '2023-03-01 17:05:23');
+(4, 'Martijn', 'martijngraafsma@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '64882f27-43fb-417a-9c3a-a450312fd016', '2023-03-01 17:05:23'),
+(13, 'Christian', 'c.f.koopman2905@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '640861a4c7963', '2023-03-08 17:27:03'),
+(14, 'Arwin', 'arwinwalsweer@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '640861f84048d', '2023-03-08 17:27:04'),
+(15, 'Remon', 'remondollenkamp@gmail.com', '2c9341ca4cf3d87b9e4eb905d6a3ec45', 1, 0, '640861f84048gg', '2023-03-08 17:27:04');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -244,19 +268,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `retros`
 --
 ALTER TABLE `retros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT voor een tabel `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT voor een tabel `scrumgroepen`
 --
 ALTER TABLE `scrumgroepen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT voor een tabel `standups`
@@ -268,13 +292,13 @@ ALTER TABLE `standups`
 -- AUTO_INCREMENT voor een tabel `taken`
 --
 ALTER TABLE `taken`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Beperkingen voor geëxporteerde tabellen

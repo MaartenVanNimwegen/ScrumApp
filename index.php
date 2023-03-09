@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="Styles/Style.css">
     <title>Dashboard</title>
 </head>
-<body>
+<body> 
     <div class="content">
         <?php
         include('sidebar.php');
