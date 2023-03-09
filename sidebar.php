@@ -87,7 +87,7 @@
         <?php
         }
         ?>
-        <a href="#"><i class="fa fa-file"></i> Documenten</a>
+        <a href="Documenten.php"><i class="fa fa-file"></i> Documenten</a>
         <a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a>
     </div>
 </body>
