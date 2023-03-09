@@ -356,11 +356,17 @@ class TaskServices extends Services{
             elseif(!$row['isCompleted']) {
                 $class = "fa fa-toggle-off";
             }
+             
+            if(!empty(@$user->naam) || @$user->naam != null){
+                $naam = $user->naam;
+            } else {
+                $naam = "";
+            }
 
             echo "
             <tr>
                 <td scope='row'>" . $title . "</td>
-                <td scope='row'>". $user->naam . "</td>
+                <td scope='row'>". $naam . "</td>
                 <td scope='row'> <a href='?changeTaakId=".$row['id']."&status=" . $row['isCompleted'] . "'><i class='". $class ."'></i></a></td>
                 <td scope='row'> <a href='?deleteTaakId=".$row['id']."'><i class='fa-solid fa-trash'></i></a></td>
             </tr>";
@@ -389,11 +395,10 @@ class TaskServices extends Services{
     }
 
     public function AddTask($taskName, $groupId) {
-        $query = "INSERT INTO taken (naam, groepId) VALUES (?,?)";
+        $query = "INSERT INTO `taken` (`naam`, `groepId`) VALUES (?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
         mysqli_stmt_bind_param($stmt, 'si', $taskName, $groupId);
         mysqli_stmt_execute($stmt);
-        print_r($query);
-    }
+    }        
 }
 ?>
