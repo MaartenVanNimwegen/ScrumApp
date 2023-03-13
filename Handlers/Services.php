@@ -159,6 +159,37 @@ class UserServices extends Services
         return $affectedRows;
     }
 
+    public function SaveStandup($userId, $groepId, $scrummasterId, $coachId, $currentWeek, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops)
+    {
+        $query = "INSERT INTO retros (`id`, `userId`, `groepId`, `datum`, `bijdrage`, `meerwaarden`, `tegenaan`, `tips`, `tops`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        $stmt = mysqli_prepare($this->connection, $query);
+        mysqli_stmt_bind_param($stmt, 'iiiissssss', $userId, $groepId, $scrummasterId, $coachId, $currentWeek, $bijdrage, $meerwaarden, $tegenaan, $tips, $tops);
+        mysqli_stmt_execute($stmt);
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+        return $affectedRows;
+    }
+
+    public function GetNonFinishedTasks()
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM taken WHERE isCompleted = ?");
+        $stmt->bind_param('i', 0);
+        $stmt->execute();
+        $sql = $stmt->get_result();
+        $sql = $sql->fetch_all();
+        $stmt->close();
+
+        if (!empty($sql)) {
+            return $sql;
+        } else {
+            return 0;
+        }
+    }
+
+    public function ShowStandupTasks()
+    {
+
+    }
+
     // This function saves all the given data from a Review
     public function SaveReview($userId, $groepId, $scrummasterId, $productownerId, $currentWeek, $backlogitems, $demonstreren, $samenwerking, $todoitems)
     {

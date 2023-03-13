@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 09 mrt 2023 om 15:47
--- Serverversie: 10.4.20-MariaDB
--- PHP-versie: 8.0.9
+-- Gegenereerd op: 13 mrt 2023 om 15:54
+-- Serverversie: 10.4.24-MariaDB
+-- PHP-versie: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `scrumapp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `koppelstanduptaken`
+--
+
+CREATE TABLE `koppelstanduptaken` (
+  `StandupId` int(11) NOT NULL,
+  `TakenId` int(11) NOT NULL,
+  `Afgerond` date NOT NULL,
+  `NietAfgerond` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -73,7 +86,8 @@ INSERT INTO `retros` (`id`, `userId`, `groepId`, `scrummasterId`, `coatchId`, `d
 (19, 1, 3, 1, NULL, 3, 'B', 'f', 'f', 'f| f| f', 'f| f| f'),
 (20, 1, 3, 1, NULL, 2, 'Goed', 'Veel', 'niks', 'tip voor tim| tip remon| tip martijn ', 'top tim| top remon| top martijn'),
 (21, 1, 3, 1, NULL, 4, 'Bijdrage was goed', 'Meerwaarden ook', 'Helemaal nothing', 'tip voor tim| tip remon| tip martijn ', 'top tim| top remon| top martijn'),
-(22, 1, 3, 1, NULL, 4, NULL, NULL, 'Niks', '| | ', '| | ');
+(22, 1, 3, 1, NULL, 4, NULL, NULL, 'Niks', '| | ', '| | '),
+(23, 1, 3, 1, NULL, 4, NULL, NULL, 'Tegen de muur', '| | ', '| | ');
 
 -- --------------------------------------------------------
 
@@ -135,11 +149,8 @@ INSERT INTO `scrumgroepen` (`id`, `naam`, `projectNaam`, `scrummaster`, `startDa
 
 CREATE TABLE `standups` (
   `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL DEFAULT 0,
   `groepId` int(11) NOT NULL,
-  `datum` datetime DEFAULT NULL,
-  `description` varchar(500) DEFAULT NULL,
-  `taken` varchar(500) DEFAULT NULL
+  `datum` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -152,7 +163,6 @@ CREATE TABLE `taken` (
   `id` int(11) NOT NULL,
   `naam` varchar(50) NOT NULL,
   `userId` int(11) DEFAULT NULL,
-  `isCompleted` int(1) NOT NULL DEFAULT 0,
   `groepId` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -160,13 +170,13 @@ CREATE TABLE `taken` (
 -- Gegevens worden geëxporteerd voor tabel `taken`
 --
 
-INSERT INTO `taken` (`id`, `naam`, `userId`, `isCompleted`, `groepId`) VALUES
-(6, 'Side bar maken', 1, 0, 3),
-(7, 'Login pagina maken', 1, 0, 3),
-(8, 'Review pagina maken', 15, 1, 3),
-(9, 'Login pagina maken', 15, 1, 3),
-(10, 'Retro opslaan in database', 3, 0, 3),
-(11, 'Account activeren functie', 3, 1, 3);
+INSERT INTO `taken` (`id`, `naam`, `userId`, `groepId`) VALUES
+(6, 'Side bar maken', 1, 3),
+(7, 'Login pagina maken', 1, 3),
+(8, 'Review pagina maken', 15, 3),
+(9, 'Login pagina maken', 15, 3),
+(10, 'Retro opslaan in database', 3, 3),
+(11, 'Account activeren functie', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -201,6 +211,13 @@ INSERT INTO `users` (`id`, `naam`, `email`, `password`, `isActivated`, `role`, `
 --
 -- Indexen voor geëxporteerde tabellen
 --
+
+--
+-- Indexen voor tabel `koppelstanduptaken`
+--
+ALTER TABLE `koppelstanduptaken`
+  ADD KEY `StandupId` (`StandupId`),
+  ADD KEY `TakenId` (`TakenId`);
 
 --
 -- Indexen voor tabel `koppelusergroep`
@@ -241,7 +258,6 @@ ALTER TABLE `scrumgroepen`
 --
 ALTER TABLE `standups`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_standups_users` (`userId`),
   ADD KEY `FK_standups_scrumgroepen` (`groepId`);
 
 --
@@ -266,7 +282,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT voor een tabel `retros`
 --
 ALTER TABLE `retros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT voor een tabel `reviews`
@@ -290,7 +306,7 @@ ALTER TABLE `standups`
 -- AUTO_INCREMENT voor een tabel `taken`
 --
 ALTER TABLE `taken`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
@@ -301,6 +317,13 @@ ALTER TABLE `users`
 --
 -- Beperkingen voor geëxporteerde tabellen
 --
+
+--
+-- Beperkingen voor tabel `koppelstanduptaken`
+--
+ALTER TABLE `koppelstanduptaken`
+  ADD CONSTRAINT `StandupId` FOREIGN KEY (`StandupId`) REFERENCES `standups` (`id`),
+  ADD CONSTRAINT `TakenId` FOREIGN KEY (`TakenId`) REFERENCES `taken` (`id`);
 
 --
 -- Beperkingen voor tabel `koppelusergroep`
@@ -337,8 +360,7 @@ ALTER TABLE `scrumgroepen`
 -- Beperkingen voor tabel `standups`
 --
 ALTER TABLE `standups`
-  ADD CONSTRAINT `FK_standups_scrumgroepen` FOREIGN KEY (`groepId`) REFERENCES `scrumgroepen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_standups_users` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_standups_scrumgroepen` FOREIGN KEY (`groepId`) REFERENCES `scrumgroepen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Beperkingen voor tabel `taken`
