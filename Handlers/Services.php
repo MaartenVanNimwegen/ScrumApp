@@ -599,8 +599,7 @@ class TaskServices extends Services
             <tr>
                 <td scope='row'>" . $title . "</td>
                 <td scope='row'>" . $naam . "</td>
-                <td scope='row'> <a href='?changeTaakId=" . $row['id'] . "&status=" . $row['isCompleted'] . "'><i class='" . $class . "'></i></a></td>
-                <td scope='row'> <a href='?deleteTaakId=" . $row['id'] . "'><i class='fa-solid fa-trash'></i></a></td>
+                <td scope='row'> <a><i class='" . $class . "'></i></a></td>
             </tr>";
         }
     }
