@@ -25,7 +25,7 @@
     if (isset($_POST['submit'])){
         $taskName = $_POST['task'];
         $groupId = $userService->GetGroupId($_SESSION['id']);
-        $taskService->AddTask($taskName, $groupId);
+        $taskService->AddTask($taskName, $groupId, 1);
         header('Location: Taken-dashboard.php');
     }
 

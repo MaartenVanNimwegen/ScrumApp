@@ -604,15 +604,8 @@ class TaskServices extends Services
         foreach ($result as $row) {
             $title = $row['naam'];
             $user = $userService->GetUserById($row['userId']);
-            $isCompleted = $row['isCompleted'];
             $class = "";
             $showIsCompleted = "";
-
-            if ($isCompleted) {
-                $showIsCompleted = "Afgerond";
-            } elseif (!$isCompleted) {
-                $showIsCompleted = "Bezig";
-            }
 
             if ($row['isCompleted']) {
                 $class = "fa fa-toggle-on";
@@ -625,12 +618,16 @@ class TaskServices extends Services
             } else {
                 $naam = "";
             }
-
+            $tooLate = '';
+            if ($row['TooLate']){
+            $tooLate = "<td class='alert alert-danger' role'alert' scope='row'> Te laat</td>";
+            }
             echo "
             <tr>
                 <td scope='row'>" . $title . "</td>
                 <td scope='row'>" . $naam . "</td>
                 <td scope='row'> <a><i class='" . $class . "'></i></a></td>
+                $tooLate
             </tr>";
         }
     }
@@ -657,11 +654,11 @@ class TaskServices extends Services
         mysqli_stmt_execute($stmt);
     }
 
-    public function AddTask($taskName, $groupId)
+    public function AddTask($taskName, $groupId, $tooLate)
     {
-        $query = "INSERT INTO `taken` (`naam`, `groepId`) VALUES (?,?)";
+        $query = "INSERT INTO `taken` (`naam`, `groepId`, `TooLate`) VALUES (?,?,?)";
         $stmt = mysqli_prepare($this->connection, $query);
-        mysqli_stmt_bind_param($stmt, 'si', $taskName, $groupId);
+        mysqli_stmt_bind_param($stmt, 'sii', $taskName, $groupId, $tooLate);
         mysqli_stmt_execute($stmt);
     }
 }
