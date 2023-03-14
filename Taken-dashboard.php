@@ -51,7 +51,6 @@
                     <th scope="col">Taak omschrijving</th>
                     <th scope="col">Gebruiker</th>
                     <th scope="col">Afgerond</th>
-                    <th scope="col">Verwijderen</th>
                 </tr>
             </thead>
             <tbody>
