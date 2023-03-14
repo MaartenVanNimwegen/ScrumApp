@@ -474,16 +474,16 @@ class GroepServices extends Services
             echo '
             <div class"">
                 <div class"">' . $scrumgroup->teamleden[$i]->naam . '</div>
-                <div class""><a href="scrumDashboard.php?deleteUserId=' . $scrumgroup->teamleden[$i]->id . '">Verwijder lid</a></div>
-                <div class""><a href="scrumDashboard.php?ScrummaserUserId=' . $scrumgroup->teamleden[$i]->id . '&ScrumgroupId=' . $scrumgroup->id . '">Maak scrummaster</a></div>
+                <div class""><a href="scrumDashboard.php?deleteUserId=' . $scrumgroup->teamleden[$i]->id . '&filter=Alle">Verwijder lid</a></div>
+                <div class""><a href="scrumDashboard.php?ScrummaserUserId=' . $scrumgroup->teamleden[$i]->id . '&ScrumgroupId=' . $scrumgroup->id . '&filter=Alle">Maak scrummaster</a></div>
             </div>
         ';
         }
 
         echo "
-            <div class''><a href='scrumDashboard.php?addUserId=" . $scrumgroup->id . "'>Voeg lid toe</a></div>
+            <div class''><a href='scrumDashboard.php?addUserId=" . $scrumgroup->id . "&filter=Alle'>Voeg lid toe</a></div>
             </div>
-            <div class''><a href='scrumDashboard.php?deleteScrumgroupId=" . $scrumgroup->id . "'>Verwijder scrumgroup</a></div>
+            <div class''><a href='scrumDashboard.php?deleteScrumgroupId=" . $scrumgroup->id . "&filter=Alle'>Verwijder scrumgroup</a></div>
     </div>";
     }
 
