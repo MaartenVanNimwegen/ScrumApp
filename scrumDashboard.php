@@ -43,6 +43,40 @@ endif; ?>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Styles/Style.css">
+    <style>
+        html,
+body,
+.intro {
+  height: 100%;
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th {
+  color: #fff;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 1.25rem;
+}
+thead {
+  top: 0;
+  position: sticky;
+}
+    </style>
     <title>Document</title>
 </head>
 
@@ -91,7 +125,61 @@ endif; ?>
         </div>
     </div>
     </div>
+    <section class="intro">
+  <div class="bg-image h-100" style="background-color: #f5f7fa;">
+    <div class="mask d-flex align-items-center h-100">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body p-0">
+                <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true">
+                  <table class="table table-striped mb-0">
+                    <thead style="background-color: #002d72;">
+                      <tr>
+                        <th scope="col">Scrumgroep</th>
+                        <th scope="col">Project</th>
+                        <th scope="col">Scrummaster</th>
+                        <th scope="col">Startdatum</th>
+                        <th scope="col">Einddatum</th>
+                        <th scope="col">Leden</th>
+                        <th scope="col">Einddatum</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Like a butterfly</td>
+                        <td>Boxing</td>
+                        <td>9:00 AM - 11:00 AM</td>
+                        <td>Aaron Chapman</td>
+                        <td>10</td>
+                      </tr>
+                      <tr>
+                        <td>Mind &amp; Body</td>
+                        <td>Yoga</td>
+                        <td>8:00 AM - 9:00 AM</td>
+                        <td>Adam Stewart</td>
+                        <td>15</td>
+                      </tr>
+                      <tr>
+                        <td>Crit Cardio</td>
+                        <td>Gym</td>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>Aaron Chapman</td>
+                        <td>10</td>
+                      </tr> 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+</div>
 </body>
 
 </html>
