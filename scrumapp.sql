@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 13 mrt 2023 om 15:54
--- Serverversie: 10.4.24-MariaDB
--- PHP-versie: 8.1.6
+-- Gegenereerd op: 14 mrt 2023 om 10:48
+-- Serverversie: 10.4.20-MariaDB
+-- PHP-versie: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `koppelstanduptaken` (
   `StandupId` int(11) NOT NULL,
   `TakenId` int(11) NOT NULL,
   `Afgerond` date NOT NULL,
-  `NietAfgerond` text NOT NULL
+  `Niet Afgerond` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -153,6 +153,13 @@ CREATE TABLE `standups` (
   `datum` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `standups`
+--
+
+INSERT INTO `standups` (`id`, `groepId`, `datum`) VALUES
+(1, 7, '2023-03-14 10:23:59');
+
 -- --------------------------------------------------------
 
 --
@@ -163,20 +170,24 @@ CREATE TABLE `taken` (
   `id` int(11) NOT NULL,
   `naam` varchar(50) NOT NULL,
   `userId` int(11) DEFAULT NULL,
-  `groepId` int(11) NOT NULL DEFAULT 0
+  `groepId` int(11) NOT NULL DEFAULT 0,
+  `isCompleted` int(11) DEFAULT NULL,
+  `TooLate` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `taken`
 --
 
-INSERT INTO `taken` (`id`, `naam`, `userId`, `groepId`) VALUES
-(6, 'Side bar maken', 1, 3),
-(7, 'Login pagina maken', 1, 3),
-(8, 'Review pagina maken', 15, 3),
-(9, 'Login pagina maken', 15, 3),
-(10, 'Retro opslaan in database', 3, 3),
-(11, 'Account activeren functie', 3, 3);
+INSERT INTO `taken` (`id`, `naam`, `userId`, `groepId`, `isCompleted`, `TooLate`) VALUES
+(6, 'Side bar maken', 1, 3, 1, 0),
+(7, 'Login pagina maken', 1, 3, 0, 0),
+(8, 'Review pagina maken', 15, 3, 0, 0),
+(9, 'Login pagina maken', 15, 3, 1, 1),
+(10, 'Retro opslaan in database', 3, 3, 1, 1),
+(11, 'Account activeren functie', 3, 3, 0, 0),
+(31, 'presentatie maken', NULL, 3, NULL, 0),
+(32, 'Project inleveren', NULL, 3, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -300,13 +311,13 @@ ALTER TABLE `scrumgroepen`
 -- AUTO_INCREMENT voor een tabel `standups`
 --
 ALTER TABLE `standups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT voor een tabel `taken`
 --
 ALTER TABLE `taken`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
@@ -372,4 +383,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-scrumapp
